@@ -1,0 +1,32 @@
+Global Health Expenditure Database
+العربية
+中文
+English
+Français
+Русский
+Español
+Global Health Expenditure Database
+Data Explorer
+Visualisations
+Documentation Centre
+Help
+Search
+The Global Health Expenditure Database (GHED) provides comparable data on health expenditure for 195 countries and territories since 2000 with open access to the public.
+Health spending indicators are key guides for monitoring the flow of resources, informing health policy development, and promoting the transparency and accountability of health systems. The database can help to answer questions, such as how much countries and territories spend on health, how much of the health spending comes from government, households, and donors, and how much of the spending is channelled through compulsory and voluntary health financing arrangements. The database also includes a detailed breakdown of spending for an increasing number of countries and territories on health care functions and primary health care, spending by diseases and conditions, spending for the under 5-year-old population, and spending by provider type. Information on health capital investments is also included.
+WHO works collaboratively with Member States to update the database (
+Explore the Data
+) annually, using available information such as health accounts data, government expenditure records and official statistics. Where necessary, estimates are used to ensure the comprehensiveness and consistency of the data across countries/territories and years. In this year's GHED update, health spending in 2023 is made available. GHED is the source of the health expenditure data republished by the World Bank World Development Indicators and the WHO Global Health Observatory.
+Alongside the data, the updated
+visualizations of health spending
+are also online. In this section, you will be able to view individual country health expenditure profiles and PHC expenditure country profiles. In the
+documentation center
+, you will find the December 2025 country release note, as well as complementary technical notes, methodology guidelines, health accounts training materials, global, regional, and country reports on health expenditure, etc.
+As the program’s lead technical agency, WHO is committed to working closely with partners to support countries in tracking health spending and sustaining the Global Health Expenditure Database as global public goods.
+For any queries, please contact:
+nha@who.int
+Last update: December 2025
+Data Explorer
+Quick Reports
+Documentation Centre
+Help
+© WHO 2014

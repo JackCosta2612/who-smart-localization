@@ -93,7 +93,14 @@ For general deployment, this skill includes a predefined WHO retrieval runner:
 python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
 ```
 
-The runner produces a markdown and JSON retrieval bundle under `skills/country-profiling/retrieval-output/` by default. It checks candidate DAK and WHO source pages, queries WHO Global Health Observatory metadata when available, and records retrieval failures as reviewable evidence gaps instead of stopping the skill.
+The runner produces a markdown and JSON retrieval bundle under `skills/country-profiling/retrieval-output/` by default. It retrieves more than URLs:
+
+- WHO HTML source pages are fetched and saved as text snapshots under a `content/` subfolder.
+- Links discovered on source pages are saved as JSON link inventories.
+- Supported downloadable files, such as PDFs and spreadsheets, are downloaded when they are below the configured size limit.
+- WHO Global Health Observatory indicator searches are followed by country-filtered data sample retrieval when a country code is found.
+
+If any source cannot be fetched, the runner records the failure as a reviewable evidence gap instead of stopping the skill.
 
 The lower-level helper `scripts/who_gho_client.py` can still be used for direct GHO OData lookups.
 

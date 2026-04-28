@@ -1,0 +1,312 @@
+GHO OData API
+Skip to main content
+Global
+Regions
+WHO Regional websites
+Africa
+Americas
+South-East Asia
+Europe
+Eastern Mediterranean
+Western Pacific
+When autocomplete results are available use up and down arrows to review and enter to select.
+Select language
+Select language
+English
+Home
+Health Topics
+All topics
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+Resources
+Fact sheets
+Facts in pictures
+Multimedia
+Podcasts
+Publications
+Questions and answers
+Tools and toolkits
+Popular
+Dengue
+Endometriosis
+Excessive heat
+Herpes
+Mental disorders
+Mpox
+Countries
+All countries
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+Regions
+Africa
+Americas
+Europe
+Eastern Mediterranean
+South-East Asia
+Western Pacific
+WHO in countries
+Data by country
+Country presence
+Country cooperation strategies
+Country office profiles
+Strengthening country offices
+Newsroom
+Newsroom
+News releases
+Statements
+Campaigns
+Events
+Feature stories
+Speeches
+Commentaries
+Photo library
+Headlines
+Emergencies
+Focus on
+Cholera
+Coronavirus disease (COVID-19)
+Greater Horn of Africa
+Israel and occupied Palestinian territory
+Mpox
+Sudan
+Ukraine
+Latest
+Disease Outbreak News
+Situation reports
+Rapid risk assessments
+Weekly Epidemiological Record
+WHO in emergencies
+Surveillance
+Alert and response
+Operations
+Research
+Funding
+Partners
+Health emergency appeals
+International Health Regulations
+Independent Oversight and Advisory Committee
+Data
+Data at WHO
+Data hub
+Global Health Estimates
+Health inequality
+Global Health Observatory
+Dashboards
+Triple Billion Progress
+Health Inequality Monitor
+Delivery for impact
+COVID-19 dashboard
+Data collection
+Classifications
+SCORE
+Surveys
+Civil registration and vital statistics
+Routine health information systems
+Harmonized health facility assessment
+GIS centre for health
+Reports
+World Health Statistics
+UHC global monitoring report
+About WHO
+About WHO
+Partnerships
+Committees and advisory groups
+Collaborating centres
+Technical teams
+Organizational structure
+Who we are
+Our work
+Activities
+Initiatives
+General Programme of Work
+WHO Academy
+Funding
+Investment in WHO
+WHO Foundation
+Accountability
+External audit
+Financial statements
+Internal audit and investigations
+Programme Budget
+Results reports
+Governance
+Governing bodies
+World Health Assembly
+Executive Board
+Member States Portal
+The Global Health Observatory
+Explore a world of health data
+Indicators
+Countries
+Global Health Observatory
+GHO Home
+Indicators
+Countries
+Data API
+GHO OData API
+Athena API
+Map Gallery
+Publications
+Data Search
+Home
+/
+Data
+/
+GHO
+/
+GHO OData API
+The GHO portal provides a simple query interface to the World Health Organization's data and statistics content, using OData (Open Data Protocol).
+You can find below a set with the most comprehensive examples.
+*More information about the Odata protocol can be found
+here
+.
+Table of contents
+Example 1 - Retrieving the list of available dimensions
+Example 2 - Retrieving a list of available values for a specific dimension
+Example 3 - Retrieving the indicators list
+Example 4 - Retrieving indicator data
+Example 5 - Filtering data
+Example 6 - Filtering indicator data by time dimension
+Example 7 - Using null filter
+Example 8 - Retrieving regions list
+Example 9 - Using OData in Power BI
+Example 1 - Retrieving the list of available dimensions
+Simply specifying the /api/DIMENSION URL will provide you with the list of available dimension codes. The default result is returned in the Observatory's XML schema. Dont forget to include the trailing slash (
+/
+) character.
+https://ghoapi.azureedge.net/api/Dimension
+Example 2 - Retrieving a list of available values for a specific dimension
+By appending a dimension code and the DimensionValues parameter to the OData URL you can retrieve the list of values associated with that specific dimension. For example, to retrieve the list of the COUNTRY dimension values, use the following link:
+https://ghoapi.azureedge.net/api/DIMENSION/COUNTRY/DimensionValues
+Example 3 - Retrieving the indicators list
+Simply specifying the /api/Indicator URL will provide you with the list of indicators:
+https://ghoapi.azureedge.net/api/Indicator
+To select only the indicators which contain a specific text, query the data using the following example. In this example, all indicators containing '
+Household'
+were queried:
+https://ghoapi.azureedge.net/api/Indicator?$filter=contains(IndicatorName,'Household')
+To select only the indicators that have a specific title, query the data using the following example. In this example, the indicator '
+Ambient air pollution attributable deaths'
+was queried:
+https://ghoapi.azureedge.net/api/Indicator?$filter=IndicatorName eq 'Ambient air pollution attributable deaths'
+Example 4 - Retrieving indicator data
+Specify an indicator to download by specifying the indicator code. This will return all associated data for that specific indicator. Building on the previous example, take the code
+WHOSIS_000001
+, "Life expectancy at birth" and retrieve the data for this indicator using the following URL:
+https://ghoapi.azureedge.net/api/WHOSIS_000001
+Example 5 - Filtering data
+You can filter the data returned by the web service by identifying specific dimensions and dimension codes that you wish to include or exclude. Use the URL parameter
+filter
+with a list of fully qualified dimension codes separated by operator 'and'. Continuing to build on the query from the previous example, if you wish to see the life expectancy at birth data for male sex only, the query is:
+https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=Dim1 eq 'MLE'
+Example 6 - Filtering indicator data by time dimension
+The indicator data can be related to one year or, in some cases, to a time period that can span over multiple consecutive years.
+To make sure that the service returns all the data related to one year. you can filter using the 'TimeDimensionBegin' and 'TimeDimensionEnd' fields.
+Continuing to build on the query from the previous example, if you wish to see the life expectancy at birth data for male sex only, for the year 2011 the query is:
+https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=Dim1 eq 'MLE' and date(TimeDimensionBegin) ge 2011-01-01 and date(TimeDimensionBegin) lt 2012-01-01
+Example 7 - Using null filter
+You can also filter the data returned by the web service by identifying whether an indicator displays facts that have or not dissagregation dimensions. Building on the Example 3 above, take the code
+WHOSIS_000001
+, "Life expectancy at birth" and retrieve the data for this indicator that is dis-aggregated or not
+https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=Dim1 ne null
+Or
+https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=Dim1 eq null
+Example 8 - Retrieving regions list
+https://ghoapi.azureedge.net/api/DIMENSION/REGION
+Example 9 - Using OData in Power BI
+In Power BI Desktop, you can connect to an OData feed and use the underlying data just like any other data source in Power BI Desktop.
+To connect to an OData feed, select Get Data > OData Feed from the Home ribbon in Power BI Desktop.
+In the OData Feed window that appears, type or paste the following URL into the box, and select OK:
+https://ghoapi.azureedge.net/api
+Power BI Desktop connects to the OData feed, and displays the available tables and other data elements in the Navigator window. When you select an element, the right pane of the Navigator window displays a preview of the data. You can select as many tables as you want to import. The Navigator window shows a preview of the currently selected table.
+Additional information
+If you would like to have more information regarding the API, please send an email to
+gho_info@who.int
+If you have any feedback, you are welcome to write it
+here
+.
+If you need to access the old Global Health Observatory data, you can do it
+here
+. But before you leave, please provide us your feedback about our new data portal.
+×
+Feedback for the new GHO portal
+Your name*
+Your e-mail address*
+The e-mail format is "xxxx@yyyy.zzz"
+Comments*
+Submit the feedback
+Regions
+Africa
+Americas
+Eastern Mediterranean
+Europe
+South-East Asia
+Western Pacific
+Policies
+Cybersecurity
+Ethics
+Information disclosure
+Permissions and licensing
+Preventing sexual exploitation
+Terms of use
+About us
+Careers
+Frequently asked questions
+Library
+Procurement
+Publications
+Contact us
+Newsletters
+Report misconduct
+Privacy policy
+©
+2026
+WHO

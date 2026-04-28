@@ -1,4 +1,5 @@
 {
+  "content_dir": "skills/country-profiling/tests/retrieval-output/content",
   "country": "Romania",
   "country_lookup": {
     "matches": [
@@ -16,7 +17,54 @@
   },
   "domain": "immunization",
   "domain_key": "immunization",
-  "generated_at": "2026-04-28T17:44:51+00:00",
+  "generated_at": "2026-04-28T17:55:53+00:00",
+  "gho_country_data_samples": [
+    {
+      "country_code": "ROU",
+      "indicator_code": "mslv",
+      "indicator_name": "Measles immunization coverage among one-year-olds (%)",
+      "local_path": "skills/country-profiling/tests/retrieval-output/content/gho-rou-mslv.json",
+      "rows": 0,
+      "status": "retrieved",
+      "url": "https://ghoapi.azureedge.net/api/mslv?$filter=SpatialDim%20eq%20'ROU'"
+    },
+    {
+      "country_code": "ROU",
+      "indicator_code": "fullv",
+      "indicator_name": "Full immunization coverage among one-year-olds (%)",
+      "local_path": "skills/country-profiling/tests/retrieval-output/content/gho-rou-fullv.json",
+      "rows": 0,
+      "status": "retrieved",
+      "url": "https://ghoapi.azureedge.net/api/fullv?$filter=SpatialDim%20eq%20'ROU'"
+    },
+    {
+      "country_code": "ROU",
+      "indicator_code": "bcgv",
+      "indicator_name": "BCG immunization coverage among one-year-olds (%)",
+      "local_path": "skills/country-profiling/tests/retrieval-output/content/gho-rou-bcgv.json",
+      "rows": 0,
+      "status": "retrieved",
+      "url": "https://ghoapi.azureedge.net/api/bcgv?$filter=SpatialDim%20eq%20'ROU'"
+    },
+    {
+      "country_code": "ROU",
+      "indicator_code": "MCV2",
+      "indicator_name": "Measles-containing-vaccine second-dose (MCV2) immunization coverage by the nationally recommended age (%)",
+      "local_path": "skills/country-profiling/tests/retrieval-output/content/gho-rou-mcv2.json",
+      "rows": 25,
+      "status": "retrieved",
+      "url": "https://ghoapi.azureedge.net/api/MCV2?$filter=SpatialDim%20eq%20'ROU'"
+    },
+    {
+      "country_code": "ROU",
+      "indicator_code": "dptv",
+      "indicator_name": "DTP3 immunization coverage among one-year-olds (%)",
+      "local_path": "skills/country-profiling/tests/retrieval-output/content/gho-rou-dptv.json",
+      "rows": 0,
+      "status": "retrieved",
+      "url": "https://ghoapi.azureedge.net/api/dptv?$filter=SpatialDim%20eq%20'ROU'"
+    }
+  ],
   "gho_indicator_search": [
     {
       "indicators": [
@@ -143,6 +191,31 @@
   "offline": false,
   "sources": [
     {
+      "content": {
+        "bytes": 90175,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [
+          "https://iris.who.int/server/api/core/bitstreams/3fb30834-6876-4329-bf1d-6f6035caa624/content"
+        ],
+        "downloads": [
+          {
+            "bytes": 2838908,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/3fb30834-6876-4329-bf1d-6f6035caa624.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/3fb30834-6876-4329-bf1d-6f6035caa624/content"
+          }
+        ],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/digital-adaptation-kit-for-immunizations-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/digital-adaptation-kit-for-immunizations.txt",
+        "status": "retrieved",
+        "text_chars": 4405,
+        "title": "Digital adaptation kit for immunizations: operational requirements for implementing WHO recommendations in digital systems",
+        "url": "https://www.who.int/publications/i/item/9789240099456"
+      },
       "relevance": "Domain-specific WHO DAK candidate.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
@@ -155,6 +228,79 @@
       "url": "https://www.who.int/publications/i/item/9789240099456"
     },
     {
+      "content": {
+        "bytes": 107969,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [
+          "https://iris.who.int/server/api/core/bitstreams/413a58d7-2bf5-4ec5-9a3c-ea4587950204/content",
+          "https://iris.who.int/server/api/core/bitstreams/fc1531a1-399f-4e73-a959-14de53279908/content",
+          "https://iris.who.int/server/api/core/bitstreams/f304dd2b-a4f5-4b15-aa80-40e0ac13d4a9/content",
+          "https://iris.who.int/server/api/core/bitstreams/cac9abeb-b988-43b6-816a-da98990a031b/content",
+          "https://iris.who.int/server/api/core/bitstreams/874e2524-febf-4628-a799-3b6e39301dbc/content",
+          "https://iris.who.int/server/api/core/bitstreams/13b3b9a1-8ea1-432d-ac95-903ab926075f/content",
+          "https://iris.who.int/server/api/core/bitstreams/a291e2af-f8ec-4f4d-9264-f274cca71c02/content",
+          "https://iris.who.int/server/api/core/bitstreams/c432edf8-be99-4f37-9799-5ef2aeff05de/content",
+          "https://iris.who.int/server/api/core/bitstreams/7b1c4d36-ec97-4fd3-9ce1-f035e6efe65a/content",
+          "https://iris.who.int/server/api/core/bitstreams/ed53075b-5a70-47a6-818e-1722ce951b38/content",
+          "https://iris.who.int/server/api/core/bitstreams/57b220d0-4c84-470d-bed2-3036561ab270/content",
+          "https://iris.who.int/server/api/core/bitstreams/b4709bcc-a2c3-47f4-bed9-1d6ea7958302/content",
+          "https://iris.who.int/server/api/core/bitstreams/ea71ba76-c4db-40a5-869f-1a6af46feaba/content",
+          "https://iris.who.int/server/api/core/bitstreams/0e61844f-c81e-4645-ba4a-5b3f2f1d4c62/content",
+          "https://iris.who.int/server/api/core/bitstreams/c56bb1c8-2a16-4b6c-8468-1bed40313ab6/content",
+          "https://iris.who.int/server/api/core/bitstreams/bb688ae3-d883-40ba-a229-e9fd572703c7/content",
+          "https://iris.who.int/server/api/core/bitstreams/371d2dc9-2c28-4587-ab1b-09f230563ad6/content"
+        ],
+        "downloads": [
+          {
+            "bytes": 1395911,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/413a58d7-2bf5-4ec5-9a3c-ea4587950204.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/413a58d7-2bf5-4ec5-9a3c-ea4587950204/content"
+          },
+          {
+            "bytes": 7665775,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/fc1531a1-399f-4e73-a959-14de53279908.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/fc1531a1-399f-4e73-a959-14de53279908/content"
+          },
+          {
+            "bytes": 1651879,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/f304dd2b-a4f5-4b15-aa80-40e0ac13d4a9.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/f304dd2b-a4f5-4b15-aa80-40e0ac13d4a9/content"
+          },
+          {
+            "bytes": 3280423,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/cac9abeb-b988-43b6-816a-da98990a031b.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/cac9abeb-b988-43b6-816a-da98990a031b/content"
+          },
+          {
+            "bytes": 1643633,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/874e2524-febf-4628-a799-3b6e39301dbc.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/874e2524-febf-4628-a799-3b6e39301dbc/content"
+          }
+        ],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/who-country-cooperation-strategies-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/who-country-cooperation-strategies.txt",
+        "status": "retrieved",
+        "text_chars": 8661,
+        "title": "Country cooperation strategies",
+        "url": "https://www.who.int/countries/country-cooperation-strategies"
+      },
       "relevance": "Country-level WHO cooperation priorities and strategic context.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
@@ -167,6 +313,20 @@
       "url": "https://www.who.int/countries/country-cooperation-strategies"
     },
     {
+      "content": {
+        "bytes": 96135,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [],
+        "downloads": [],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/who-global-health-observatory-odata-api-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/who-global-health-observatory-odata-api.txt",
+        "status": "retrieved",
+        "text_chars": 8353,
+        "title": "GHO OData API",
+        "url": "https://www.who.int/data/gho/info/gho-odata-api"
+      },
       "relevance": "Structured WHO indicators and country metadata.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
@@ -179,6 +339,82 @@
       "url": "https://www.who.int/data/gho/info/gho-odata-api"
     },
     {
+      "content": {
+        "bytes": 103121,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [
+          "http://apps.who.int/iris/bitstream/handle/10665/339125/9789240018709-eng.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/346556/9789240027190-fre.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/346557/9789240029026-spa.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/339125/9789240027213-rus.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/358070/9789240048874-ara.pdf",
+          "http://apps.who.int/iris/bitstream/handle/10665/334005/9789240009837-eng.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/350641/9789240038158-fre.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351150/9789240038196-spa.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/334005/9789240038172-rus.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/334005/9789240038219-chi.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/354092/9789240043336-ara.pdf",
+          "http://apps.who.int/iris/bitstream/handle/10665/334006/9789240009851-eng.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351514/9789240038233-fre.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351515/9789240038271-spa.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/334006/9789240038295-rus.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/353789/9789240038257-chi.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/354091/9789240043350-ara.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351500/9789240039186-eng.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351501/9789240039209-fre.pdf",
+          "https://apps.who.int/iris/bitstream/handle/10665/351502/9789240039223-spa.pdf"
+        ],
+        "downloads": [
+          {
+            "bytes": 755,
+            "content_type": "text/html; charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/9789240018709-eng.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/bitstream/handle/10665/339125/9789240018709-eng.pdf"
+          },
+          {
+            "bytes": 755,
+            "content_type": "text/html; charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/9789240027190-fre.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/bitstream/handle/10665/346556/9789240027190-fre.pdf"
+          },
+          {
+            "bytes": 755,
+            "content_type": "text/html; charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/9789240029026-spa.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/bitstream/handle/10665/346557/9789240029026-spa.pdf"
+          },
+          {
+            "bytes": 755,
+            "content_type": "text/html; charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/9789240027213-rus.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/bitstream/handle/10665/339125/9789240027213-rus.pdf"
+          },
+          {
+            "bytes": 755,
+            "content_type": "text/html; charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/9789240048874-ara.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/bitstream/handle/10665/358070/9789240048874-ara.pdf"
+          }
+        ],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/who-score-documents-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/who-score-documents.txt",
+        "status": "retrieved",
+        "text_chars": 8087,
+        "title": "SCORE Documents - WHO",
+        "url": "https://www.who.int/data/data-collection-tools/score/documents"
+      },
       "relevance": "Health information system readiness and data system context.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
@@ -191,6 +427,20 @@
       "url": "https://www.who.int/data/data-collection-tools/score/documents"
     },
     {
+      "content": {
+        "bytes": 33573,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [],
+        "downloads": [],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/global-health-expenditure-database-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/global-health-expenditure-database.txt",
+        "status": "retrieved",
+        "text_chars": 2542,
+        "title": "Global Health Expenditure Database",
+        "url": "https://apps.who.int/nha/database/en"
+      },
       "relevance": "Comparable health expenditure and financing context.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
@@ -203,6 +453,31 @@
       "url": "https://apps.who.int/nha/database/en"
     },
     {
+      "content": {
+        "bytes": 82849,
+        "content_kind": "html-text-snapshot",
+        "content_type": "text/html; charset=utf-8",
+        "download_links_found": [
+          "https://iris.who.int/server/api/core/bitstreams/ea1051d6-4893-48a9-9313-bd0d473000f5/content"
+        ],
+        "downloads": [
+          {
+            "bytes": 5990658,
+            "content_type": "application/pdf;charset=UTF-8",
+            "http_status": 200,
+            "local_path": "skills/country-profiling/tests/retrieval-output/content/ea1051d6-4893-48a9-9313-bd0d473000f5.pdf",
+            "status": "retrieved",
+            "url": "https://iris.who.int/server/api/core/bitstreams/ea1051d6-4893-48a9-9313-bd0d473000f5/content"
+          }
+        ],
+        "http_status": 200,
+        "local_links_path": "skills/country-profiling/tests/retrieval-output/content/national-health-workforce-accounts-links.json",
+        "local_text_path": "skills/country-profiling/tests/retrieval-output/content/national-health-workforce-accounts.txt",
+        "status": "retrieved",
+        "text_chars": 3993,
+        "title": "National health workforce accounts: better data and evidence on health workforce",
+        "url": "https://www.who.int/publications-detail-redirect/national-health-workforce-accounts"
+      },
       "relevance": "Health workforce data framework and source class.",
       "retrieval": {
         "content_type": "text/html; charset=utf-8",
