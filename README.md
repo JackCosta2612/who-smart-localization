@@ -1,5 +1,9 @@
 # who-smart-localization
 
+This repository contains model-neutral Agent Skills for WHO SMART Guidelines localization work. The project is part of a university Natural Language Processing collaboration with the World Health Organization (WHO).
+
+The repository now supports more than one skill. Each skill lives in its own folder under `skills/`.
+
 ## Team workflow
 
 This repository is meant to stay approachable for the full project team, including teammates with limited coding experience.
@@ -182,92 +186,63 @@ Normally the process is:
 5. Wait for review.
 6. Merge only after approval.
 
-## Project summary
+## Project scope
 
-This repository contains a model-neutral Agent Skill for WHO SMART Guidelines localization. The goal is to compare WHO global guidance or structured SMART Guideline content with country-specific policy material and produce a traceable, human-reviewable localization matrix.
+The repository supports localization work around WHO SMART Guidelines and Digital Adaptation Kits (DAKs). The first planned skill is Country Profiling, which prepares a structured country context for later localization work. The existing Policy Comparison skill is kept as a separate skill because it will depend on good country context.
 
-The project is part of a university Natural Language Processing collaboration with the World Health Organization (WHO). It is intentionally lightweight: mostly documentation, examples, and a small validation script.
-
-## Scope
-
-The skill is designed to help a reviewer answer questions such as:
-
-- Does the local policy align with the WHO source?
-- Is the local policy more specific or more restrictive?
-- Is a WHO element missing from the local excerpt?
-- Is the relationship too unclear to classify without expert review?
-
-The output is a structured markdown matrix rather than a free-form summary.
-
-## What the skill does
-
-- Compares a WHO source statement with a local policy statement.
-- Assigns a controlled alignment category.
-- Records evidence from both sources.
-- Preserves traceability and uncertainty.
-- Flags rows that need expert follow-up.
-
-## What the skill does not do
-
-- It does not make clinical decisions.
-- It does not produce final national policy.
-- It does not replace WHO or country experts.
-- It does not validate clinical correctness.
-- It does not assume missing local policy text when evidence is absent.
+The skills are review aids. They do not make clinical decisions, produce final national policy, or replace WHO, country, legal, policy, or clinical experts.
 
 ## Repository structure
 
 ```text
 .
 ├── README.md
-├── SKILL.md
 ├── SKILLS.md
-├── assets/
-├── context/
-│   ├── localization-categories.md
-│   ├── output-schema.md
-│   └── who-smart-context.md
-├── examples/
-│   ├── example-input-1.md
-│   ├── example-input-2.md
-│   ├── example-output-1.md
-│   └── example-output-2.md
-├── scripts/
-│   └── validate_matrix.py
-└── tests/
-    ├── evaluation-notes.md
-    ├── test-case-1.md
-    └── test-case-2.md
+├── docs/
+├── shared/
+│   └── assets/
+└── skills/
+    ├── country-profiling/
+    │   ├── SKILL.md
+    │   ├── README.md
+    │   ├── context/
+    │   ├── examples/
+    │   ├── scripts/
+    │   └── tests/
+    └── policy-comparison/
+        ├── SKILL.md
+        ├── context/
+        ├── examples/
+        ├── scripts/
+        └── tests/
 ```
 
-## How the examples and tests are organized
+## Skills
 
-- `examples/` contains toy inputs and toy outputs for structural testing only.
-- `tests/` contains simple validation-oriented cases and evaluation notes.
-- `context/` holds reusable definitions so `SKILL.md` stays concise.
-- `scripts/validate_matrix.py` checks whether a markdown matrix follows the expected structure.
+### Country Profiling
 
-## Running the validator
+Given a country name and target health domain, this skill produces a structured, verifiable country profile relevant to DAK implementation. It draws from provided DAK material, WHO/open data sources, and country-specific public health documentation supplied by the user or retrieved by a future retrieval layer.
 
-The validator is structural only. It does not assess medical or policy correctness.
+Location: `skills/country-profiling/`
+
+### Policy Comparison
+
+Given a WHO source statement and local policy excerpt, this skill produces a traceable localization matrix showing alignment, partial alignment, divergence, missing content, or required expert review.
+
+Location: `skills/policy-comparison/`
+
+## Running validators
+
+Policy comparison matrix validator:
 
 ```bash
-python3 scripts/validate_matrix.py examples/example-output-1.md
+python3 skills/policy-comparison/scripts/validate_matrix.py skills/policy-comparison/examples/example-output-1.md
 ```
 
-Expected behavior:
+Country profiling output validator:
 
-- exits with `0` when the matrix structure is valid;
-- exits non-zero when required columns or controlled values are invalid;
-- prints a reminder that the check is not a clinical review.
+```bash
+python3 skills/country-profiling/scripts/validate_profile.py skills/country-profiling/examples/example-output-1.md
+```
 
-## Current status
-
-This first implementation pass provides:
-
-- a canonical `SKILL.md` file for the Agent Skill;
-- core project documentation in `context/`;
-- clearly labeled toy examples;
-- a lightweight validator for markdown localization matrices.
-
-Real WHO and country policy excerpts can be added later under `assets/` and referenced by future examples once the team has approved source material.
+These validators check structure only. They do not validate clinical correctness, policy correctness, or source interpretation.

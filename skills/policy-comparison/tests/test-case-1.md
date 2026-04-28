@@ -5,7 +5,7 @@ Purpose: verify that the validator accepts a structurally correct localization m
 Suggested command:
 
 ```bash
-python3 scripts/validate_matrix.py examples/example-output-1.md
+python3 skills/policy-comparison/scripts/validate_matrix.py skills/policy-comparison/examples/example-output-1.md
 ```
 
 Expected result:
