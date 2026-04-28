@@ -114,7 +114,9 @@ def validate_rows(lines: list[str], start_index: int) -> list[str]:
 
 def main(argv: list[str]) -> int:
     if len(argv) != 2:
-        print("Usage: python3 scripts/validate_matrix.py <markdown-file>")
+        print(
+            "Usage: python3 skills/policy-comparison/scripts/validate_matrix.py <markdown-file>"
+        )
         print("Note: this validator checks structure only, not clinical correctness.")
         return 2
 
