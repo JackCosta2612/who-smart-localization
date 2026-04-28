@@ -58,13 +58,19 @@ See `context/input-documentation.md` for input guidance.
 ## Workflow
 
 1. Confirm the country, target health domain, and DAK scope.
-2. Build a source inventory before writing conclusions.
-3. Separate WHO/global sources from country-specific sources.
-4. Extract facts relevant to DAK implementation, including health system structure, governance, financing, workforce, digital health, data systems, and domain-specific service delivery.
-5. Record each finding with source evidence and retrieval date.
-6. Label each finding as known, uncertain, missing, or requiring expert review.
-7. Produce the profile using the schema in `context/profile-schema.md`.
-8. Preserve gaps and uncertainty for later localization skills instead of resolving them by assumption.
+2. Run the predefined WHO retrieval task before writing conclusions:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+```
+
+3. Review the generated retrieval bundle and add any user-supplied country documents to the source inventory.
+4. Separate WHO/global sources from country-specific sources.
+5. Extract facts relevant to DAK implementation, including health system structure, governance, financing, workforce, digital health, data systems, and domain-specific service delivery.
+6. Record each finding with source evidence and retrieval date.
+7. Label each finding as known, uncertain, missing, or requiring expert review.
+8. Produce the profile using the schema in `context/profile-schema.md`.
+9. Preserve gaps and uncertainty for later localization skills instead of resolving them by assumption.
 
 ## Output requirements
 
@@ -81,7 +87,15 @@ Every substantive claim should include:
 
 ## WHO data access
 
-For general deployment, this skill should support WHO documentation and data retrieval through open WHO sources. The first lightweight helper is `scripts/who_gho_client.py`, which can query the WHO Global Health Observatory OData API.
+For general deployment, this skill includes a predefined WHO retrieval runner:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+```
+
+The runner produces a markdown and JSON retrieval bundle under `skills/country-profiling/retrieval-output/` by default. It checks candidate DAK and WHO source pages, queries WHO Global Health Observatory metadata when available, and records retrieval failures as reviewable evidence gaps instead of stopping the skill.
+
+The lower-level helper `scripts/who_gho_client.py` can still be used for direct GHO OData lookups.
 
 See `context/who-data-retrieval.md` for recommended WHO sources and retrieval patterns.
 

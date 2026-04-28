@@ -38,3 +38,21 @@ country-profiling/
 ## Current status
 
 This is scaffolding for the first implementation pass. It defines the expected inputs, output profile structure, WHO source retrieval guidance, an MCP implementation plan, and basic structural validation.
+
+## Predefined WHO retrieval task
+
+When this skill is called, the Agent should run the WHO retrieval task before drafting the country profile:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+```
+
+The task writes a markdown and JSON retrieval bundle. It checks candidate WHO sources, looks up WHO GHO country metadata when possible, searches WHO GHO indicators using domain terms, and records skipped or failed retrievals as explicit evidence gaps.
+
+To check the runtime first:
+
+```bash
+python3 skills/country-profiling/scripts/check_environment.py
+```
+
+The MVP uses only Python standard library modules.
