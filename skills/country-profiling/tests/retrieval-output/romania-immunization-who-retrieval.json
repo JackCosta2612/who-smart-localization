@@ -1,0 +1,218 @@
+{
+  "country": "Romania",
+  "country_lookup": {
+    "matches": [
+      {
+        "code": "ROU",
+        "title": "Romania"
+      }
+    ],
+    "query": "Romania",
+    "selected": {
+      "code": "ROU",
+      "title": "Romania"
+    },
+    "status": "retrieved"
+  },
+  "domain": "immunization",
+  "domain_key": "immunization",
+  "generated_at": "2026-04-28T17:44:51+00:00",
+  "gho_indicator_search": [
+    {
+      "indicators": [
+        {
+          "code": "mslv",
+          "name": "Measles immunization coverage among one-year-olds (%)"
+        },
+        {
+          "code": "fullv",
+          "name": "Full immunization coverage among one-year-olds (%)"
+        },
+        {
+          "code": "bcgv",
+          "name": "BCG immunization coverage among one-year-olds (%)"
+        },
+        {
+          "code": "MCV2",
+          "name": "Measles-containing-vaccine second-dose (MCV2) immunization coverage by the nationally recommended age (%)"
+        },
+        {
+          "code": "dptv",
+          "name": "DTP3 immunization coverage among one-year-olds (%)"
+        },
+        {
+          "code": "poliov",
+          "name": "Polio immunization coverage among one-year-olds (%)"
+        },
+        {
+          "code": "PCV3",
+          "name": "Pneumoccocal conjugate vaccines (PCV3) immunization coverage among 1-year-olds (%)"
+        },
+        {
+          "code": "ROTAC",
+          "name": "Rotavirus vaccines completed dose (RotaC) immunization coverage among 1-year-olds (%)"
+        },
+        {
+          "code": "SDGHPVRECEIVED",
+          "name": "HPV immunization coverage estimates among primary target cohort (9-14 years old girls) (%)"
+        },
+        {
+          "code": "WHS4_100",
+          "name": "Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%)"
+        }
+      ],
+      "status": "retrieved",
+      "term": "immunization",
+      "url": "https://ghoapi.azureedge.net/api/Indicator?$filter=contains(IndicatorName,'immunization')"
+    },
+    {
+      "indicators": [
+        {
+          "code": "NCD_CCS_hpv",
+          "name": "Existence of national HPV vaccination programme"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_MMR",
+          "name": "In-prison vaccination for MMR"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_HEPA",
+          "name": "In-prison vaccination for Hepatitis A"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_HPV",
+          "name": "In-prison vaccination for HPV"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_HEPB",
+          "name": "In-prison vaccination for Hepatitis B"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_DTP",
+          "name": "In-prison vaccination for DTP"
+        },
+        {
+          "code": "IMMUNIZATION_VACCINATIONCARDSSEEN",
+          "name": "Proportion of vaccination cards seen (%)"
+        },
+        {
+          "code": "PRISON_B11_VACPREV_FLU",
+          "name": "In-prison vaccination for seasonal flu"
+        }
+      ],
+      "status": "retrieved",
+      "term": "vaccination",
+      "url": "https://ghoapi.azureedge.net/api/Indicator?$filter=contains(IndicatorName,'vaccination')"
+    },
+    {
+      "indicators": [
+        {
+          "code": "MCV2",
+          "name": "Measles-containing-vaccine second-dose (MCV2) immunization coverage by the nationally recommended age (%)"
+        },
+        {
+          "code": "PCV3",
+          "name": "Pneumoccocal conjugate vaccines (PCV3) immunization coverage among 1-year-olds (%)"
+        },
+        {
+          "code": "ROTAC",
+          "name": "Rotavirus vaccines completed dose (RotaC) immunization coverage among 1-year-olds (%)"
+        },
+        {
+          "code": "WHS8_110",
+          "name": "Measles-containing-vaccine first-dose (MCV1) immunization coverage among 1-year-olds (%)"
+        },
+        {
+          "code": "vzdpt",
+          "name": "One-year-old children who have not received any doses of the DTP vaccine (%)"
+        },
+        {
+          "code": "VACCINECOVERAGE_MENA_C",
+          "name": "Meningococcal A conjugate (MENGA) vaccine immunization coverage (%)"
+        },
+        {
+          "code": "VACCINECOVERAGE_YFV",
+          "name": "Yellow fever vaccine (YFV) immunization coverage among 1-year olds (%)"
+        }
+      ],
+      "status": "retrieved",
+      "term": "vaccine",
+      "url": "https://ghoapi.azureedge.net/api/Indicator?$filter=contains(IndicatorName,'vaccine')"
+    }
+  ],
+  "offline": false,
+  "sources": [
+    {
+      "relevance": "Domain-specific WHO DAK candidate.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://www.who.int/publications/i/item/9789240099456"
+      },
+      "source_type": "WHO DAK",
+      "title": "Digital adaptation kit for immunizations",
+      "url": "https://www.who.int/publications/i/item/9789240099456"
+    },
+    {
+      "relevance": "Country-level WHO cooperation priorities and strategic context.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://www.who.int/countries/country-cooperation-strategies"
+      },
+      "source_type": "WHO country context",
+      "title": "WHO Country Cooperation Strategies",
+      "url": "https://www.who.int/countries/country-cooperation-strategies"
+    },
+    {
+      "relevance": "Structured WHO indicators and country metadata.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://www.who.int/data/gho/info/gho-odata-api"
+      },
+      "source_type": "WHO data API",
+      "title": "WHO Global Health Observatory OData API",
+      "url": "https://www.who.int/data/gho/info/gho-odata-api"
+    },
+    {
+      "relevance": "Health information system readiness and data system context.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://www.who.int/data/data-collection-tools/score/documents"
+      },
+      "source_type": "WHO health information system context",
+      "title": "WHO SCORE documents",
+      "url": "https://www.who.int/data/data-collection-tools/score/documents"
+    },
+    {
+      "relevance": "Comparable health expenditure and financing context.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://apps.who.int/nha/database/en"
+      },
+      "source_type": "WHO financing data",
+      "title": "Global Health Expenditure Database",
+      "url": "https://apps.who.int/nha/database/en"
+    },
+    {
+      "relevance": "Health workforce data framework and source class.",
+      "retrieval": {
+        "content_type": "text/html; charset=utf-8",
+        "http_status": 200,
+        "status": "reachable",
+        "url": "https://www.who.int/publications-detail-redirect/national-health-workforce-accounts"
+      },
+      "source_type": "WHO workforce data",
+      "title": "National Health Workforce Accounts",
+      "url": "https://www.who.int/publications-detail-redirect/national-health-workforce-accounts"
+    }
+  ]
+}
