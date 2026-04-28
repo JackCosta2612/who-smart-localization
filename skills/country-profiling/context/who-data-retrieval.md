@@ -77,13 +77,29 @@ Source: https://www.who.int/publications-detail-redirect/national-health-workfor
 
 ## Suggested retrieval workflow
 
-1. Identify the target DAK or SMART Implementation Guide.
-2. Record DAK title, version, publication date, URL, and downloadable annexes.
-3. Search WHO country pages and WHO IRIS for the country's Country Cooperation Strategy.
-4. Query GHO for basic country indicators relevant to the domain.
-5. Add SCORE, GHED, and health workforce sources only when they are relevant to the implementation question.
-6. Add country-specific documents as supplied inputs or as clearly marked candidate sources.
-7. Record every retrieval date and distinguish official sources from secondary sources.
+When the skill is called, the Agent should first run the predefined retrieval MVP:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+```
+
+The retrieval runner performs these tasks:
+
+1. Identify candidate WHO DAK or SMART Implementation Guide sources for the health domain.
+2. Build a WHO source inventory with DAK, GHO, CCS, SCORE, GHED, and workforce source classes.
+3. Check which candidate URLs are reachable in the current environment.
+4. Query WHO GHO country dimension metadata to identify the country code when possible.
+5. Search WHO GHO indicators using predefined domain terms.
+6. Write a markdown retrieval report and a machine-readable JSON bundle.
+7. Record every failed or skipped retrieval as an explicit evidence gap.
+
+After the retrieval bundle is generated, the Agent should:
+
+1. Review candidate DAK sources and record title, version, publication date, URL, and downloadable annexes when available.
+2. Search WHO country pages and WHO IRIS for the country's Country Cooperation Strategy if the MVP only provides a generic search or source class.
+3. Add SCORE, GHED, and health workforce sources only when they are relevant to the implementation question.
+4. Add country-specific documents as supplied inputs or as clearly marked candidate sources.
+5. Record every retrieval date and distinguish official sources from secondary sources.
 
 ## Country-specific documentation note
 
