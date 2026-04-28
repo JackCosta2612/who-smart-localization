@@ -20,4 +20,5 @@ Expected result:
 - one `.json` bundle is written;
 - one `.md` retrieval report is written;
 - generated files are stored under `skills/country-profiling/tests/retrieval-output/`;
+- retrieved source contents are stored under `skills/country-profiling/tests/retrieval-output/content/`;
 - failed or unavailable network sources are recorded in the bundle rather than causing an unhandled exception.

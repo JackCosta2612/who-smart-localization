@@ -43,3 +43,24 @@ python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "Roma
 ```
 
 Offline mode still writes a retrieval bundle with candidate WHO sources and explicit "not checked" statuses.
+
+## Content retrieval behavior
+
+Live mode writes these artifacts:
+
+- `<country>-<domain>-who-retrieval.md`;
+- `<country>-<domain>-who-retrieval.json`;
+- `content/*.txt` page text snapshots;
+- `content/*-links.json` link inventories;
+- `content/gho-*.json` country-filtered GHO data samples;
+- downloaded document files when supported links are discovered and the file size is within the configured limit.
+
+The runner uses size limits to avoid failing in constrained environments. Tune these only when the Agent environment can safely store larger files:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py \
+  --country "Romania" \
+  --domain "immunization" \
+  --max-page-bytes 2000000 \
+  --max-download-bytes 15000000
+```

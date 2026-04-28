@@ -47,7 +47,7 @@ When this skill is called, the Agent should run the WHO retrieval task before dr
 python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
 ```
 
-The task writes a markdown and JSON retrieval bundle. It checks candidate WHO sources, looks up WHO GHO country metadata when possible, searches WHO GHO indicators using domain terms, and records skipped or failed retrievals as explicit evidence gaps.
+The task writes a markdown and JSON retrieval bundle. It fetches candidate WHO source pages, saves text snapshots and link inventories, downloads supported linked documents when safely sized, looks up WHO GHO country metadata when possible, retrieves selected country-filtered GHO data samples, and records skipped or failed retrievals as explicit evidence gaps.
 
 To check the runtime first:
 

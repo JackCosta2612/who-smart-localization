@@ -87,11 +87,16 @@ The retrieval runner performs these tasks:
 
 1. Identify candidate WHO DAK or SMART Implementation Guide sources for the health domain.
 2. Build a WHO source inventory with DAK, GHO, CCS, SCORE, GHED, and workforce source classes.
-3. Check which candidate URLs are reachable in the current environment.
-4. Query WHO GHO country dimension metadata to identify the country code when possible.
-5. Search WHO GHO indicators using predefined domain terms.
-6. Write a markdown retrieval report and a machine-readable JSON bundle.
-7. Record every failed or skipped retrieval as an explicit evidence gap.
+3. Fetch WHO HTML source pages and save extracted text snapshots under `content/`.
+4. Save discovered page links as JSON link inventories.
+5. Download supported linked documents, such as PDFs and spreadsheets, when file sizes are within the configured limit.
+6. Query WHO GHO country dimension metadata to identify the country code when possible.
+7. Search WHO GHO indicators using predefined domain terms.
+8. Retrieve country-filtered GHO data samples for selected indicators when possible.
+9. Write a markdown retrieval report and a machine-readable JSON bundle.
+10. Record every failed or skipped retrieval as an explicit evidence gap.
+
+The MVP therefore retrieves actual available page text and structured data, not only source URLs. For PDFs and spreadsheets, it retrieves the files for later parsing by a PDF, spreadsheet, or document-processing tool. It does not claim to fully interpret binary document contents by itself.
 
 After the retrieval bundle is generated, the Agent should:
 
