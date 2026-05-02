@@ -111,9 +111,14 @@ The runner produces a markdown and JSON retrieval bundle under `skills/country-p
 
 If any source cannot be fetched, the runner records the failure as a reviewable evidence gap instead of stopping the skill.
 
+The Agent must distinguish retrieved generic WHO source pages from country-specific evidence. A reachable landing page is not enough to support a country-specific profile finding unless the retrieval bundle includes a matching country document, country-filtered dataset, or user-supplied country source.
+
+The retrieval bundle includes `evidence_scope` and `download_policy` metadata. Treat `generic-source-discovery` as a pointer for follow-up retrieval, not as profile evidence about the country.
+
 The lower-level helper `scripts/who_gho_client.py` can still be used for direct GHO OData lookups.
 
 See `context/who-data-retrieval.md` for recommended WHO sources and retrieval patterns.
+See `context/retrieval-limitations.md` for known MVP retrieval gaps.
 
 ## MCP-aware behavior
 

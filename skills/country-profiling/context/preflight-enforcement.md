@@ -51,4 +51,6 @@ The preflight writes:
 - If country document classes are missing, preserve them as evidence gaps and human-review actions.
 - Do not infer country policy from WHO/global sources.
 - Use retrieved WHO content as evidence inputs, not as final interpretation.
+- Do not treat a generic WHO landing page or unrelated downloaded document as country-specific evidence.
+- Treat zero-row country-filtered GHO datasets as explicit data gaps unless another source resolves the indicator.
 - If the preflight cannot run because the environment lacks Python or write access, report the failed gate instead of drafting the profile.
