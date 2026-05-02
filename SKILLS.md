@@ -1,12 +1,22 @@
 # Localization skills index
 
-This repository contains multiple Agent Skills for WHO SMART Guidelines localization.
+This repository contains Agent Skills for WHO SMART Guidelines localization. Each skill lives in its own folder under `skills/`.
 
-## Available skills
+## Implemented skills
 
-| Skill | Location | Purpose |
-|---|---|---|
-| Country Profiling | `skills/country-profiling/` | Build a structured country context profile for a target health domain and DAK implementation. |
-| Policy Comparison | `skills/policy-comparison/` | Compare WHO source content with local policy material and produce a traceable localization matrix. |
+| Skill | Status | Description | Path |
+|---|---|---|---|
+| Country Profiling | Implemented / MVP polish | Builds a structured, source-backed country profile for a target country, health domain, and DAK or SMART Guidelines scope. Supports document-only and optional retrieval-assisted execution. | `skills/country-profiling/` |
 
-Each skill has its own `SKILL.md`, context files, examples, tests, and scripts.
+## Planned skills
+
+| Skill | Status | Description | Path |
+|---|---|---|---|
+| Policy Comparison | Planned | Compare WHO source content with local policy material and produce a traceable localization matrix. | `skills/policy-comparison/` |
+| Terminology Mapping | Possible future extension | Identify terminology, coding, and data-element mapping issues for localization. | Not started |
+
+## Notes
+
+- Examples and first tests are still being prepared.
+- Validators check structure only.
+- Skills are review aids and do not replace expert review.

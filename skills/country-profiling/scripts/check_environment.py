@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the minimum runtime environment for Country Profiling scripts."""
+"""Check the runtime environment for optional Country Profiling retrieval scripts."""
 
 from __future__ import annotations
 
@@ -45,12 +45,12 @@ def check_network(timeout: int) -> tuple[bool, str]:
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
-        description="Check minimum runtime requirements for Country Profiling retrieval."
+        description="Check runtime requirements for optional Country Profiling retrieval assistance."
     )
     parser.add_argument(
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
-        help="Directory that retrieval scripts should be able to write to.",
+        help="Directory that optional retrieval scripts should be able to write to.",
     )
     parser.add_argument(
         "--skip-network",
@@ -74,10 +74,13 @@ def main(argv: list[str]) -> int:
         print(("OK" if ok else "WARN") + f": {message}")
 
     if hard_failures:
-        print("Environment check failed.")
+        print(
+            "Environment check failed for optional retrieval assistance. "
+            "Document-only profiling can still be used when sufficient sources are supplied."
+        )
         return 1
 
-    print("Environment check passed.")
+    print("Environment check passed for optional retrieval assistance.")
     return 0
 
 

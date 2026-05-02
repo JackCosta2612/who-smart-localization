@@ -1,47 +1,41 @@
 # Country Profiling Skill
 
-The Country Profiling skill creates a structured country context profile for DAK implementation and later localization work.
+The Country Profiling skill creates a structured, source-backed country profile for WHO SMART Guidelines localization and DAK adaptation preparation.
 
-The first use case is:
+It helps the team understand what is already known about a country and health domain, what is missing, what may affect localization, and what needs human expert review before detailed policy comparison or adaptation work.
 
-> Given a country name and target health domain, produce a structured, verifiable profile of that country's health system relevant to DAK implementation, drawing from DAK material, WHO/open data sources, and national health documents, while flagging what is known, uncertain, and requiring expert input.
+## Why this matters
 
-## What this skill supports
+WHO SMART Guidelines and Digital Adaptation Kits are global starting points. Local use depends on country context: policy, service delivery, reporting systems, terminology, digital health infrastructure, and available data. A country profile makes that context visible before the team starts adapting content.
 
-- Faster discovery of country context before detailed localization.
-- Reduced mapping errors by separating facts, sources, assumptions, and unknowns.
-- Regional reuse by making country context comparable across countries.
-- Better handoff into later skills, especially Policy Comparison.
+## Execution modes
 
-## Folder structure
+### Document-only mode
 
-```text
-country-profiling/
-├── SKILL.md
-├── README.md
-├── context/
-│   ├── input-documentation.md
-│   ├── mcp-integration-plan.md
-│   ├── profile-schema.md
-│   └── who-data-retrieval.md
-├── examples/
-│   ├── example-input-1.md
-│   └── example-output-1.md
-├── scripts/
-│   ├── validate_profile.py
-│   └── who_gho_client.py
-└── tests/
-    ├── evaluation-notes.md
-    └── test-case-1.md
+Use this by default when the user provides enough source material in the prompt, attached files, local files, or conversation context.
+
+The Agent should:
+
+- identify the target country, health domain, and DAK or SMART Guidelines scope;
+- build a source inventory from supplied material;
+- draft the profile using only the supplied sources;
+- mark missing information as evidence gaps.
+
+### Retrieval-assisted mode
+
+Use this when scripts or tools are available and the user asks for or allows retrieval help.
+
+The scripts can check the environment, prepare a run folder, retrieve candidate WHO sources, and write an input documentation inventory. They are optional support artifacts. They are not mandatory for every use of the skill.
+
+## Optional scripts
+
+Check the local environment:
+
+```bash
+python3 skills/country-profiling/scripts/check_environment.py
 ```
 
-## Current status
-
-This is scaffolding for the first implementation pass. It defines the expected inputs, output profile structure, WHO source retrieval guidance, an MCP implementation plan, and basic structural validation.
-
-## Mandatory preflight
-
-When this skill is called, the Agent must run the preflight before drafting the country profile:
+Prepare a retrieval-assisted run:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
@@ -50,14 +44,68 @@ python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --dak-scope "<DAK or WHO artifact scope>"
 ```
 
-The preflight checks the runtime environment, runs WHO retrieval, and writes an input documentation inventory. It writes a manifest with `may_draft_profile`; if that value is `false`, the Agent must not draft the profile.
-
-The WHO retrieval task writes a markdown and JSON retrieval bundle. It fetches candidate WHO source pages, saves text snapshots and link inventories, downloads supported linked documents when safely sized, looks up WHO GHO country metadata when possible, retrieves selected country-filtered GHO data samples, and records skipped or failed retrievals as explicit evidence gaps.
-
-To check the runtime first:
+Add known country documents when available:
 
 ```bash
-python3 skills/country-profiling/scripts/check_environment.py
+python3 skills/country-profiling/scripts/prepare_profile_run.py \
+  --country "Romania" \
+  --domain "immunization" \
+  --dak-scope "WHO immunization DAK" \
+  --country-document "Document title|Document type|/path/or/url|2024"
 ```
 
-The MVP uses only Python standard library modules.
+Run WHO retrieval directly when useful:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_who_sources.py \
+  --country "<country>" \
+  --domain "<health-domain>"
+```
+
+If scripts fail but the user has supplied enough sources, the Agent can still draft in document-only mode. If sources are insufficient, the Agent should ask for more sources or produce only a skeleton/gap-analysis profile when requested.
+
+## Validate a profile
+
+```bash
+python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
+```
+
+The validator checks structure, required sections, table headers, and controlled values. It does not validate clinical correctness, national policy correctness, country facts, WHO interpretation, or legal suitability.
+
+## What this skill does not do
+
+- It does not make clinical decisions.
+- It does not provide patient advice.
+- It does not draft final national policy.
+- It does not invent missing country context.
+- It does not replace WHO, national, clinical, legal, policy, or country expert review.
+
+## Folder structure
+
+```text
+country-profiling/
+├── SKILL.md
+├── README.md
+├── context/
+│   ├── execution-modes.md
+│   ├── input-documentation.md
+│   ├── mcp-integration-plan.md
+│   ├── profile-schema.md
+│   ├── retrieval-limitations.md
+│   ├── runtime-requirements.md
+│   └── who-data-retrieval.md
+├── examples/
+│   ├── example-input-1.md
+│   └── example-output-1.md
+├── scripts/
+│   ├── check_environment.py
+│   ├── prepare_profile_run.py
+│   ├── retrieve_who_sources.py
+│   ├── validate_profile.py
+│   └── who_gho_client.py
+└── tests/
+```
+
+## Current status
+
+MVP polish. The skill contract, schema, optional retrieval helpers, and structural validator are in place. Final examples and first evaluation tests are the next phase.

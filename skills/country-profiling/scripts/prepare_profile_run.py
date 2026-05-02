@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Run mandatory preflight steps before drafting a country profile.
+"""Prepare optional support artifacts for a country profile run.
 
-The preflight enforces three gates for the Country Profiling skill:
-runtime readiness, WHO source retrieval, and input documentation inventory.
+This helper checks runtime readiness, runs optional WHO source retrieval, and
+writes an input documentation inventory. It supports retrieval-assisted mode
+but is not required for document-only profiling from user-supplied sources.
 """
 
 from __future__ import annotations
@@ -73,7 +74,7 @@ def build_input_inventory(args: argparse.Namespace) -> dict[str, object]:
                 {
                     "required_document_class": required,
                     "status": "Needs retrieval",
-                    "reason": "No matching country-specific document was supplied to preflight.",
+                    "reason": "No matching country-specific document was supplied to the preparation run.",
                 }
             )
 
@@ -144,7 +145,7 @@ def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> 
             "",
             "## Profiling rule",
             "",
-            "Do not infer country-specific policy from WHO/global sources. Missing country documents must remain evidence gaps or human-review actions in the profile.",
+            "Do not infer country-specific policy from WHO/global sources. Missing country documents should remain evidence gaps or human-review actions in the profile.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -152,7 +153,7 @@ def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
-        description="Run Country Profiling preflight gates before profile drafting."
+        description="Prepare optional retrieval-assisted support artifacts for Country Profiling."
     )
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
     parser.add_argument("--domain", required=True, help="Target health domain.")
@@ -173,7 +174,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
-        help="Directory for the preflight manifest and retrieval bundle.",
+        help="Directory for the preparation manifest and optional retrieval bundle.",
     )
     parser.add_argument("--offline", action="store_true", help="Run retrieval in offline mode.")
     args = parser.parse_args(argv[1:])
@@ -213,13 +214,33 @@ def main(argv: list[str]) -> int:
         "command": retrieval_command,
         "returncode": None,
         "stdout": "",
-        "stderr": "Skipped because environment gate failed.",
+        "stderr": "Skipped because the optional script environment check failed.",
         "ok": False,
     }
 
     inventory = build_input_inventory(args)
+    supplied_country_documents = inventory["supplied_country_documents"]
+    has_supplied_country_documents = bool(supplied_country_documents)
     inventory_path = run_dir / "input-documentation-inventory.md"
     write_input_inventory_markdown(inventory, inventory_path)
+
+    may_draft_from_manifest = has_supplied_country_documents
+    if not may_draft_from_manifest:
+        mode_guidance = (
+            "The manifest does not include a reviewed country-specific source. "
+            "Draft only a skeleton/gap-analysis profile unless the prompt, attached files, "
+            "or conversation context provide sufficient country-specific source material."
+        )
+    elif retrieval["ok"]:
+        mode_guidance = (
+            "Retrieval-assisted artifacts and supplied country documents are available. "
+            "Draft only source-backed content and keep missing document classes as gaps."
+        )
+    else:
+        mode_guidance = (
+            "Proceed in document-only mode from supplied country documents if they are relevant "
+            "and sufficient. Treat retrieval failure as an evidence gap, not as a profile blocker."
+        )
 
     manifest = {
         "generated_at": now_utc(),
@@ -231,29 +252,48 @@ def main(argv: list[str]) -> int:
         "who_retrieval_gate": retrieval,
         "input_documentation_inventory": inventory,
         "input_inventory_path": str(inventory_path),
-        "may_draft_profile": bool(environment["ok"] and retrieval["ok"]),
+        "retrieval_assistance_complete": bool(environment["ok"] and retrieval["ok"]),
+        "may_draft_profile": may_draft_from_manifest,
+        "mode_guidance": mode_guidance,
         "drafting_constraints": [
             "Do not produce country-specific findings from missing documents.",
             "Carry missing country document classes into evidence gaps.",
-            "Use the WHO retrieval bundle as source evidence, not as final interpretation.",
+            "Use any WHO retrieval bundle as source evidence, not as final interpretation.",
+            "If this script fails but user-provided sources are sufficient, document-only mode may still proceed.",
         ],
     }
 
     manifest_path = run_dir / "profile-preflight-manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
 
-    print(f"Wrote preflight manifest: {manifest_path}")
+    print(f"Wrote preparation manifest: {manifest_path}")
     print(f"Wrote input documentation inventory: {inventory_path}")
     print(f"WHO retrieval output directory: {retrieval_dir}")
 
-    if not manifest["may_draft_profile"]:
-        print("Preflight failed: do not draft the profile until failed gates are resolved.")
+    if not environment["ok"]:
+        print(
+            "Preparation script environment check failed. Retrieval-assisted artifacts may be unavailable, "
+            "but document-only mode can still be used if sufficient sources are supplied outside this script."
+        )
         return 1
 
+    if not retrieval["ok"]:
+        print(
+            "WHO retrieval assistance did not complete. Continue in document-only mode if sufficient "
+            "user-provided sources are available; otherwise record retrieval as an evidence gap."
+        )
+
+    if not manifest["may_draft_profile"]:
+        print(
+            "No country-specific documents were supplied to this preparation run. Draft only a skeleton "
+            "or gap-analysis profile unless other supplied sources are available in the prompt, files, or context."
+        )
+        return 0
+
     if inventory["missing_country_document_classes"]:
-        print("Preflight passed with country-document gaps that must be carried into the profile.")
+        print("Preparation completed with country-document gaps that should be carried into the profile.")
     else:
-        print("Preflight passed with supplied country documentation inventory.")
+        print("Preparation completed with supplied country documentation inventory.")
     return 0
 
 

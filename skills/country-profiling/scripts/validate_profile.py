@@ -2,11 +2,12 @@
 """Validate the structure of a Country Profiling markdown output.
 
 This validator checks format and controlled values only. It does not assess
-clinical, policy, country, or WHO interpretation correctness.
+clinical, policy, country, legal, or WHO interpretation correctness.
 """
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -37,6 +38,13 @@ SOURCE_COLUMNS = [
 ]
 
 FACT_COLUMNS = ["Area", "Finding", "Evidence", "Source", "Confidence", "Review need"]
+
+GAP_COLUMNS = [
+    "Gap or uncertainty",
+    "Why it matters for DAK implementation",
+    "Suggested next source",
+    "Review owner",
+]
 
 ALLOWED_SOURCE_STATUS = {
     "Reviewed",
@@ -112,15 +120,21 @@ def validate_table(
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2:
-        print("Usage: python3 skills/country-profiling/scripts/validate_profile.py <markdown-file>")
-        print("Note: this validator checks structure only, not clinical or policy correctness.")
-        return 2
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate the markdown structure of a Country Profiling output. "
+            "This does not validate clinical, policy, country, legal, or WHO correctness."
+        )
+    )
+    parser.add_argument("markdown_file", help="Country profile markdown file to validate.")
+    args = parser.parse_args(argv[1:])
 
-    target = Path(argv[1])
+    target = Path(args.markdown_file)
     if not target.is_file():
         print(f"Error: file not found: {target}")
-        print("Note: this validator checks structure only, not clinical or policy correctness.")
+        print(
+            "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
+        )
         return 1
 
     content = target.read_text(encoding="utf-8")
@@ -151,15 +165,24 @@ def main(argv: list[str]) -> int:
         if row[5] not in ALLOWED_REVIEW_NEED:
             errors.append(f"Line {line_number}: invalid Review need '{row[5]}'.")
 
+    gap_errors, _gap_rows = validate_table(
+        lines, GAP_COLUMNS, "Uncertainties and evidence gaps"
+    )
+    errors.extend(gap_errors)
+
     if errors:
         print("Structural validation failed:")
         for error in errors:
             print(f"- {error}")
-        print("Note: this validator checks structure only, not clinical or policy correctness.")
+        print(
+            "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
+        )
         return 1
 
     print(f"Structural validation passed for {target}.")
-    print("Note: this validator checks structure only, not clinical or policy correctness.")
+    print(
+        "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
+    )
     return 0
 
 
