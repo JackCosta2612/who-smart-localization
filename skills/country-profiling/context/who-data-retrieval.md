@@ -98,6 +98,10 @@ The retrieval runner performs these tasks:
 
 The MVP therefore retrieves actual available page text and structured data, not only source URLs. For PDFs and spreadsheets, it retrieves the files for later parsing by a PDF, spreadsheet, or document-processing tool. It does not claim to fully interpret binary document contents by itself.
 
+The MVP also does not guarantee country-specific retrieval for every WHO source class. Some WHO sources are represented by generic landing pages. For those sources, reachable content must be treated as source discovery unless a country-specific document or dataset is explicitly resolved. Generic source pages use a `discover-links-only` policy; they should not be treated as retrieved country evidence.
+
+See `context/retrieval-limitations.md` for the current Romania test assessment and required next retrieval phase.
+
 After the retrieval bundle is generated, the Agent should:
 
 1. Review candidate DAK sources and record title, version, publication date, URL, and downloadable annexes when available.
@@ -105,6 +109,7 @@ After the retrieval bundle is generated, the Agent should:
 3. Add SCORE, GHED, and health workforce sources only when they are relevant to the implementation question.
 4. Add country-specific documents as supplied inputs or as clearly marked candidate sources.
 5. Record every retrieval date and distinguish official sources from secondary sources.
+6. Distinguish generic WHO source retrieval from country-specific evidence. Do not use a generic landing page or unrelated downloaded document as evidence about the requested country.
 
 ## Country-specific documentation note
 

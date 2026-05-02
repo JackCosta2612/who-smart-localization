@@ -37,6 +37,8 @@ DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
             {
                 "title": "Digital adaptation kit for immunizations",
                 "url": "https://www.who.int/publications/i/item/9789240099456",
+                "evidence_scope": "global-domain-source",
+                "download_policy": "download-supported-documents",
             }
         ],
     },
@@ -47,6 +49,8 @@ DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
             {
                 "title": "Digital adaptation kit for tuberculosis",
                 "url": "https://www.who.int/publications/i/item/9789240086616",
+                "evidence_scope": "global-domain-source",
+                "download_policy": "download-supported-documents",
             }
         ],
     },
@@ -57,6 +61,8 @@ DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
             {
                 "title": "Digital adaptation kit for family planning",
                 "url": "https://www.who.int/publications/who-guidelines/9789240029743",
+                "evidence_scope": "global-domain-source",
+                "download_policy": "download-supported-documents",
             }
         ],
     },
@@ -67,6 +73,8 @@ DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
             {
                 "title": "Digital adaptation kit for antenatal care",
                 "url": "https://www.who.int/publications/i/item/9789240020306",
+                "evidence_scope": "global-domain-source",
+                "download_policy": "download-supported-documents",
             }
         ],
     },
@@ -77,6 +85,8 @@ DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
             {
                 "title": "Digital adaptation kit for HIV",
                 "url": "https://www.who.int/publications/i/item/9789240054424",
+                "evidence_scope": "global-domain-source",
+                "download_policy": "download-supported-documents",
             }
         ],
     },
@@ -88,30 +98,40 @@ GENERAL_WHO_SOURCES = [
         "source_type": "WHO country context",
         "url": "https://www.who.int/countries/country-cooperation-strategies",
         "relevance": "Country-level WHO cooperation priorities and strategic context.",
+        "evidence_scope": "generic-source-discovery",
+        "download_policy": "discover-links-only",
     },
     {
         "title": "WHO Global Health Observatory OData API",
         "source_type": "WHO data API",
         "url": "https://www.who.int/data/gho/info/gho-odata-api",
         "relevance": "Structured WHO indicators and country metadata.",
+        "evidence_scope": "generic-source-discovery",
+        "download_policy": "discover-links-only",
     },
     {
         "title": "WHO SCORE documents",
         "source_type": "WHO health information system context",
         "url": "https://www.who.int/data/data-collection-tools/score/documents",
         "relevance": "Health information system readiness and data system context.",
+        "evidence_scope": "generic-source-discovery",
+        "download_policy": "discover-links-only",
     },
     {
         "title": "Global Health Expenditure Database",
         "source_type": "WHO financing data",
         "url": "https://apps.who.int/nha/database/en",
         "relevance": "Comparable health expenditure and financing context.",
+        "evidence_scope": "generic-source-discovery",
+        "download_policy": "discover-links-only",
     },
     {
         "title": "National Health Workforce Accounts",
         "source_type": "WHO workforce data",
         "url": "https://www.who.int/publications-detail-redirect/national-health-workforce-accounts",
         "relevance": "Health workforce data framework and source class.",
+        "evidence_scope": "generic-source-discovery",
+        "download_policy": "discover-links-only",
     },
 ]
 
@@ -338,7 +358,8 @@ def retrieve_source_content(
 
         download_links = [link["url"] for link in page["links"] if is_download_link(link["url"])]
         downloads = []
-        if download_documents:
+        source_download_policy = source.get("download_policy", "discover-links-only")
+        if download_documents and source_download_policy == "download-supported-documents":
             for link in download_links[:5]:
                 downloads.append(save_download(link, content_dir, timeout, max_download_bytes))
 
@@ -350,6 +371,7 @@ def retrieve_source_content(
             "local_links_path": str(links_path),
             "text_chars": len(page["text"]),
             "download_links_found": download_links[:20],
+            "download_policy": source_download_policy,
             "downloads": downloads,
         }
     except Exception as exc:
@@ -453,7 +475,7 @@ def fetch_gho_country_data(
                 rows = len(data.get("value", [])) if isinstance(data, dict) else 0
                 datasets.append(
                     {
-                        "status": "retrieved",
+                        "status": "retrieved" if rows else "retrieved_empty",
                         "indicator_code": code,
                         "indicator_name": indicator.get("name"),
                         "country_code": country_code,
@@ -492,6 +514,8 @@ def build_source_inventory(
                 "source_type": "WHO DAK",
                 "url": source["url"],
                 "relevance": "Domain-specific WHO DAK candidate.",
+                "evidence_scope": source.get("evidence_scope", "global-domain-source"),
+                "download_policy": source.get("download_policy", "download-supported-documents"),
                 "retrieval": check,
             }
         )
@@ -503,6 +527,8 @@ def build_source_inventory(
                 "source_type": "WHO DAK",
                 "url": "",
                 "relevance": "Agent should search WHO publications or SMART Implementation Guides manually.",
+                "evidence_scope": "unresolved-source-discovery",
+                "download_policy": "discover-links-only",
                 "retrieval": {"status": "needs manual search"},
             }
         )
@@ -556,8 +582,8 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
         "",
         "## WHO source inventory",
         "",
-        "| Source | Type | URL | Relevance | URL status | Content status | Local content | Notes |",
-        "|---|---|---|---|---|---|---|---|",
+        "| Source | Type | Evidence scope | URL | Relevance | URL status | Content status | Local content | Notes |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
 
     for source in bundle["sources"]:
@@ -574,6 +600,7 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
                 [
                     source["title"],
                     source["source_type"],
+                    source.get("evidence_scope", ""),
                     source.get("url", ""),
                     source["relevance"],
                     retrieval["status"],
@@ -593,6 +620,8 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
         lines.append("")
         lines.append(f"- Text snapshot: {content.get('local_text_path') or 'none'}")
         lines.append(f"- Link inventory: {content.get('local_links_path') or 'none'}")
+        lines.append(f"- Evidence scope: {source.get('evidence_scope', 'unknown')}")
+        lines.append(f"- Download policy: {content.get('download_policy') or source.get('download_policy', 'unknown')}")
         lines.append(f"- Download links found: {len(download_links)}")
         if downloads:
             lines.append("")
