@@ -11,6 +11,21 @@ Ask for:
 - DAK or WHO guideline scope;
 - any country-specific documents already available.
 
+These values must be passed into the preflight command before drafting:
+
+```bash
+python3 skills/country-profiling/scripts/prepare_profile_run.py \
+  --country "<country>" \
+  --domain "<health-domain>" \
+  --dak-scope "<DAK or WHO guideline scope>"
+```
+
+If country documents are available, pass each one with `--country-document` in this format:
+
+```text
+title|document type|path-or-url|date
+```
+
 ## Recommended WHO or global inputs
 
 - Relevant DAK or SMART Implementation Guide.
@@ -50,3 +65,5 @@ If a country document is missing:
 - do not infer national policy from global guidance;
 - propose likely source owners, such as ministry of health, national public health institute, or WHO country office;
 - flag the gap for human follow-up.
+
+The preflight writes `input-documentation-inventory.md` with supplied documents and missing document classes. The profile must reflect those missing document classes as evidence gaps.

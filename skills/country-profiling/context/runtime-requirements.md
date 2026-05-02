@@ -14,7 +14,20 @@ The Country Profiling retrieval MVP is designed to run in changing Agent environ
 - No optional Python packages are required for the MVP.
 - MCP tooling is optional and documented separately in `mcp-integration-plan.md`.
 
-## Environment check
+## Mandatory preflight check
+
+The Agent should normally run the combined preflight, which includes the environment check:
+
+```bash
+python3 skills/country-profiling/scripts/prepare_profile_run.py \
+  --country "Romania" \
+  --domain "immunization" \
+  --dak-scope "WHO immunization DAK"
+```
+
+The preflight writes `profile-preflight-manifest.json`. The Agent must not draft a profile when `may_draft_profile` is `false`.
+
+## Standalone environment check
 
 Run this before retrieval if the Agent environment is unknown:
 
