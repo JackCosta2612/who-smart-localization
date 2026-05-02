@@ -2,21 +2,21 @@
 
 The Country Profiling retrieval MVP is designed to run in changing Agent environments with minimal setup.
 
-## Required
+## Required for retrieval-assisted scripts
 
 - Python 3.10 or newer.
 - Python standard library only.
-- Outbound HTTPS access for live WHO retrieval.
 - Write access to the output directory, defaulting to `skills/country-profiling/retrieval-output/`.
 
 ## Optional
 
+- Outbound HTTPS access for live WHO retrieval.
 - No optional Python packages are required for the MVP.
 - MCP tooling is optional and documented separately in `mcp-integration-plan.md`.
 
-## Mandatory preflight check
+## Optional preparation check
 
-The Agent should normally run the combined preflight, which includes the environment check:
+The Agent can run the combined preparation command when retrieval-assisted mode is requested or useful:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
@@ -25,7 +25,7 @@ python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --dak-scope "WHO immunization DAK"
 ```
 
-The preflight writes `profile-preflight-manifest.json`. The Agent must not draft a profile when `may_draft_profile` is `false`.
+The preparation command writes `profile-preflight-manifest.json`. Treat it as support for source inventory and gap tracking. If it fails, document-only mode can still proceed when enough user-provided source material is available.
 
 ## Standalone environment check
 

@@ -1,10 +1,12 @@
 # Example input 1
 
-Illustrative example for workflow testing only. Not a validated country profile.
+Placeholder only. Add real WHO and country-specific sources before using this as an evaluation example.
+
+Toy example for structural testing only. Not real clinical guidance, not real national policy, and not a validated country profile.
 
 ## Country
 
-Romania
+Exampleland
 
 ## Target health domain
 
@@ -12,20 +14,13 @@ Immunization
 
 ## WHO/DAK scope
 
-Digital adaptation kit for immunizations: operational requirements for implementing WHO recommendations in digital systems.
+Example immunization DAK scope.
 
-## Candidate WHO sources
+## Supplied source material
 
-- WHO immunization DAK: https://www.who.int/publications/i/item/9789240099456
-- WHO Country Cooperation Strategy, Romania 2024-2030: https://iris.who.int/handle/10665/376618
-- WHO Global Health Observatory OData API: https://www.who.int/data/gho/info/gho-odata-api
-
-## Candidate country-specific sources
-
-- Romania National Health Strategy 2023-2030.
-- National immunization programme documents.
-- National digital health or health information system strategy.
+- `example-who-dak-placeholder.md`: placeholder global DAK source for structural testing only.
+- `example-country-strategy-placeholder.md`: placeholder country strategy source for structural testing only.
 
 ## Notes
 
-This example lists candidate inputs only. The final skill should use actual supplied documents and record retrieval dates.
+The example exists to test profile structure, table headers, source inventory handling, and evidence-gap wording. Replace all placeholder sources with real WHO and country-specific documents before using this skill for evaluation.

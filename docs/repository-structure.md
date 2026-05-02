@@ -30,8 +30,8 @@ skills/<skill-name>/
 
 | Skill | Status |
 |---|---|
-| `skills/country-profiling/` | First planned skill, scaffolded for implementation. |
-| `skills/policy-comparison/` | Existing comparison skill moved into its own package. |
+| `skills/country-profiling/` | First implemented skill, in MVP polish. |
+| `skills/policy-comparison/` | Planned skill package for later integration. |
 
 ## Adding a new skill
 

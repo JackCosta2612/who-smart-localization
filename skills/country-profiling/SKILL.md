@@ -1,8 +1,8 @@
 ---
 name: who-smart-country-profiling
-description: Builds a structured, verifiable country profile for WHO SMART Guidelines and DAK localization. Use when asked to contextualize a country for DAK implementation, gather health system context, identify country-specific documentation needs, or prepare inputs for later localization comparison work.
+description: Builds a structured, source-backed country profile for WHO SMART Guidelines and DAK localization. Use when asked to contextualize a country for DAK implementation, gather health system context, identify country-specific documentation needs, or prepare inputs for later localization comparison work.
 license: MIT
-compatibility: Model-neutral Agent Skill. Uses plain documents by default. WHO/open data retrieval and MCP/FHIR tooling may be used when available.
+compatibility: Model-neutral Agent Skill. Uses supplied documents by default. Optional WHO/open data retrieval and MCP/FHIR tooling may be used when available.
 metadata:
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone, Marionne Blanco Herrera"
@@ -13,125 +13,109 @@ metadata:
 
 ## Purpose
 
-Use this skill to produce a structured, source-backed profile of a country's health system context for a target health domain and DAK implementation.
+Create a structured, source-backed country profile to support WHO SMART Guidelines localization and DAK adaptation preparation.
 
-The profile should help later localization work by identifying known facts, missing evidence, uncertain mappings, reusable regional context, and areas needing human expert input.
+The profile should identify what is known, what is missing, what is uncertain, what may matter for localization, and where human expert review is needed.
 
-## When to use this skill
+## When to use
 
-Use this skill when the task asks you to:
+Use this skill for:
 
-- contextualize a country for DAK implementation;
-- prepare a country profile before localizing WHO SMART content;
-- gather open WHO and country health system evidence;
-- identify country-specific implementation constraints;
-- create reusable inputs for a later policy comparison or adaptation task.
+- country profiling before DAK localization;
+- DAK localization preparation;
+- national policy, health system, or implementation context extraction;
+- implementation context review for a target health domain;
+- reusable inputs for later policy comparison or adaptation work.
 
-## When not to use this skill
+## When not to use
 
-Do not use this skill to:
+Do not use this skill for:
 
-- make clinical decisions;
-- produce final national policy;
-- rank countries clinically or politically;
-- invent country context where evidence is missing;
-- treat open data as a substitute for local expert validation.
+- clinical decision-making or patient advice;
+- final national policy drafting;
+- unsourced country, policy, clinical, or WHO claims;
+- replacing WHO, national, legal, policy, clinical, or country expert review.
 
-## Required inputs
+## Expected inputs
 
-Minimum input:
+Minimum expected inputs:
 
-1. Country name.
-2. Target health domain.
-3. DAK, WHO guidance, or SMART artifact scope.
+1. Target country.
+2. Health domain.
+3. DAK scope, SMART Guidelines area, WHO guideline, or implementation topic.
 
-Recommended input:
+Helpful inputs:
 
-1. National health strategy or health sector plan.
-2. Domain-specific national policy or programme document.
-3. Country Cooperation Strategy or equivalent WHO country document.
-4. Relevant WHO indicators or open datasets.
-5. Retrieval date and source URLs for every document or dataset.
+- source documents pasted into the prompt, attached as files, or already present in the conversation;
+- national health strategies, programme guidance, digital health documents, schedules, forms, registries, data dictionaries, or datasets;
+- WHO or global sources relevant to the DAK or health domain;
+- source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
 
-See `context/input-documentation.md` for input guidance.
+Inputs may be unstructured. Normalize the prompt, attached files, conversation context, and optional retrieval outputs into a source inventory before writing the profile.
+
+## Execution modes
+
+Use document-only mode by default when the user provides enough source material directly.
+
+Use retrieval-assisted mode only when scripts or tools are available and the user asks for, allows, or clearly needs retrieval support. Retrieval and preflight scripts can prepare a run, create an inventory, retrieve candidate WHO sources, or check environment readiness. They are optional support, not mandatory blockers.
+
+If scripts fail, continue in document-only mode when enough user-provided source material is available. If scripts fail and source material is insufficient, ask for sources or produce only a limited skeleton/gap-analysis profile with explicit evidence gaps.
+
+See `context/execution-modes.md` for the decision rules.
 
 ## Workflow
 
-1. Confirm the country, target health domain, and DAK scope.
-2. Run the mandatory preflight before writing conclusions:
+1. Identify the target country, health domain, and DAK or SMART Guidelines scope.
+2. Build a source inventory from user-provided material and any optional retrieved material.
+3. Decide whether the available sources are sufficient for a preliminary profile.
+4. Draft the profile using `context/profile-schema.md`.
+5. Mark missing information as evidence gaps.
+6. Separate facts, uncertainties, assumptions, and expert-review needs.
+7. Do not fabricate missing country context.
+
+## Output requirements
+
+Always follow `context/profile-schema.md`.
+
+Every substantive country, policy, implementation, or data claim should include:
+
+- source name;
+- source type;
+- source URL, local file path, or dataset identifier;
+- publication or retrieval date when available;
+- confidence level;
+- review need.
+
+## Optional script usage
+
+Scripts in `scripts/` may be used to prepare or validate work:
 
 ```bash
+python3 skills/country-profiling/scripts/check_environment.py
+
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
   --domain "<health-domain>" \
   --dak-scope "<DAK or WHO artifact scope>"
+
+python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
 ```
 
-3. Read `profile-preflight-manifest.json`. If `may_draft_profile` is `false`, stop and report the failed gate instead of drafting the profile.
-4. Review the generated WHO retrieval bundle and `input-documentation-inventory.md`.
-5. Carry missing country document classes into evidence gaps and human-review actions.
-6. Separate WHO/global sources from country-specific sources.
-7. Extract facts relevant to DAK implementation, including health system structure, governance, financing, workforce, digital health, data systems, and domain-specific service delivery.
-8. Record each finding with source evidence and retrieval date.
-9. Label each finding as known, uncertain, missing, or requiring expert review.
-10. Produce the profile using the schema in `context/profile-schema.md`.
-11. Preserve gaps and uncertainty for later localization skills instead of resolving them by assumption.
-
-See `context/preflight-enforcement.md` for enforcement rules.
-
-## Output requirements
-
-Return a markdown country profile with the required sections in `context/profile-schema.md`.
-
-Every substantive claim should include:
-
-- source name;
-- source type;
-- source URL or local file path;
-- retrieval or publication date when available;
-- confidence level;
-- review need.
-
-## WHO data access
-
-For general deployment, this skill includes a predefined WHO retrieval runner:
+The WHO retrieval helper can also be run directly when retrieval assistance is useful:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+python3 skills/country-profiling/scripts/retrieve_who_sources.py \
+  --country "<country>" \
+  --domain "<health-domain>"
 ```
 
-Direct use of this runner is allowed for debugging. During normal skill execution, the Agent must use `scripts/prepare_profile_run.py` so runtime checks, WHO retrieval, and input documentation inventory are all enforced together.
+Script outputs are support artifacts. A failed retrieval or preflight run does not automatically prevent profile drafting if supplied sources are adequate. A successful retrieval does not prove that country-specific evidence exists; generic WHO source discovery must not be treated as country evidence.
 
-The runner produces a markdown and JSON retrieval bundle under `skills/country-profiling/retrieval-output/` by default. It retrieves more than URLs:
+## Safety and uncertainty
 
-- WHO HTML source pages are fetched and saved as text snapshots under a `content/` subfolder.
-- Links discovered on source pages are saved as JSON link inventories.
-- Supported downloadable files, such as PDFs and spreadsheets, are downloaded when they are below the configured size limit.
-- WHO Global Health Observatory indicator searches are followed by country-filtered data sample retrieval when a country code is found.
-
-If any source cannot be fetched, the runner records the failure as a reviewable evidence gap instead of stopping the skill.
-
-The Agent must distinguish retrieved generic WHO source pages from country-specific evidence. A reachable landing page is not enough to support a country-specific profile finding unless the retrieval bundle includes a matching country document, country-filtered dataset, or user-supplied country source.
-
-The retrieval bundle includes `evidence_scope` and `download_policy` metadata. Treat `generic-source-discovery` as a pointer for follow-up retrieval, not as profile evidence about the country.
-
-The lower-level helper `scripts/who_gho_client.py` can still be used for direct GHO OData lookups.
-
-See `context/who-data-retrieval.md` for recommended WHO sources and retrieval patterns.
-See `context/retrieval-limitations.md` for known MVP retrieval gaps.
-
-## MCP-aware behavior
-
-MCP integration is recommended later for structured SMART/FHIR artifacts and terminology-aware retrieval, but it should not block the first prototype.
-
-See `context/mcp-integration-plan.md` for the proposed implementation plan.
-
-## Safety and uncertainty rules
-
-- Do not invent health system facts, policy statements, indicators, or citations.
-- Prefer "not found in provided sources" over speculation.
-- Keep country-specific documentation separate from WHO global sources.
-- Do not draft a profile if the required preflight failed.
-- Do not infer country-specific policy from missing country documents.
-- Flag stale, unclear, or conflicting evidence.
-- Treat all outputs as preparation for human review.
+- Preserve traceability from claims to sources.
+- Use explicit source references wherever possible.
+- Label missing, stale, conflicting, or uncertain content.
+- Keep WHO/global guidance separate from country-specific evidence.
+- Do not infer national policy from missing country documents.
+- Recommend human expert review where evidence is incomplete, ambiguous, conflicting, or locally sensitive.

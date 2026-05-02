@@ -11,7 +11,7 @@ Ask for:
 - DAK or WHO guideline scope;
 - any country-specific documents already available.
 
-These values must be passed into the preflight command before drafting:
+When retrieval-assisted mode is useful, these values can be passed into the preparation command:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
@@ -66,4 +66,4 @@ If a country document is missing:
 - propose likely source owners, such as ministry of health, national public health institute, or WHO country office;
 - flag the gap for human follow-up.
 
-The preflight writes `input-documentation-inventory.md` with supplied documents and missing document classes. The profile must reflect those missing document classes as evidence gaps.
+The optional preparation script writes `input-documentation-inventory.md` with supplied documents and missing document classes. The profile should reflect missing document classes as evidence gaps whether they are identified by the script or manually from the supplied material.
