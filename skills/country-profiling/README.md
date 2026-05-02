@@ -39,15 +39,20 @@ country-profiling/
 
 This is scaffolding for the first implementation pass. It defines the expected inputs, output profile structure, WHO source retrieval guidance, an MCP implementation plan, and basic structural validation.
 
-## Predefined WHO retrieval task
+## Mandatory preflight
 
-When this skill is called, the Agent should run the WHO retrieval task before drafting the country profile:
+When this skill is called, the Agent must run the preflight before drafting the country profile:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+python3 skills/country-profiling/scripts/prepare_profile_run.py \
+  --country "<country>" \
+  --domain "<health-domain>" \
+  --dak-scope "<DAK or WHO artifact scope>"
 ```
 
-The task writes a markdown and JSON retrieval bundle. It fetches candidate WHO source pages, saves text snapshots and link inventories, downloads supported linked documents when safely sized, looks up WHO GHO country metadata when possible, retrieves selected country-filtered GHO data samples, and records skipped or failed retrievals as explicit evidence gaps.
+The preflight checks the runtime environment, runs WHO retrieval, and writes an input documentation inventory. It writes a manifest with `may_draft_profile`; if that value is `false`, the Agent must not draft the profile.
+
+The WHO retrieval task writes a markdown and JSON retrieval bundle. It fetches candidate WHO source pages, saves text snapshots and link inventories, downloads supported linked documents when safely sized, looks up WHO GHO country metadata when possible, retrieves selected country-filtered GHO data samples, and records skipped or failed retrievals as explicit evidence gaps.
 
 To check the runtime first:
 

@@ -58,19 +58,26 @@ See `context/input-documentation.md` for input guidance.
 ## Workflow
 
 1. Confirm the country, target health domain, and DAK scope.
-2. Run the predefined WHO retrieval task before writing conclusions:
+2. Run the mandatory preflight before writing conclusions:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
+python3 skills/country-profiling/scripts/prepare_profile_run.py \
+  --country "<country>" \
+  --domain "<health-domain>" \
+  --dak-scope "<DAK or WHO artifact scope>"
 ```
 
-3. Review the generated retrieval bundle and add any user-supplied country documents to the source inventory.
-4. Separate WHO/global sources from country-specific sources.
-5. Extract facts relevant to DAK implementation, including health system structure, governance, financing, workforce, digital health, data systems, and domain-specific service delivery.
-6. Record each finding with source evidence and retrieval date.
-7. Label each finding as known, uncertain, missing, or requiring expert review.
-8. Produce the profile using the schema in `context/profile-schema.md`.
-9. Preserve gaps and uncertainty for later localization skills instead of resolving them by assumption.
+3. Read `profile-preflight-manifest.json`. If `may_draft_profile` is `false`, stop and report the failed gate instead of drafting the profile.
+4. Review the generated WHO retrieval bundle and `input-documentation-inventory.md`.
+5. Carry missing country document classes into evidence gaps and human-review actions.
+6. Separate WHO/global sources from country-specific sources.
+7. Extract facts relevant to DAK implementation, including health system structure, governance, financing, workforce, digital health, data systems, and domain-specific service delivery.
+8. Record each finding with source evidence and retrieval date.
+9. Label each finding as known, uncertain, missing, or requiring expert review.
+10. Produce the profile using the schema in `context/profile-schema.md`.
+11. Preserve gaps and uncertainty for later localization skills instead of resolving them by assumption.
+
+See `context/preflight-enforcement.md` for enforcement rules.
 
 ## Output requirements
 
@@ -92,6 +99,8 @@ For general deployment, this skill includes a predefined WHO retrieval runner:
 ```bash
 python3 skills/country-profiling/scripts/retrieve_who_sources.py --country "<country>" --domain "<health-domain>"
 ```
+
+Direct use of this runner is allowed for debugging. During normal skill execution, the Agent must use `scripts/prepare_profile_run.py` so runtime checks, WHO retrieval, and input documentation inventory are all enforced together.
 
 The runner produces a markdown and JSON retrieval bundle under `skills/country-profiling/retrieval-output/` by default. It retrieves more than URLs:
 
@@ -117,5 +126,7 @@ See `context/mcp-integration-plan.md` for the proposed implementation plan.
 - Do not invent health system facts, policy statements, indicators, or citations.
 - Prefer "not found in provided sources" over speculation.
 - Keep country-specific documentation separate from WHO global sources.
+- Do not draft a profile if the required preflight failed.
+- Do not infer country-specific policy from missing country documents.
 - Flag stale, unclear, or conflicting evidence.
 - Treat all outputs as preparation for human review.
