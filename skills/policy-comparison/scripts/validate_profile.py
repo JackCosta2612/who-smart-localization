@@ -2,7 +2,7 @@
 """Validate the structure of a Country Profiling markdown output.
 
 This validator checks format and controlled values only. It does not assess
-epidemiological, policy, country, legal, WASH, or WHO interpretation correctness.
+clinical, policy, country, legal, or WHO interpretation correctness.
 """
 
 from __future__ import annotations
@@ -12,23 +12,18 @@ import sys
 from pathlib import Path
 
 REQUIRED_SECTIONS = [
-    "# Country healthcare profile:",
+    "# Country profile:",
     "## Profile metadata",
     "## Executive summary",
     "## Source inventory",
-    "## Country context snapshot",
-    "## Population health overview",
-    "## Main health issues and burden",
-    "## Health system organization and capacity",
-    "## Healthcare access and coverage",
-    "## Sanitary conditions and environmental health",
-    "## Health financing and affordability",
-    "## Health workforce, infrastructure, and supply availability",
-    "## Digital health and health information systems",
-    "## Equity, vulnerable groups, and regional variation",
-    "## Current concerns, risks, and watchpoints",
-    "## Policy-analysis readiness",
-    "## Evidence gaps and expert input needed",
+    "## Country and health system context",
+    "## DAK implementation context",
+    "## Domain-specific considerations",
+    "## Data and digital health context",
+    "## Known facts",
+    "## Uncertainties and evidence gaps",
+    "## Human expert input needed",
+    "## Reuse opportunities for regional adaptation",
     "## Sources",
 ]
 
@@ -42,10 +37,12 @@ SOURCE_COLUMNS = [
     "Status",
 ]
 
+FACT_COLUMNS = ["Area", "Finding", "Evidence", "Source", "Confidence", "Review need"]
+
 GAP_COLUMNS = [
     "Gap or uncertainty",
-    "Why it matters",
-    "Suggested next source or action",
+    "Why it matters for DAK implementation",
+    "Suggested next source",
     "Review owner",
 ]
 
@@ -55,6 +52,17 @@ ALLOWED_SOURCE_STATUS = {
     "Needs retrieval",
     "Needs expert validation",
 }
+
+ALLOWED_CONFIDENCE = {"High", "Medium", "Low"}
+
+ALLOWED_REVIEW_NEED = {
+    "No immediate review",
+    "Confirm with country expert",
+    "Check newer source",
+    "Validate domain interpretation",
+    "Resolve conflicting evidence",
+}
+
 
 def parse_markdown_row(line: str) -> list[str]:
     stripped = line.strip()
@@ -115,7 +123,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Validate the markdown structure of a Country Profiling output. "
-            "This does not validate epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "This does not validate clinical, policy, country, legal, or WHO correctness."
         )
     )
     parser.add_argument("markdown_file", help="Country profile markdown file to validate.")
@@ -125,7 +133,7 @@ def main(argv: list[str]) -> int:
     if not target.is_file():
         print(f"Error: file not found: {target}")
         print(
-            "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
         )
         return 1
 
@@ -146,8 +154,19 @@ def main(argv: list[str]) -> int:
         if row[6] not in ALLOWED_SOURCE_STATUS:
             errors.append(f"Line {line_number}: invalid source Status '{row[6]}'.")
 
+    fact_errors, fact_rows = validate_table(lines, FACT_COLUMNS, "Known facts")
+    errors.extend(fact_errors)
+    for line_number, row in fact_rows:
+        if len(row) != len(FACT_COLUMNS):
+            errors.append(f"Line {line_number}: known facts row has {len(row)} columns.")
+            continue
+        if row[4] not in ALLOWED_CONFIDENCE:
+            errors.append(f"Line {line_number}: invalid Confidence '{row[4]}'.")
+        if row[5] not in ALLOWED_REVIEW_NEED:
+            errors.append(f"Line {line_number}: invalid Review need '{row[5]}'.")
+
     gap_errors, _gap_rows = validate_table(
-        lines, GAP_COLUMNS, "Evidence gaps and expert input needed"
+        lines, GAP_COLUMNS, "Uncertainties and evidence gaps"
     )
     errors.extend(gap_errors)
 
@@ -156,13 +175,13 @@ def main(argv: list[str]) -> int:
         for error in errors:
             print(f"- {error}")
         print(
-            "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
         )
         return 1
 
     print(f"Structural validation passed for {target}.")
     print(
-        "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+        "Note: this validator checks structure only, not clinical, policy, country, legal, or WHO correctness."
     )
     return 0
 

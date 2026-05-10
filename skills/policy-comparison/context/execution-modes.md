@@ -8,10 +8,10 @@ Use document-only mode when the user provides enough source material in the prom
 
 In this mode, the Agent should:
 
-- identify the target country and optional health focus, region, population group, or downstream use;
+- identify the target country, health domain, and DAK or SMART Guidelines scope;
 - normalize the supplied material into the source inventory from `profile-schema.md`;
 - draft only from the supplied material;
-- mark missing source classes and missing facts as evidence gaps;
+- mark missing document classes and missing facts as evidence gaps;
 - avoid using assumptions to fill country context.
 
 ## Retrieval-assisted mode
@@ -21,9 +21,10 @@ Use retrieval-assisted mode when scripts or tools are available and the user ask
 The helper command is:
 
 ```bash
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
+python3 skills/policy-comparison/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --domain "<health-domain>" \
+  --dak-scope "<DAK or WHO artifact scope>"
 ```
 
 Country documents can be listed with repeated `--country-document` arguments:
@@ -45,39 +46,38 @@ Treat these outputs as source-inventory support. They can improve traceability, 
 Profile drafting may proceed when:
 
 - a target country is known;
-- at least one relevant source is available, or the user explicitly requests a skeleton/gap-analysis profile.
+- a health domain or DAK scope is known;
+- at least one relevant country-specific source is available, or the user explicitly requests a skeleton/gap-analysis profile.
 
 Profile drafting should be limited or paused when:
 
 - no country is specified;
-- no relevant source is available and the user did not ask for a skeleton;
-- the provided material is not relevant to country healthcare context.
+- no health domain or DAK scope is specified;
+- no country-specific source is available and the user did not ask for a skeleton;
+- the provided material is not relevant to the country or domain.
 
 If scripts are unavailable or fail, the Agent may still proceed in document-only mode when user-provided sources satisfy the conditions above. If both scripts fail and sources are insufficient, ask for source material or produce only a limited skeleton/gap-analysis profile if the user requested one.
 
 ## Handling missing sources
 
-Missing content should become evidence gaps, not assumptions. This keeps later policy comparison work honest about what still requires retrieval, review, or local expertise.
+Missing content should become evidence gaps, not assumptions. This keeps later localization work honest about what still requires retrieval, review, or local expertise.
 
 Examples of evidence gaps:
 
-- missing country health profile or national health strategy;
-- missing recent burden-of-disease or surveillance source;
-- missing health financing or coverage source;
-- missing WASH, sanitary, or environmental health source;
-- missing health workforce or facility-capacity source;
+- missing national health strategy;
+- missing domain-specific national programme guidance;
 - missing digital health or health information system documentation;
-- missing authoritative policy documents for the downstream comparison topic.
+- missing local schedule, registry, reporting form, data dictionary, or terminology source.
 
 ## Handling conflicting sources
 
 When sources conflict:
 
 - record both sources in the source inventory;
-- describe the conflict in `Evidence gaps and expert input needed`;
+- describe the conflict in `Uncertainties and evidence gaps`;
 - avoid choosing one source as authoritative unless the provided evidence clearly supports that choice;
 - assign a human expert review action.
 
 ## Retrieval cautions
 
-Retrieved WHO/global sources may be globally relevant without being country-specific evidence. Generic WHO landing pages, broad dashboards, empty datasets, or unresolved source discovery should be recorded as candidate sources or evidence gaps, not as proof of national health conditions, coverage, sanitary conditions, or implementation context.
+Retrieved WHO/global sources may be globally relevant without being country-specific evidence. Generic WHO landing pages, broad dashboards, empty datasets, or unresolved source discovery should be recorded as candidate sources or evidence gaps, not as proof of national policy or implementation context.

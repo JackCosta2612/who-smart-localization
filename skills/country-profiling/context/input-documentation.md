@@ -1,23 +1,21 @@
 # Input documentation guidance
 
-The skill should work from supplied documents first. Retrieval can support the workflow, but country-specific policy documents should be treated as explicit inputs whenever possible.
+The skill should work from supplied documents first. Retrieval can support the workflow, but country-specific sources should be treated as explicit inputs whenever possible.
 
 ## Minimum input request
 
 Ask for:
 
 - country name;
-- target health domain;
-- DAK or WHO guideline scope;
-- any country-specific documents already available.
+- optional health focus, region, population group, or intended downstream use;
+- any country-specific health documents already available.
 
 When retrieval-assisted mode is useful, these values can be passed into the preparation command:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --domain "<health-domain>" \
-  --dak-scope "<DAK or WHO guideline scope>"
+  --focus "<optional health focus>"
 ```
 
 If country documents are available, pass each one with `--country-document` in this format:
@@ -26,44 +24,38 @@ If country documents are available, pass each one with `--country-document` in t
 title|document type|path-or-url|date
 ```
 
-## Recommended WHO or global inputs
+## Recommended source classes
 
-- Relevant DAK or SMART Implementation Guide.
-- WHO guideline or normative source behind the DAK.
-- WHO Global Health Observatory indicators relevant to the domain.
-- WHO Country Cooperation Strategy or country brief.
-- WHO SCORE country summary, when the task needs health information system context.
-- Global Health Expenditure Database outputs, when financing context matters.
-- National Health Workforce Accounts or health workforce indicators, when workforce context matters.
-
-## Recommended country-specific inputs
-
+- WHO country profile, country cooperation strategy, regional observatory profile, or equivalent country health overview.
 - National health strategy or health sector strategic plan.
-- Domain-specific national programme guideline.
-- Digital health strategy or health information system strategy.
-- National health information system policy.
-- National immunization, HIV, TB, maternal health, or other programme plans depending on the target domain.
-- National formulary, schedule, registry, reporting form, or data dictionary when relevant to the DAK.
+- Recent burden-of-disease, mortality, surveillance, health statistics, census, DHS/MICS, or household survey source.
+- Health financing, UHC, insurance, expenditure, or financial protection source.
+- Health workforce and facility-capacity source.
+- WASH, sanitary conditions, environmental health, pollution, climate, or vector-risk source.
+- Digital health strategy, health information system strategy, CRVS source, surveillance-system source, or data-quality report.
+- Domain-specific national programme documents only when a focus area is requested.
+- Downstream policy documents only when the profile is being used to prepare later policy comparison.
 
 ## Input quality checklist
 
 Before profiling, record:
 
-- whether each source is official, draft, archived, or secondary;
+- whether each source is official, draft, archived, secondary, modelled, or survey-based;
 - publication year;
 - retrieval date;
 - language;
-- country ministry or agency responsible;
-- whether the source covers the target domain directly;
+- country ministry, agency, or organization responsible;
+- whether the source covers the country nationally or only a region/population group;
+- whether the source covers the optional health focus directly;
 - whether a newer version may exist.
 
 ## Handling missing inputs
 
-If a country document is missing:
+If a country source is missing:
 
 - mark it as `Needs retrieval`;
-- do not infer national policy from global guidance;
-- propose likely source owners, such as ministry of health, national public health institute, or WHO country office;
+- do not infer national health conditions from global guidance alone;
+- propose likely source owners, such as ministry of health, national statistics office, public health institute, WHO country office, UNICEF, World Bank, regional observatory, or relevant programme authority;
 - flag the gap for human follow-up.
 
-The optional preparation script writes `input-documentation-inventory.md` with supplied documents and missing document classes. The profile should reflect missing document classes as evidence gaps whether they are identified by the script or manually from the supplied material.
+The optional preparation script writes `input-documentation-inventory.md` with supplied documents and missing source classes. The profile should reflect missing source classes as evidence gaps whether they are identified by the script or manually from the supplied material.

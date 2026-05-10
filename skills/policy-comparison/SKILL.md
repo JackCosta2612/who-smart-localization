@@ -1,106 +1,123 @@
 ---
-name: who-smart-localization
-description: Supports localization of WHO SMART Guidelines by comparing WHO global guidance or SMART Guideline components with country-specific policy material. Use when asked to identify alignment, divergence, missing elements, terminology differences, localization gaps, or country adaptation issues in health guidance.
+name: who-smart-policy-comparison
+description: Transitional starting point for a future WHO SMART policy-comparison skill, migrated from the previous policy-oriented country-profiling package. Use later when developing comparison of WHO guidance, DAK context, and country-specific policy material.
 license: MIT
-compatibility: Model-neutral Agent Skill. Optional MCP/FHIR terminology tools may be used when available.
+compatibility: Model-neutral Agent Skill. Uses supplied documents by default. Optional WHO/open data retrieval and MCP/FHIR tooling may be used when available.
 metadata:
   project: "USI NLP WHO SMART Guidelines project"
-  team: "Giacomo Costantino, Leonardo Gravellone, Marionne Blanco Herrera"
+  team: "Giacomo Costantino, Leonardo Gravellone"
   version: "0.1"
 ---
 
-# WHO SMART Localization Skill
+# WHO SMART Policy Comparison Skill
+
+This package is a migrated starting point from the previous policy-oriented country-profiling skill. It has not yet been redesigned as the final policy-comparison skill.
 
 ## Purpose
 
-Use this skill to compare WHO global guidance or SMART Guideline components with country-specific policy material and produce a structured localization matrix for human review.
+Create a structured, source-backed country profile to support WHO SMART Guidelines localization and DAK adaptation preparation.
 
-The goal is traceable comparison, not autonomous policy or clinical decision-making.
+The profile should identify what is known, what is missing, what is uncertain, what may matter for localization, and where human expert review is needed.
 
-## When to use this skill
+## When to use
 
-Use this skill when the task asks you to:
+Use this skill for:
 
-- compare WHO guidance with local policy text;
-- identify alignment, partial alignment, divergence, missing content, or terminology gaps;
-- summarize localization findings in a structured table;
-- prepare material for expert review during country adaptation work.
+- country profiling before DAK localization;
+- DAK localization preparation;
+- national policy, health system, or implementation context extraction;
+- implementation context review for a target health domain;
+- reusable inputs for later policy comparison or adaptation work.
 
-## When not to use this skill
+## When not to use
 
-Do not use this skill to:
+Do not use this skill for:
 
-- give patient-specific medical advice;
-- invent or finalize national policy;
-- judge clinical correctness without source evidence;
-- replace legal, policy, or clinical expert review;
-- build a full FHIR workflow unless that is explicitly requested.
+- clinical decision-making or patient advice;
+- final national policy drafting;
+- unsourced country, policy, clinical, or WHO claims;
+- replacing WHO, national, legal, policy, clinical, or country expert review.
 
-## Required inputs
+## Expected inputs
 
-Provide:
+Minimum expected inputs:
 
-1. A WHO source statement, recommendation, or structured SMART Guideline component.
-2. A local policy excerpt or country-specific implementation statement.
-3. Source identifiers or citations when available.
-4. Enough surrounding context to interpret the excerpt safely.
+1. Target country.
+2. Health domain.
+3. DAK scope, SMART Guidelines area, WHO guideline, or implementation topic.
 
-If the local source is missing, incomplete, or ambiguous, state that explicitly instead of inferring content.
+Helpful inputs:
+
+- source documents pasted into the prompt, attached as files, or already present in the conversation;
+- national health strategies, programme guidance, digital health documents, schedules, forms, registries, data dictionaries, or datasets;
+- WHO or global sources relevant to the DAK or health domain;
+- source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
+
+Inputs may be unstructured. Normalize the prompt, attached files, conversation context, and optional retrieval outputs into a source inventory before writing the profile.
+
+## Execution modes
+
+Use document-only mode by default when the user provides enough source material directly.
+
+Use retrieval-assisted mode only when scripts or tools are available and the user asks for, allows, or clearly needs retrieval support. Retrieval and preflight scripts can prepare a run, create an inventory, retrieve candidate WHO sources, or check environment readiness. They are optional support, not mandatory blockers.
+
+If scripts fail, continue in document-only mode when enough user-provided source material is available. If scripts fail and source material is insufficient, ask for sources or produce only a limited skeleton/gap-analysis profile with explicit evidence gaps.
+
+See `context/execution-modes.md` for the decision rules.
 
 ## Workflow
 
-1. Read the WHO source and local source closely.
-2. Separate claims, constraints, and terminology in each source.
-3. Compare meaning, not just wording.
-4. Classify the relationship using the controlled alignment categories in `context/localization-categories.md`.
-5. Extract direct evidence from both sources.
-6. Record uncertainty and assign a confidence level.
-7. Recommend a human review action when the row needs follow-up.
+1. Identify the target country, health domain, and DAK or SMART Guidelines scope.
+2. Build a source inventory from user-provided material and any optional retrieved material.
+3. Decide whether the available sources are sufficient for a preliminary profile.
+4. Draft the profile using `context/profile-schema.md`.
+5. Mark missing information as evidence gaps.
+6. Separate facts, uncertainties, assumptions, and expert-review needs.
+7. Do not fabricate missing country context.
 
-## Alignment categories
+## Output requirements
 
-Use only these controlled categories unless the project maintainers explicitly change them:
+Always follow `context/profile-schema.md`.
 
-- `Aligned`
-- `Partially aligned`
-- `Divergent`
-- `Missing in local policy`
-- `More specific in local policy`
-- `More restrictive in local policy`
-- `Unclear or requires expert review`
+Every substantive country, policy, implementation, or data claim should include:
 
-See `context/localization-categories.md` for definitions and examples.
+- source name;
+- source type;
+- source URL, local file path, or dataset identifier;
+- publication or retrieval date when available;
+- confidence level;
+- review need.
 
-## Expected output format
+## Optional script usage
 
-Return a markdown localization matrix with the header defined in `context/output-schema.md`.
+Scripts in `scripts/` may be used to prepare or validate work:
 
-Minimum required columns:
+```bash
+python3 skills/policy-comparison/scripts/check_environment.py
 
-- `WHO source statement`
-- `Local policy statement`
-- `Alignment status`
-- `Difference type`
-- `Explanation`
-- `Evidence from WHO source`
-- `Evidence from local source`
-- `Confidence`
-- `Human review action`
+python3 skills/policy-comparison/scripts/prepare_profile_run.py \
+  --country "<country>" \
+  --domain "<health-domain>" \
+  --dak-scope "<DAK or WHO artifact scope>"
 
-## Safety and uncertainty rules
+python3 skills/policy-comparison/scripts/validate_profile.py <profile.md>
+```
 
-- Preserve traceability to the provided source text.
-- Do not invent local policy content, WHO guidance, codes, or citations.
-- If evidence is incomplete, say so directly.
-- Use `Unclear or requires expert review` when classification is not well supported.
-- Treat the output as a review aid, not as a final policy decision.
+The WHO retrieval helper can also be run directly when retrieval assistance is useful:
 
-## Optional MCP-aware behavior
+```bash
+python3 skills/policy-comparison/scripts/retrieve_who_sources.py \
+  --country "<country>" \
+  --domain "<health-domain>"
+```
 
-If terminology or FHIR-aware tools are available, you may optionally:
+Script outputs are support artifacts. A failed retrieval or preflight run does not automatically prevent profile drafting if supplied sources are adequate. A successful retrieval does not prove that country-specific evidence exists; generic WHO source discovery must not be treated as country evidence.
 
-1. Identify relevant WHO concepts, codes, or terminology bindings.
-2. Inspect ValueSets or code lookups that clarify local terminology mapping.
-3. Flag uncertain mappings for expert review instead of forcing a conclusion.
+## Safety and uncertainty
 
-This behavior is optional. The default workflow must still work with plain documents only.
+- Preserve traceability from claims to sources.
+- Use explicit source references wherever possible.
+- Label missing, stale, conflicting, or uncertain content.
+- Keep WHO/global guidance separate from country-specific evidence.
+- Do not infer national policy from missing country documents.
+- Recommend human expert review where evidence is incomplete, ambiguous, conflicting, or locally sensitive.

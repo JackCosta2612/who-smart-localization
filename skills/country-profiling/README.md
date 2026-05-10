@@ -1,12 +1,12 @@
 # Country Profiling Skill
 
-The Country Profiling skill creates a structured, source-backed country profile for WHO SMART Guidelines localization and DAK adaptation preparation.
+The Country Profiling skill creates a source-backed textual healthcare overview for a target country.
 
-It helps the team understand what is already known about a country and health domain, what is missing, what may affect localization, and what needs human expert review before detailed policy comparison or adaptation work.
+It helps the team understand the country's population health context, main health concerns, health system organization, access and coverage, sanitary and environmental health conditions, financing, workforce, infrastructure, digital health environment, equity issues, and evidence gaps before moving into policy-specific comparison.
 
 ## Why this matters
 
-WHO SMART Guidelines and Digital Adaptation Kits are global starting points. Local use depends on country context: policy, service delivery, reporting systems, terminology, digital health infrastructure, and available data. A country profile makes that context visible before the team starts adapting content.
+Policy comparison and localization depend on country context. A policy excerpt can look aligned or divergent for reasons that are invisible without knowing the health system, coverage model, service delivery constraints, disease burden, WASH conditions, data systems, and regional inequalities. The country profile makes that context explicit first.
 
 ## Execution modes
 
@@ -16,7 +16,7 @@ Use this by default when the user provides enough source material in the prompt,
 
 The Agent should:
 
-- identify the target country, health domain, and DAK or SMART Guidelines scope;
+- identify the target country and optional health focus;
 - build a source inventory from supplied material;
 - draft the profile using only the supplied sources;
 - mark missing information as evidence gaps.
@@ -40,8 +40,7 @@ Prepare a retrieval-assisted run:
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --domain "<health-domain>" \
-  --dak-scope "<DAK or WHO artifact scope>"
+  --focus "<optional health focus>"
 ```
 
 Add known country documents when available:
@@ -49,8 +48,7 @@ Add known country documents when available:
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "Romania" \
-  --domain "immunization" \
-  --dak-scope "WHO immunization DAK" \
+  --focus "general healthcare overview" \
   --country-document "Document title|Document type|/path/or/url|2024"
 ```
 
@@ -59,7 +57,7 @@ Run WHO retrieval directly when useful:
 ```bash
 python3 skills/country-profiling/scripts/retrieve_who_sources.py \
   --country "<country>" \
-  --domain "<health-domain>"
+  --focus "<optional health focus>"
 ```
 
 If scripts fail but the user has supplied enough sources, the Agent can still draft in document-only mode. If sources are insufficient, the Agent should ask for more sources or produce only a skeleton/gap-analysis profile when requested.
@@ -70,15 +68,16 @@ If scripts fail but the user has supplied enough sources, the Agent can still dr
 python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
 ```
 
-The validator checks structure, required sections, table headers, and controlled values. It does not validate clinical correctness, national policy correctness, country facts, WHO interpretation, or legal suitability.
+The validator checks structure, required sections, table headers, and controlled values. It does not validate epidemiological correctness, national policy correctness, country facts, WHO interpretation, WASH interpretation, or legal suitability.
 
 ## What this skill does not do
 
 - It does not make clinical decisions.
 - It does not provide patient advice.
 - It does not draft final national policy.
+- It does not compare WHO policy with country policy.
 - It does not invent missing country context.
-- It does not replace WHO, national, clinical, legal, policy, or country expert review.
+- It does not replace WHO, national, clinical, legal, policy, epidemiological, WASH, environmental health, or country expert review.
 
 ## Folder structure
 
@@ -95,8 +94,7 @@ country-profiling/
 │   ├── runtime-requirements.md
 │   └── who-data-retrieval.md
 ├── examples/
-│   ├── example-input-1.md
-│   └── example-output-1.md
+│   └── example-format.md
 ├── scripts/
 │   ├── check_environment.py
 │   ├── prepare_profile_run.py
@@ -108,4 +106,4 @@ country-profiling/
 
 ## Current status
 
-MVP polish. The skill contract, schema, optional retrieval helpers, and structural validator are in place. Final examples and first evaluation tests are the next phase.
+Pivoted documentation draft. The skill contract, schema, optional retrieval helpers, and structural validator are aligned to healthcare country profiling. Real examples are intentionally not included yet.

@@ -30,8 +30,8 @@ skills/<skill-name>/
 
 | Skill | Status |
 |---|---|
-| `skills/country-profiling/` | First implemented skill, in MVP polish. |
-| `skills/policy-comparison/` | Planned skill package for later integration. |
+| `skills/country-profiling/` | Implemented skill, pivoted to source-backed textual healthcare country profiles. |
+| `skills/policy-comparison/` | Migrated starting point for later policy-comparison iteration. |
 
 ## Adding a new skill
 

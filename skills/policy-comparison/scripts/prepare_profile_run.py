@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare optional support artifacts for a country healthcare profile run.
+"""Prepare optional support artifacts for a country profile run.
 
 This helper checks runtime readiness, runs optional WHO source retrieval, and
 writes an input documentation inventory. It supports retrieval-assisted mode
@@ -15,14 +15,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-DEFAULT_OUTPUT_DIR = Path("skills/country-profiling/profile-runs")
+DEFAULT_OUTPUT_DIR = Path("skills/policy-comparison/profile-runs")
 REQUIRED_COUNTRY_DOCUMENT_CLASSES = [
-    "Country health profile or national health strategy",
-    "Burden-of-disease, mortality, surveillance, census, or survey source",
-    "Health financing, UHC, insurance, expenditure, or financial protection source",
-    "WASH, sanitary conditions, or environmental health source",
-    "Health workforce, facility-capacity, or service-availability source",
-    "Digital health, health information system, CRVS, or surveillance-system source",
+    "National health strategy or health sector plan",
+    "Domain-specific national programme guideline",
+    "Digital health or health information system strategy",
+    "Relevant schedule, formulary, registry, reporting form, or data dictionary",
 ]
 
 
@@ -82,7 +80,8 @@ def build_input_inventory(args: argparse.Namespace) -> dict[str, object]:
 
     return {
         "country": args.country,
-        "focus": args.focus,
+        "domain": args.domain,
+        "dak_scope": args.dak_scope,
         "supplied_country_documents": supplied,
         "missing_country_document_classes": gaps,
     }
@@ -90,9 +89,9 @@ def build_input_inventory(args: argparse.Namespace) -> dict[str, object]:
 
 def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> None:
     lines = [
-        f"# Input documentation inventory: {inventory['country']} - {inventory['focus']}",
+        f"# Input documentation inventory: {inventory['country']} - {inventory['domain']}",
         "",
-        f"- Optional health focus: {inventory['focus']}",
+        f"- DAK or WHO scope: {inventory['dak_scope']}",
         "",
         "## Supplied country documents",
         "",
@@ -146,7 +145,7 @@ def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> 
             "",
             "## Profiling rule",
             "",
-            "Do not infer country-specific health conditions, coverage, sanitary conditions, or policy readiness from generic WHO/global sources. Missing country documents should remain evidence gaps or human-review actions in the profile.",
+            "Do not infer country-specific policy from WHO/global sources. Missing country documents should remain evidence gaps or human-review actions in the profile.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -157,10 +156,11 @@ def main(argv: list[str]) -> int:
         description="Prepare optional retrieval-assisted support artifacts for Country Profiling."
     )
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
+    parser.add_argument("--domain", required=True, help="Target health domain.")
     parser.add_argument(
-        "--focus",
-        default="general healthcare overview",
-        help="Optional health focus, region, population group, or downstream use.",
+        "--dak-scope",
+        required=True,
+        help="DAK, WHO guideline, or SMART artifact scope for the profile.",
     )
     parser.add_argument(
         "--country-document",
@@ -182,14 +182,14 @@ def main(argv: list[str]) -> int:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    run_slug = f"{slugify(args.country)}-{slugify(args.focus)}"
+    run_slug = f"{slugify(args.country)}-{slugify(args.domain)}"
     run_dir = output_dir / run_slug
     retrieval_dir = run_dir / "who-retrieval"
     run_dir.mkdir(parents=True, exist_ok=True)
 
     env_command = [
         sys.executable,
-        "skills/country-profiling/scripts/check_environment.py",
+        "skills/policy-comparison/scripts/check_environment.py",
         "--output-dir",
         str(retrieval_dir),
     ]
@@ -198,11 +198,11 @@ def main(argv: list[str]) -> int:
 
     retrieval_command = [
         sys.executable,
-        "skills/country-profiling/scripts/retrieve_who_sources.py",
+        "skills/policy-comparison/scripts/retrieve_who_sources.py",
         "--country",
         args.country,
-        "--focus",
-        args.focus,
+        "--domain",
+        args.domain,
         "--output-dir",
         str(retrieval_dir),
     ]
@@ -245,7 +245,8 @@ def main(argv: list[str]) -> int:
     manifest = {
         "generated_at": now_utc(),
         "country": args.country,
-        "focus": args.focus,
+        "domain": args.domain,
+        "dak_scope": args.dak_scope,
         "run_dir": str(run_dir),
         "environment_gate": environment,
         "who_retrieval_gate": retrieval,
@@ -255,7 +256,7 @@ def main(argv: list[str]) -> int:
         "may_draft_profile": may_draft_from_manifest,
         "mode_guidance": mode_guidance,
         "drafting_constraints": [
-            "Do not produce country-specific health, sanitary, coverage, or policy-readiness findings from missing documents.",
+            "Do not produce country-specific findings from missing documents.",
             "Carry missing country document classes into evidence gaps.",
             "Use any WHO retrieval bundle as source evidence, not as final interpretation.",
             "If this script fails but user-provided sources are sufficient, document-only mode may still proceed.",

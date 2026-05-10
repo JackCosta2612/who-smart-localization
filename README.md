@@ -2,7 +2,7 @@
 
 Model-neutral Agent Skills for WHO SMART Guidelines localization work.
 
-This repository is part of a one-month, 3 ECTS university NLP project connected to WHO SMART Guidelines localization. It currently contains the Country Profiling skill as the first implemented skill in a broader localization skill package. Examples and first tests are the next phase and should be treated as placeholders until real source material is added.
+This repository is part of a one-month, 3 ECTS university NLP project connected to WHO SMART Guidelines localization. It currently contains the Country Profiling skill as the first implemented skill in a broader localization skill package. Real examples and first tests are still intentionally pending until source-backed examples are created.
 
 ## Project scope
 
@@ -41,17 +41,17 @@ They do not make clinical decisions, provide patient advice, draft final nationa
 
 ### Country Profiling
 
-Status: implemented / MVP polish.
+Status: implemented / documentation pivot.
 
-Creates a structured, source-backed country profile for a target health domain and DAK or SMART Guidelines scope. It supports document-only use from supplied sources and optional retrieval-assisted use when helper scripts are available.
+Creates a source-backed textual healthcare country profile covering country context, main health issues, health system organization, access and coverage, sanitary conditions, financing, workforce, infrastructure, digital health, equity, risks, and readiness for later policy comparison.
 
 Path: `skills/country-profiling/`
 
 ### Policy Comparison
 
-Status: planned for later integration.
+Status: migrated starting point / planned for later iteration.
 
-Compares WHO source content with local policy material and produces a traceable localization matrix.
+Contains the previous policy-oriented country-profiling package as a starting point for the later policy-comparison skill.
 
 Path: `skills/policy-comparison/`
 
@@ -80,13 +80,12 @@ Country profile validator:
 
 ```bash
 python3 skills/country-profiling/scripts/validate_profile.py --help
-python3 skills/country-profiling/scripts/validate_profile.py skills/country-profiling/examples/example-output-1.md
 ```
 
 Policy comparison matrix validator:
 
 ```bash
-python3 skills/policy-comparison/scripts/validate_matrix.py skills/policy-comparison/examples/example-output-1.md
+python3 skills/policy-comparison/scripts/validate_profile.py --help
 ```
 
 Validators check structure only. They do not validate clinical correctness, policy correctness, country facts, or source interpretation.

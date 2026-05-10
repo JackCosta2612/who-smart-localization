@@ -19,7 +19,7 @@ from urllib.parse import quote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 BASE_GHO_URL = "https://ghoapi.azureedge.net/api"
-DEFAULT_OUTPUT_DIR = Path("skills/country-profiling/retrieval-output")
+DEFAULT_OUTPUT_DIR = Path("skills/policy-comparison/retrieval-output")
 DOCUMENT_EXTENSIONS = {".csv", ".doc", ".docx", ".pdf", ".xls", ".xlsx", ".zip"}
 CONTENT_TYPE_EXTENSIONS = {
     "application/pdf": ".pdf",
@@ -29,15 +29,15 @@ CONTENT_TYPE_EXTENSIONS = {
     "text/csv": ".csv",
 }
 
-FOCUS_CONFIG: dict[str, dict[str, Any]] = {
+DOMAIN_CONFIG: dict[str, dict[str, Any]] = {
     "immunization": {
         "aliases": ["immunisation", "vaccination", "vaccine"],
         "gho_terms": ["immunization", "vaccination", "vaccine"],
-        "focus_sources": [
+        "dak_sources": [
             {
-                "title": "WHO immunization topic page",
-                "url": "https://www.who.int/health-topics/vaccines-and-immunization",
-                "evidence_scope": "global-focus-source",
+                "title": "Digital adaptation kit for immunizations",
+                "url": "https://www.who.int/publications/i/item/9789240099456",
+                "evidence_scope": "global-domain-source",
                 "download_policy": "download-supported-documents",
             }
         ],
@@ -45,11 +45,11 @@ FOCUS_CONFIG: dict[str, dict[str, Any]] = {
     "tuberculosis": {
         "aliases": ["tb"],
         "gho_terms": ["tuberculosis", "TB"],
-        "focus_sources": [
+        "dak_sources": [
             {
-                "title": "WHO tuberculosis topic page",
-                "url": "https://www.who.int/health-topics/tuberculosis",
-                "evidence_scope": "global-focus-source",
+                "title": "Digital adaptation kit for tuberculosis",
+                "url": "https://www.who.int/publications/i/item/9789240086616",
+                "evidence_scope": "global-domain-source",
                 "download_policy": "download-supported-documents",
             }
         ],
@@ -57,23 +57,23 @@ FOCUS_CONFIG: dict[str, dict[str, Any]] = {
     "family planning": {
         "aliases": ["contraception"],
         "gho_terms": ["family planning", "contraception"],
-        "focus_sources": [
+        "dak_sources": [
             {
-                "title": "WHO contraception topic page",
-                "url": "https://www.who.int/health-topics/contraception",
-                "evidence_scope": "global-focus-source",
+                "title": "Digital adaptation kit for family planning",
+                "url": "https://www.who.int/publications/who-guidelines/9789240029743",
+                "evidence_scope": "global-domain-source",
                 "download_policy": "download-supported-documents",
             }
         ],
     },
-    "maternal health": {
-        "aliases": ["antenatal care", "anc", "pregnancy"],
-        "gho_terms": ["maternal", "antenatal", "pregnancy"],
-        "focus_sources": [
+    "antenatal care": {
+        "aliases": ["anc", "pregnancy"],
+        "gho_terms": ["antenatal", "pregnancy"],
+        "dak_sources": [
             {
-                "title": "WHO maternal health topic page",
-                "url": "https://www.who.int/health-topics/maternal-health",
-                "evidence_scope": "global-focus-source",
+                "title": "Digital adaptation kit for antenatal care",
+                "url": "https://www.who.int/publications/i/item/9789240020306",
+                "evidence_scope": "global-domain-source",
                 "download_policy": "download-supported-documents",
             }
         ],
@@ -81,23 +81,11 @@ FOCUS_CONFIG: dict[str, dict[str, Any]] = {
     "hiv": {
         "aliases": ["human immunodeficiency virus"],
         "gho_terms": ["HIV"],
-        "focus_sources": [
+        "dak_sources": [
             {
-                "title": "WHO HIV topic page",
-                "url": "https://www.who.int/health-topics/hiv-aids",
-                "evidence_scope": "global-focus-source",
-                "download_policy": "download-supported-documents",
-            }
-        ],
-    },
-    "wash": {
-        "aliases": ["water sanitation hygiene", "sanitation", "hygiene"],
-        "gho_terms": ["water", "sanitation", "hygiene"],
-        "focus_sources": [
-            {
-                "title": "WHO water, sanitation and hygiene topic page",
-                "url": "https://www.who.int/health-topics/water-sanitation-and-hygiene-wash",
-                "evidence_scope": "global-focus-source",
+                "title": "Digital adaptation kit for HIV",
+                "url": "https://www.who.int/publications/i/item/9789240054424",
+                "evidence_scope": "global-domain-source",
                 "download_policy": "download-supported-documents",
             }
         ],
@@ -109,7 +97,7 @@ GENERAL_WHO_SOURCES = [
         "title": "WHO Country Cooperation Strategies",
         "source_type": "WHO country context",
         "url": "https://www.who.int/countries/country-cooperation-strategies",
-        "relevance": "Country-level WHO cooperation priorities and broad health-system context.",
+        "relevance": "Country-level WHO cooperation priorities and strategic context.",
         "evidence_scope": "generic-source-discovery",
         "download_policy": "discover-links-only",
     },
@@ -142,22 +130,6 @@ GENERAL_WHO_SOURCES = [
         "source_type": "WHO workforce data",
         "url": "https://www.who.int/publications-detail-redirect/national-health-workforce-accounts",
         "relevance": "Health workforce data framework and source class.",
-        "evidence_scope": "generic-source-discovery",
-        "download_policy": "discover-links-only",
-    },
-    {
-        "title": "WHO water, sanitation and hygiene",
-        "source_type": "WHO WASH context",
-        "url": "https://www.who.int/health-topics/water-sanitation-and-hygiene-wash",
-        "relevance": "Sanitary conditions, drinking water, sanitation, and hygiene source discovery.",
-        "evidence_scope": "generic-source-discovery",
-        "download_policy": "discover-links-only",
-    },
-    {
-        "title": "WHO air pollution",
-        "source_type": "WHO environmental health context",
-        "url": "https://www.who.int/health-topics/air-pollution",
-        "relevance": "Environmental health and pollution source discovery.",
         "evidence_scope": "generic-source-discovery",
         "download_policy": "discover-links-only",
     },
@@ -406,27 +378,13 @@ def retrieve_source_content(
         return {"status": "failed", "url": url, "error": str(exc)}
 
 
-def normalize_focus(focus: str) -> tuple[str | None, dict[str, Any]]:
-    candidate = focus.strip().lower()
-    for key, config in FOCUS_CONFIG.items():
+def normalize_domain(domain: str) -> tuple[str | None, dict[str, Any]]:
+    candidate = domain.strip().lower()
+    for key, config in DOMAIN_CONFIG.items():
         names = [key, *config.get("aliases", [])]
         if candidate in names:
             return key, config
-    if candidate and candidate != "general healthcare overview":
-        return None, {"aliases": [], "gho_terms": [focus], "focus_sources": []}
-    return None, {
-        "aliases": [],
-        "gho_terms": [
-            "life expectancy",
-            "mortality",
-            "universal health coverage",
-            "health expenditure",
-            "health workforce",
-            "water",
-            "sanitation",
-        ],
-        "focus_sources": [],
-    }
+    return None, {"aliases": [], "gho_terms": [domain], "dak_sources": []}
 
 
 def find_country(country: str, timeout: int, offline: bool) -> dict[str, Any]:
@@ -542,33 +500,33 @@ def fetch_gho_country_data(
 
 
 def build_source_inventory(
-    focus_key: str | None,
+    domain_key: str | None,
     config: dict[str, Any],
     timeout: int,
     offline: bool,
 ) -> list[dict[str, Any]]:
     sources = []
-    for source in config.get("focus_sources", []):
+    for source in config.get("dak_sources", []):
         check = http_check(source["url"], timeout, offline)
         sources.append(
             {
                 "title": source["title"],
-                "source_type": "WHO focus source",
+                "source_type": "WHO DAK",
                 "url": source["url"],
-                "relevance": "Topic-specific WHO source candidate.",
-                "evidence_scope": source.get("evidence_scope", "global-focus-source"),
+                "relevance": "Domain-specific WHO DAK candidate.",
+                "evidence_scope": source.get("evidence_scope", "global-domain-source"),
                 "download_policy": source.get("download_policy", "download-supported-documents"),
                 "retrieval": check,
             }
         )
 
-    if focus_key is None and config.get("focus_sources") == []:
+    if domain_key is None:
         sources.append(
             {
-                "title": "Focus-specific WHO source not mapped in retrieval helper",
-                "source_type": "WHO focus source",
+                "title": "Domain-specific DAK not mapped in MVP",
+                "source_type": "WHO DAK",
                 "url": "",
-                "relevance": "Agent should search WHO, regional observatory, or public-health sources manually if the focus is important.",
+                "relevance": "Agent should search WHO publications or SMART Implementation Guides manually.",
                 "evidence_scope": "unresolved-source-discovery",
                 "download_policy": "discover-links-only",
                 "retrieval": {"status": "needs manual search"},
@@ -610,11 +568,11 @@ def markdown_table_row(values: list[str]) -> str:
 
 def write_markdown(bundle: dict[str, Any], path: Path) -> None:
     lines = [
-        f"# WHO retrieval bundle: {bundle['country']} - {bundle['focus']}",
+        f"# WHO retrieval bundle: {bundle['country']} - {bundle['domain']}",
         "",
         f"- Generated at: {bundle['generated_at']}",
         f"- Offline mode: {bundle['offline']}",
-        f"- Focus mapping: {bundle['focus_key'] or 'not mapped'}",
+        f"- Domain mapping: {bundle['domain_key'] or 'not mapped'}",
         "",
         "## Country metadata",
         "",
@@ -714,12 +672,10 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
         [
             "## Country-specific documentation still required",
             "",
-            "- Country health profile or national health strategy.",
-            "- Burden-of-disease, mortality, surveillance, census, or survey source.",
-            "- Health financing, UHC, insurance, expenditure, or financial protection source.",
-            "- WASH, sanitary conditions, or environmental health source.",
-            "- Health workforce, facility-capacity, or service-availability source.",
-            "- Digital health, health information system, CRVS, or surveillance-system source.",
+            "- National health strategy or health sector plan.",
+            "- Domain-specific national programme guideline.",
+            "- Digital health or health information system strategy.",
+            "- National schedule, formulary, registry, reporting form, or data dictionary relevant to the domain.",
             "",
             "## Use in the profile",
             "",
@@ -730,18 +686,18 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
 
 
 def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
-    focus_key, config = normalize_focus(args.focus)
+    domain_key, config = normalize_domain(args.domain)
     content_dir = Path(args.output_dir) / "content"
     country_lookup = find_country(args.country, args.timeout, args.offline)
     indicator_search = search_gho_indicators(
-        list(config.get("gho_terms", [args.focus])), args.timeout, args.offline
+        list(config.get("gho_terms", [args.domain])), args.timeout, args.offline
     )
-    sources = build_source_inventory(focus_key, config, args.timeout, args.offline)
+    sources = build_source_inventory(domain_key, config, args.timeout, args.offline)
     sources = attach_source_contents(sources, content_dir, args)
     return {
         "country": args.country,
-        "focus": args.focus,
-        "focus_key": focus_key,
+        "domain": args.domain,
+        "domain_key": domain_key,
         "generated_at": now_utc(),
         "offline": args.offline,
         "content_dir": str(content_dir),
@@ -764,11 +720,7 @@ def main(argv: list[str]) -> int:
         description="Generate a robust WHO source retrieval bundle for Country Profiling."
     )
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
-    parser.add_argument(
-        "--focus",
-        default="general healthcare overview",
-        help="Optional health focus, region, population group, or downstream use.",
-    )
+    parser.add_argument("--domain", required=True, help="Target health domain.")
     parser.add_argument(
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
@@ -811,7 +763,7 @@ def main(argv: list[str]) -> int:
     try:
         output_dir.mkdir(parents=True, exist_ok=True)
         bundle = build_bundle(args)
-        stem = f"{slugify(args.country)}-{slugify(args.focus)}-who-retrieval"
+        stem = f"{slugify(args.country)}-{slugify(args.domain)}-who-retrieval"
         json_path = output_dir / f"{stem}.json"
         md_path = output_dir / f"{stem}.md"
         json_path.write_text(json.dumps(bundle, indent=2, sort_keys=True), encoding="utf-8")
