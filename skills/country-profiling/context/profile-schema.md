@@ -1,13 +1,13 @@
-# Country profile output schema
+# Country healthcare profile output schema
 
 The Country Profiling skill should produce a markdown document with the sections below.
 
-The profile may be produced from user-provided documents, retrieval-assisted outputs, or a combination of both. If a document class is missing, record it as an evidence gap rather than filling it from assumption.
+The profile may be produced from user-provided documents, retrieval-assisted outputs, or a combination of both. If a source class is missing, record it as an evidence gap rather than filling it from assumption.
 
 ## Required sections
 
 ```md
-# Country profile: <Country> - <Health domain>
+# Country healthcare profile: <Country>
 
 ## Profile metadata
 
@@ -15,21 +15,31 @@ The profile may be produced from user-provided documents, retrieval-assisted out
 
 ## Source inventory
 
-## Country and health system context
+## Country context snapshot
 
-## DAK implementation context
+## Population health overview
 
-## Domain-specific considerations
+## Main health issues and burden
 
-## Data and digital health context
+## Health system organization and capacity
 
-## Known facts
+## Healthcare access and coverage
 
-## Uncertainties and evidence gaps
+## Sanitary conditions and environmental health
 
-## Human expert input needed
+## Health financing and affordability
 
-## Reuse opportunities for regional adaptation
+## Health workforce, infrastructure, and supply availability
+
+## Digital health and health information systems
+
+## Equity, vulnerable groups, and regional variation
+
+## Current concerns, risks, and watchpoints
+
+## Policy-analysis readiness
+
+## Evidence gaps and expert input needed
 
 ## Sources
 ```
@@ -39,10 +49,10 @@ The profile may be produced from user-provided documents, retrieval-assisted out
 Include:
 
 - country;
-- target health domain;
-- DAK or WHO artifact scope;
+- optional health focus or region;
 - profile date;
 - profile author or agent;
+- intended downstream use, if known;
 - known input limitations.
 
 ## Source inventory
@@ -63,62 +73,80 @@ Allowed `Status` values:
 
 Use `Reviewed` only when the profile actually uses the source as evidence. Use `Candidate source` for sources identified but not fully reviewed.
 
-## Context sections
+## Narrative sections
 
-Use the context sections to summarize only source-backed material relevant to later localization:
+The main body should be textual, with short paragraphs and source-backed statements. Use bullets only where they improve scanability.
 
-- `Country and health system context`: governance, delivery, financing, workforce, or system constraints when sourced.
-- `DAK implementation context`: workflows, personas, data elements, indicators, decision logic, or operational requirements that may need adaptation.
-- `Domain-specific considerations`: health-domain facts or implementation constraints found in sources.
-- `Data and digital health context`: registries, reporting systems, interoperability, data quality, terminology, or digital strategy context when sourced.
+### Country context snapshot
 
-If a context area has no supporting source, write a brief evidence-gap note instead of inventing content.
+Summarize the basic demographic, geographic, administrative, economic, or regional context needed to understand health conditions. Avoid general encyclopedia content unless it directly affects healthcare context.
 
-## Known facts
+### Population health overview
 
-Use this table for claims that are supported by the available sources:
+Summarize life expectancy, mortality patterns, population structure, maternal and child health context, and broad health outcomes when supported by sources.
 
-```md
-| Area | Finding | Evidence | Source | Confidence | Review need |
-|---|---|---|---|---|---|
-```
+### Main health issues and burden
 
-Allowed `Confidence` values:
+Discuss major communicable diseases, noncommunicable diseases, injuries, mental health concerns, maternal and child health issues, outbreaks, or other burdens relevant to the country. Note whether evidence is national, regional, modelled, reported, or survey-based.
 
-- `High`
-- `Medium`
-- `Low`
+### Health system organization and capacity
 
-Allowed `Review need` values:
+Describe governance, public/private roles, primary care, referral care, hospital capacity, decentralization, emergency preparedness, medicines and supply availability, and service delivery constraints when sourced.
 
-- `No immediate review`
-- `Confirm with country expert`
-- `Check newer source`
-- `Validate domain interpretation`
-- `Resolve conflicting evidence`
+### Healthcare access and coverage
 
-## Uncertainties and evidence gaps
+Discuss universal health coverage, insurance or entitlement models, benefit coverage, service availability, affordability, geographic access, waiting times, and continuity of care when sourced.
+
+### Sanitary conditions and environmental health
+
+Discuss drinking water, sanitation, hygiene, waste management, air pollution, housing, climate and environmental risks, vector conditions, food safety, or occupational/environmental exposures when sourced.
+
+### Health financing and affordability
+
+Discuss total health expenditure, public spending, out-of-pocket payments, external financing, financial hardship, or programme funding vulnerabilities when sourced.
+
+### Health workforce, infrastructure, and supply availability
+
+Discuss workforce density and distribution, training capacity, facility availability, laboratories, supply chains, essential medicines, vaccines, diagnostics, and equipment when sourced.
+
+### Digital health and health information systems
+
+Discuss civil registration and vital statistics, routine health information systems, registries, surveillance, data quality, interoperability, digital health strategy, and patient-level system readiness when sourced.
+
+### Equity, vulnerable groups, and regional variation
+
+Discuss disparities by income, region, urban/rural status, sex, age, disability, migration status, ethnicity, conflict exposure, or other locally relevant dimensions when sourced.
+
+### Current concerns, risks, and watchpoints
+
+Summarize active or recent health system pressures, outbreaks, humanitarian conditions, climate risks, workforce strain, medicine shortages, financing risks, trust or misinformation concerns, and other watchpoints when supported by evidence.
+
+## Policy-analysis readiness
+
+Explain whether the available profile is sufficient to proceed to later policy comparison. This section should not perform policy comparison.
+
+Address:
+
+- which policy domains could be compared next;
+- which source classes are still missing;
+- whether country-specific policy sources appear current and authoritative;
+- what expert review is needed before policy comparison;
+- any limits that should constrain downstream DAK or SMART Guidelines localization work.
+
+## Evidence gaps and expert input needed
 
 Use this table:
 
 ```md
-| Gap or uncertainty | Why it matters for DAK implementation | Suggested next source | Review owner |
+| Gap or uncertainty | Why it matters | Suggested next source or action | Review owner |
 |---|---|---|---|
 ```
 
-Include missing source classes, conflicting evidence, stale documents, unclear applicability, and country/domain facts that could not be supported.
-
-## Human expert input needed
-
-List review actions that require local, WHO, policy, clinical, legal, terminology, digital health, or implementation expertise. Do not use this section to hide unsupported conclusions.
-
-## Reuse opportunities for regional adaptation
-
-Identify possible reuse only when supported by sources, such as common regional guidance, shared reporting requirements, or comparable implementation constraints. If reuse cannot be assessed yet, state the evidence gap.
+Include missing source classes, conflicting evidence, stale documents, unclear applicability, unsupported country/domain facts, and claims that could affect later policy analysis.
 
 ## Sources
 
-List every source used. Include URLs, local file paths, or dataset identifiers. Record retrieval dates for web sources.
+List every source used. Include URLs, local file paths, dataset identifiers, publication dates, and retrieval dates for web sources when available.
 
 ## Validation expectations
 
@@ -126,8 +154,7 @@ The structural validator checks for:
 
 - all required sections;
 - a source inventory table;
-- at least one known facts row;
-- an uncertainties and evidence gaps table;
-- controlled values for source status, confidence, and review need.
+- an evidence gaps and expert input table;
+- controlled values for source status.
 
-The validator does not check whether the country profile is clinically, legally, or policy correct.
+The validator does not check whether the country profile is epidemiologically, legally, operationally, or policy correct.
