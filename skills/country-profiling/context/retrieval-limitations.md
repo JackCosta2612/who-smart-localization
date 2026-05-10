@@ -1,6 +1,8 @@
 # Retrieval limitations
 
-The retrieval runner is a source-discovery helper. It can retrieve reachable WHO pages, link inventories, downloadable files, and selected GHO JSON samples, but reachability is not the same as country-specific evidence.
+The retrieval runner is a source-discovery helper for country profiling. It can retrieve reachable WHO pages, link inventories, downloadable files, and selected GHO JSON samples, but reachability is not the same as country-specific evidence.
+
+Retrieval output cannot prove that a profile is complete. Missing or unresolved retrieval outputs should become evidence gaps, not hidden assumptions.
 
 ## Known limitations
 
@@ -53,3 +55,5 @@ When reviewing a retrieval bundle, the Agent must distinguish:
 - `not resolved and requires human/source-specific follow-up`.
 
 The profile must not present generic WHO landing-page retrieval as country-specific evidence.
+
+The retrieval bundle also must not be used to perform policy alignment or divergence analysis. That work belongs in the future Policy Comparison skill after country context and source readiness are established.

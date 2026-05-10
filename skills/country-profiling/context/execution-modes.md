@@ -4,7 +4,7 @@ Country Profiling supports two execution modes. Preflight and retrieval scripts 
 
 ## Document-only mode
 
-Use document-only mode when the user provides enough source material in the prompt, attached files, local files, or conversation context.
+Use document-only mode by default when the user provides enough source material in the prompt, attached files, local files, or conversation context.
 
 In this mode, the Agent should:
 
@@ -38,22 +38,26 @@ The command can write:
 - `input-documentation-inventory.md`;
 - a `who-retrieval/` directory with candidate retrieval artifacts.
 
-Treat these outputs as source-inventory support. They can improve traceability, but they do not replace reading and citing the actual sources.
+Treat these outputs as source-inventory support. They can improve traceability, but they do not replace reading and citing the actual sources. Generic WHO or global pages are discovery surfaces; they are not country-specific evidence unless they resolve to country-specific documents or country-filtered datasets.
 
 ## Proceeding with a profile
 
-Profile drafting may proceed when:
+Use this decision rule:
 
-- a target country is known;
-- at least one relevant source is available, or the user explicitly requests a skeleton/gap-analysis profile.
-
-Profile drafting should be limited or paused when:
-
-- no country is specified;
-- no relevant source is available and the user did not ask for a skeleton;
-- the provided material is not relevant to country healthcare context.
+| Output type | When to use |
+|---|---|
+| Full profile | The country is known and enough country-specific sources are available to support several major profile sections. |
+| Limited profile | The country is known and some relevant evidence is available, but important sections depend on missing, stale, generic, or uncertain sources. |
+| Skeleton/gap-analysis profile | The country is known, little evidence is available, and the user asks for planning, source discovery, or gap analysis. |
+| Pause and ask for sources | No country is specified, or no relevant source is available and the user did not request a skeleton/gap-analysis profile. |
 
 If scripts are unavailable or fail, the Agent may still proceed in document-only mode when user-provided sources satisfy the conditions above. If both scripts fail and sources are insufficient, ask for source material or produce only a limited skeleton/gap-analysis profile if the user requested one.
+
+## Downstream policy-comparison decision
+
+A profile can feed the future Policy Comparison skill only if it identifies enough country context and at least suggests which national policy documents are needed. It does not need to include the policy documents themselves unless the user is preparing an immediate comparison.
+
+If the profile cannot support downstream comparison, write `Not ready for policy comparison` in the `Policy-analysis readiness` section and explain why. Common reasons include missing national policy sources, no country-specific health system evidence, unresolved source conflicts, stale documents, or insufficient context for interpreting policy text.
 
 ## Handling missing sources
 

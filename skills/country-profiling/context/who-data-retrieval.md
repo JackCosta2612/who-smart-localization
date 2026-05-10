@@ -1,6 +1,8 @@
 # WHO documentation and data retrieval guidance
 
-This note records source classes that can support healthcare country profiling. Retrieval is assistance for source discovery and evidence collection; it is not a substitute for source review.
+This note records source classes that can support healthcare country profiling. Retrieval is optional assistance for source discovery and evidence collection; it is not a substitute for source review.
+
+Country profiling comes first. Later policy comparison may use the profile to decide which national policies, guidelines, reporting artifacts, or terminology sources to retrieve next.
 
 ## Recommended WHO source classes
 
@@ -75,7 +77,7 @@ The retrieval runner should:
 
 The runner retrieves available page text and structured data. For PDFs and spreadsheets, it retrieves files for later parsing by a PDF, spreadsheet, or document-processing tool. It does not claim to fully interpret binary document contents by itself.
 
-The runner also does not guarantee country-specific retrieval for every source class. Some WHO sources are represented by generic landing pages. For those sources, reachable content must be treated as source discovery unless a country-specific document or dataset is explicitly resolved.
+The runner also does not guarantee country-specific retrieval for every source class or prove evidence completeness. Some WHO sources are represented by generic landing pages. For those sources, reachable content must be treated as source discovery unless a country-specific document or dataset is explicitly resolved.
 
 After the retrieval bundle is generated, the Agent should:
 
@@ -85,6 +87,7 @@ After the retrieval bundle is generated, the Agent should:
 4. Add non-WHO sources supplied by the user or retrieved through approved tools.
 5. Record every retrieval date and distinguish official sources from secondary sources.
 6. Carry unresolved source classes into evidence gaps.
+7. Avoid using retrieval output to perform policy comparison; use it only to support country profiling and downstream-readiness notes.
 
 ## Country-specific documentation note
 

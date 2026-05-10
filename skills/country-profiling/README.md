@@ -1,31 +1,38 @@
 # Country Profiling Skill
 
-The Country Profiling skill creates a source-backed textual healthcare overview for a target country.
+The Country Profiling skill creates a source-backed healthcare overview for a target country. It summarizes the health situation, health system structure, implementation environment, data and digital health context, equity issues, risks, and readiness for later policy comparison or SMART Guidelines localization.
 
-It helps the team understand the country's population health context, main health concerns, health system organization, access and coverage, sanitary and environmental health conditions, financing, workforce, infrastructure, digital health environment, equity issues, and evidence gaps before moving into policy-specific comparison.
+## Why this comes first
 
-## Why this matters
+Policy comparison depends on context. A national policy excerpt is hard to interpret without knowing the country's service delivery model, coverage rules, financing constraints, workforce and infrastructure limits, WASH conditions, data systems, and regional inequalities. This skill makes that context explicit before the future Policy Comparison skill compares WHO/SMART content with national policy material.
 
-Policy comparison and localization depend on country context. A policy excerpt can look aligned or divergent for reasons that are invisible without knowing the health system, coverage model, service delivery constraints, disease burden, WASH conditions, data systems, and regional inequalities. The country profile makes that context explicit first.
+## Output
+
+The skill produces a narrative markdown profile using `context/profile-schema.md`. It includes:
+
+- healthcare country context and major health issues;
+- health system organization, access, coverage, financing, workforce, infrastructure, and supplies;
+- sanitary and environmental health context;
+- digital health and health information system context;
+- equity, vulnerable groups, regional variation, current risks, and watchpoints;
+- policy-analysis readiness and optional policy-comparison handoff notes;
+- source inventory, evidence gaps, expert-review needs, and sources.
+
+## Sources
+
+Minimum input is a country name. Better profiles use country-specific sources such as country health profiles, national health strategies, health sector plans, financing or UHC reports, workforce and infrastructure sources, WASH/environmental health sources, digital health or HIS documents, surveillance outputs, and survey or burden-of-disease sources.
+
+Domain-specific policy documents are useful only when the next step is policy comparison. They are not required to create the country profile.
 
 ## Execution modes
 
 ### Document-only mode
 
-Use this by default when the user provides enough source material in the prompt, attached files, local files, or conversation context.
-
-The Agent should:
-
-- identify the target country and optional health focus;
-- build a source inventory from supplied material;
-- draft the profile using only the supplied sources;
-- mark missing information as evidence gaps.
+Use this by default when the user provides enough source material in the prompt, attached files, local files, or conversation context. Draft only from supplied material and turn missing source classes into explicit evidence gaps.
 
 ### Retrieval-assisted mode
 
-Use this when scripts or tools are available and the user asks for or allows retrieval help.
-
-The scripts can check the environment, prepare a run folder, retrieve candidate WHO sources, and write an input documentation inventory. They are optional support artifacts. They are not mandatory for every use of the skill.
+Use this only when scripts or tools are available and retrieval support is useful. The scripts can check the environment, prepare a run folder, retrieve candidate WHO sources, and write an input documentation inventory. These artifacts support source discovery; they are not mandatory and do not replace reading the actual sources.
 
 ## Optional scripts
 
@@ -43,15 +50,6 @@ python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --focus "<optional health focus>"
 ```
 
-Add known country documents when available:
-
-```bash
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
-  --country "Romania" \
-  --focus "general healthcare overview" \
-  --country-document "Document title|Document type|/path/or/url|2024"
-```
-
 Run WHO retrieval directly when useful:
 
 ```bash
@@ -60,24 +58,28 @@ python3 skills/country-profiling/scripts/retrieve_who_sources.py \
   --focus "<optional health focus>"
 ```
 
-If scripts fail but the user has supplied enough sources, the Agent can still draft in document-only mode. If sources are insufficient, the Agent should ask for more sources or produce only a skeleton/gap-analysis profile when requested.
+## Validation
 
-## Validate a profile
+Validate a completed profile:
 
 ```bash
 python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
 ```
 
-The validator checks structure, required sections, table headers, and controlled values. It does not validate epidemiological correctness, national policy correctness, country facts, WHO interpretation, WASH interpretation, or legal suitability.
+The validator checks headings, table headers, optional handoff structure, and controlled source-status values. It does not validate factual correctness, epidemiology, policy interpretation, clinical correctness, source interpretation, WASH interpretation, or WHO interpretation.
 
 ## What this skill does not do
 
-- It does not make clinical decisions.
-- It does not provide patient advice.
+- It does not make clinical decisions or provide patient advice.
 - It does not draft final national policy.
-- It does not compare WHO policy with country policy.
-- It does not invent missing country context.
-- It does not replace WHO, national, clinical, legal, policy, epidemiological, WASH, environmental health, or country expert review.
+- It does not compare WHO guidance with national policy.
+- It does not produce final DAK localization decisions.
+- It does not invent missing country facts.
+- It does not replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
+
+## Policy Comparison handoff
+
+The profile should identify which health areas matter for later comparison, which national policy source classes are needed, which systems affect policy interpretation, what gaps block safe comparison, and what expert inputs are required. If the evidence base is too thin, the profile should state `Not ready for policy comparison`.
 
 ## Folder structure
 
@@ -106,4 +108,8 @@ country-profiling/
 
 ## Current status
 
-Pivoted documentation draft. The skill contract, schema, optional retrieval helpers, and structural validator are aligned to healthcare country profiling. Real examples are intentionally not included yet.
+Ready for source-backed examples after this polish pass.
+
+## TODO: source-backed examples
+
+Next, create one complete source-backed example: choose a country and health focus, collect real sources, draft expected output using `context/profile-schema.md`, run the validator, then test whether an agent follows the example.

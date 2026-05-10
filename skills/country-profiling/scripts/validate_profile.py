@@ -49,12 +49,22 @@ GAP_COLUMNS = [
     "Review owner",
 ]
 
+HANDOFF_COLUMNS = [
+    "Downstream need",
+    "Why it matters",
+    "Available evidence",
+    "Missing source or uncertainty",
+    "Suggested next action",
+]
+
 ALLOWED_SOURCE_STATUS = {
     "Reviewed",
     "Candidate source",
     "Needs retrieval",
     "Needs expert validation",
+    "Not available in supplied material",
 }
+
 
 def parse_markdown_row(line: str) -> list[str]:
     stripped = line.strip()
@@ -93,6 +103,8 @@ def validate_table(
     lines: list[str],
     columns: list[str],
     table_name: str,
+    *,
+    require_rows: bool = False,
 ) -> tuple[list[str], list[tuple[int, list[str]]]]:
     errors: list[str] = []
     header_index = find_table(lines, columns)
@@ -106,9 +118,13 @@ def validate_table(
         return errors, []
 
     rows = table_rows(lines, header_index)
-    if not rows:
+    if require_rows and not rows:
         errors.append(f"{table_name} table has no data rows.")
     return errors, rows
+
+
+def section_exists(content: str, heading: str) -> bool:
+    return heading in content
 
 
 def main(argv: list[str]) -> int:
@@ -150,6 +166,12 @@ def main(argv: list[str]) -> int:
         lines, GAP_COLUMNS, "Evidence gaps and expert input needed"
     )
     errors.extend(gap_errors)
+
+    if section_exists(content, "## Policy-comparison handoff"):
+        handoff_errors, _handoff_rows = validate_table(
+            lines, HANDOFF_COLUMNS, "Policy-comparison handoff"
+        )
+        errors.extend(handoff_errors)
 
     if errors:
         print("Structural validation failed:")

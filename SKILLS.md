@@ -1,22 +1,16 @@
-# Localization skills index
+# Localization Skills Index
 
 This repository contains Agent Skills for WHO SMART Guidelines localization. Each skill lives in its own folder under `skills/`.
 
-## Implemented skills
-
-| Skill | Status | Description | Path |
-|---|---|---|---|
-| Country Profiling | Implemented / documentation pivot | Builds a source-backed textual healthcare country profile covering health issues, systems, coverage, sanitary conditions, financing, workforce, digital health, equity, risks, and readiness for later policy comparison. | `skills/country-profiling/` |
-
-## Planned skills
-
-| Skill | Status | Description | Path |
-|---|---|---|---|
-| Policy Comparison | Migrated starting point / planned | Contains the previous policy-oriented country-profiling package as a starting point for later policy-comparison iteration. | `skills/policy-comparison/` |
-| Terminology Mapping | Possible future extension | Identify terminology, coding, and data-element mapping issues for localization. | Not started |
+| Skill | Status | Location | Purpose | Notes |
+|---|---|---|---|---|
+| Country Profiling | Active / MVP polish | `skills/country-profiling/` | Builds a source-backed healthcare country profile. | Output should feed later policy comparison by identifying context, source gaps, and readiness. |
+| Policy Comparison | Planned / migrated starting point | `skills/policy-comparison/` | Will compare WHO/SMART content with national policy material. | Should use country profile output as context. |
+| Terminology Mapping | Possible future extension | Not implemented | Would support terminology, code, formulary, schedule, or data-element mapping. | Optional and likely requires MCP/FHIR tooling. |
 
 ## Notes
 
-- Examples and first tests are still being prepared.
+- Country Profiling is the currently active skill.
+- Source-backed examples and first evaluation tests are the next phase.
 - Validators check structure only.
 - Skills are review aids and do not replace expert review.

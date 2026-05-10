@@ -6,8 +6,13 @@ The skill should work from supplied documents first. Retrieval can support the w
 
 Ask for:
 
-- country name;
-- optional health focus, region, population group, or intended downstream use;
+- country name.
+
+Helpful but not required:
+
+- health focus or downstream use;
+- region or population group;
+- WHO SMART Guidelines or DAK scope, if known;
 - any country-specific health documents already available.
 
 When retrieval-assisted mode is useful, these values can be passed into the preparation command:
@@ -24,17 +29,62 @@ If country documents are available, pass each one with `--country-document` in t
 title|document type|path-or-url|date
 ```
 
-## Recommended source classes
+Domain-specific policy documents are not mandatory for Country Profiling. They become important when the profile is used to prepare the future Policy Comparison skill.
+
+## Recommended source classes by profile section
+
+### General country and health overview
 
 - WHO country profile, country cooperation strategy, regional observatory profile, or equivalent country health overview.
 - National health strategy or health sector strategic plan.
+
+### Population health and burden
+
 - Recent burden-of-disease, mortality, surveillance, health statistics, census, DHS/MICS, or household survey source.
+
+### Health system organization
+
+- Health sector plan, health system review, service delivery assessment, emergency preparedness review, or ministry of health annual report.
+
+### Access and coverage
+
+- UHC monitoring source, insurance or entitlement documentation, benefit package summary, service availability assessment, or access/quality survey.
+
+### Financing
+
 - Health financing, UHC, insurance, expenditure, or financial protection source.
+
+### Workforce and infrastructure
+
 - Health workforce and facility-capacity source.
+
+### WASH and environmental health
+
 - WASH, sanitary conditions, environmental health, pollution, climate, or vector-risk source.
+
+### Digital health and health information systems
+
 - Digital health strategy, health information system strategy, CRVS source, surveillance-system source, or data-quality report.
-- Domain-specific national programme documents only when a focus area is requested.
-- Downstream policy documents only when the profile is being used to prepare later policy comparison.
+
+### Equity and vulnerable groups
+
+- Equity analysis, poverty or social determinants source, migrant/refugee source, disability source, subnational health source, or humanitarian assessment.
+
+### Current risks
+
+- Recent outbreak reports, emergency updates, climate risk assessments, medicine shortage notices, workforce-strain reports, or financing-risk reports.
+
+### Policy-comparison source classes
+
+Collect these only if the profile is preparing a later comparison:
+
+- national health strategy;
+- domain-specific national guideline;
+- service delivery model or operational manual;
+- financing, eligibility, or coverage rules;
+- reporting forms, registers, indicators, or data dictionaries;
+- terminology, coding, formulary, schedule, or product-list source;
+- implementation guidance or programme monitoring document.
 
 ## Input quality checklist
 

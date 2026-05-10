@@ -2,6 +2,8 @@
 
 Use this file as the format for a future example. Do not treat it as a completed example.
 
+Placeholder only. Add real WHO and country-specific sources before using this as an evaluation example.
+
 ## Example input format
 
 ```md
@@ -14,6 +16,10 @@ Use this file as the format for a future example. Do not treat it as a completed
 ## Optional focus
 
 <General healthcare overview, specific health topic, region, population group, or downstream use>
+
+## Intended downstream use
+
+<Policy comparison, SMART Guidelines localization, DAK preparation, or general context only>
 
 ## Supplied source material
 
@@ -29,7 +35,7 @@ Use this file as the format for a future example. Do not treat it as a completed
 ## Example output format
 
 ```md
-# Country healthcare profile: <Country>
+# Country healthcare profile: <Country> — <optional focus>
 
 ## Profile metadata
 
@@ -38,6 +44,7 @@ Use this file as the format for a future example. Do not treat it as a completed
 - Profile date:
 - Profile author or agent:
 - Intended downstream use:
+- Source mode: <document-only | retrieval-assisted | mixed>
 - Known input limitations:
 
 ## Executive summary
@@ -48,7 +55,7 @@ Use this file as the format for a future example. Do not treat it as a completed
 
 | Source | Source type | Publisher | Date | URL or file path | Relevance | Status |
 |---|---|---|---|---|---|---|
-| <source title> | <source class> | <publisher> | <date> | <url-or-path> | <relevance> | Reviewed |
+| <source title> | <source class> | <publisher> | <date> | <url-or-path> | <relevance> | Candidate source |
 
 ## Country context snapshot
 
@@ -97,6 +104,14 @@ Use this file as the format for a future example. Do not treat it as a completed
 ## Policy-analysis readiness
 
 <State whether later policy comparison is ready, partially ready, or blocked. Do not perform policy comparison here.>
+
+## Policy-comparison handoff
+
+<Optional. Include when useful for the future Policy Comparison skill.>
+
+| Downstream need | Why it matters | Available evidence | Missing source or uncertainty | Suggested next action |
+|---|---|---|---|---|
+| <need> | <reason> | <source-backed evidence or none> | <gap/uncertainty> | <next action> |
 
 ## Evidence gaps and expert input needed
 

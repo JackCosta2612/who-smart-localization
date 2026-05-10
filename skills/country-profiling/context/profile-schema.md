@@ -7,7 +7,7 @@ The profile may be produced from user-provided documents, retrieval-assisted out
 ## Required sections
 
 ```md
-# Country healthcare profile: <Country>
+# Country healthcare profile: <Country> — <optional focus>
 
 ## Profile metadata
 
@@ -44,6 +44,10 @@ The profile may be produced from user-provided documents, retrieval-assisted out
 ## Sources
 ```
 
+Add `## Policy-comparison handoff` after `## Policy-analysis readiness` when it helps structure downstream work.
+
+If there is no specific focus, use `# Country healthcare profile: <Country>`.
+
 ## Profile metadata
 
 Include:
@@ -53,6 +57,7 @@ Include:
 - profile date;
 - profile author or agent;
 - intended downstream use, if known;
+- source mode: `document-only`, `retrieval-assisted`, or `mixed`;
 - known input limitations.
 
 ## Source inventory
@@ -70,6 +75,7 @@ Allowed `Status` values:
 - `Candidate source`
 - `Needs retrieval`
 - `Needs expert validation`
+- `Not available in supplied material`
 
 Use `Reviewed` only when the profile actually uses the source as evidence. Use `Candidate source` for sources identified but not fully reviewed.
 
@@ -91,7 +97,7 @@ Discuss major communicable diseases, noncommunicable diseases, injuries, mental 
 
 ### Health system organization and capacity
 
-Describe governance, public/private roles, primary care, referral care, hospital capacity, decentralization, emergency preparedness, medicines and supply availability, and service delivery constraints when sourced.
+Describe governance, public/private roles, primary care, referral care, hospital capacity, decentralization, emergency preparedness, service delivery constraints, and implementation environment when sourced.
 
 ### Healthcare access and coverage
 
@@ -127,11 +133,38 @@ Explain whether the available profile is sufficient to proceed to later policy c
 
 Address:
 
-- which policy domains could be compared next;
-- which source classes are still missing;
+- which health areas appear most relevant for later policy comparison;
+- which national policy source classes are needed;
+- which systems are in place that will affect policy interpretation;
+- which source gaps prevent safe comparison;
 - whether country-specific policy sources appear current and authoritative;
 - what expert review is needed before policy comparison;
+- whether the profile is sufficient for a first policy-comparison pass;
 - any limits that should constrain downstream DAK or SMART Guidelines localization work.
+
+If the evidence base is too thin, explicitly state `Not ready for policy comparison` and explain why.
+
+## Policy-comparison handoff
+
+Add this section when it helps structure downstream work. This section should prepare the future Policy Comparison skill; it should not compare WHO and national policy.
+
+Use this table:
+
+```md
+| Downstream need | Why it matters | Available evidence | Missing source or uncertainty | Suggested next action |
+|---|---|---|---|---|
+```
+
+Common downstream needs include:
+
+- national health strategy;
+- domain-specific guideline;
+- service delivery model;
+- financing or coverage rules;
+- data or reporting system;
+- terminology or coding system;
+- implementation constraints;
+- expert validation.
 
 ## Evidence gaps and expert input needed
 
@@ -155,6 +188,7 @@ The structural validator checks for:
 - all required sections;
 - a source inventory table;
 - an evidence gaps and expert input table;
+- the optional policy-comparison handoff table when the section is present;
 - controlled values for source status.
 
-The validator does not check whether the country profile is epidemiologically, legally, operationally, or policy correct.
+The validator does not check whether the country profile is factually, epidemiologically, clinically, legally, operationally, policy, source-interpretation, or WHO-interpretation correct.
