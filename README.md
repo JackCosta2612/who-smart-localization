@@ -2,13 +2,15 @@
 
 Model-neutral Agent Skills for WHO SMART Guidelines localization work.
 
-This repository is part of a one-month, 3 ECTS university NLP project connected to WHO SMART Guidelines localization. It currently contains the Country Profiling skill as the first implemented skill in a broader localization skill package. Real examples and first tests are still intentionally pending until source-backed examples are created.
+This repository is part of a one-month, 3 ECTS university NLP project connected to WHO SMART Guidelines localization. Country Profiling is the currently active skill. Policy Comparison is planned after the Country Profiling package is stable enough to support source-backed examples and downstream comparison work.
 
 ## Project scope
 
 The skills support preparation and review work for WHO SMART Guidelines and Digital Adaptation Kits (DAKs). They help organize sources, identify evidence gaps, and prepare structured outputs for human review.
 
-They do not make clinical decisions, provide patient advice, draft final national policy, or replace WHO, national, legal, clinical, policy, or country experts.
+Country Profiling creates a healthcare country profile. It does not perform policy alignment analysis. Later, Policy Comparison should use the country profile as context when comparing WHO/SMART content with national policy material.
+
+The skills do not make clinical decisions, provide patient advice, draft final national policy, or replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
 
 ## Repository structure
 
@@ -41,19 +43,23 @@ They do not make clinical decisions, provide patient advice, draft final nationa
 
 ### Country Profiling
 
-Status: implemented / documentation pivot.
+Status: active / MVP polish.
 
-Creates a source-backed textual healthcare country profile covering country context, main health issues, health system organization, access and coverage, sanitary conditions, financing, workforce, infrastructure, digital health, equity, risks, and readiness for later policy comparison.
+Creates a source-backed textual healthcare country profile covering country context, main health issues, health system organization, implementation environment, access and coverage, sanitary conditions, financing, workforce, infrastructure, digital health, equity, risks, and readiness for later policy comparison.
 
 Path: `skills/country-profiling/`
 
 ### Policy Comparison
 
-Status: migrated starting point / planned for later iteration.
+Status: planned / migrated starting point.
 
-Contains the previous policy-oriented country-profiling package as a starting point for the later policy-comparison skill.
+Will compare WHO/SMART content with national policy material after Country Profiling is stable. It should use country profile outputs as context.
 
 Path: `skills/policy-comparison/`
+
+## Examples and tests
+
+Examples and first evaluation tests are the next phase after this polish pass. They should be source-backed rather than fabricated. The current country-profiling example file is only a format scaffold.
 
 ## Basic workflow
 
@@ -82,10 +88,10 @@ Country profile validator:
 python3 skills/country-profiling/scripts/validate_profile.py --help
 ```
 
-Policy comparison matrix validator:
+Policy comparison validator:
 
 ```bash
 python3 skills/policy-comparison/scripts/validate_profile.py --help
 ```
 
-Validators check structure only. They do not validate clinical correctness, policy correctness, country facts, or source interpretation.
+Validators check structure only. They do not validate clinical correctness, policy correctness, country facts, source interpretation, or WHO interpretation.

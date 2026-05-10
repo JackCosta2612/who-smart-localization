@@ -20,6 +20,7 @@ from urllib.request import Request, urlopen
 
 BASE_GHO_URL = "https://ghoapi.azureedge.net/api"
 DEFAULT_OUTPUT_DIR = Path("skills/country-profiling/retrieval-output")
+DEFAULT_FOCUS = "general healthcare overview"
 DOCUMENT_EXTENSIONS = {".csv", ".doc", ".docx", ".pdf", ".xls", ".xlsx", ".zip"}
 CONTENT_TYPE_EXTENSIONS = {
     "application/pdf": ".pdf",
@@ -766,8 +767,13 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
     parser.add_argument(
         "--focus",
-        default="general healthcare overview",
+        default=DEFAULT_FOCUS,
         help="Optional health focus, region, population group, or downstream use.",
+    )
+    parser.add_argument(
+        "--domain",
+        dest="legacy_domain",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--output-dir",
@@ -806,6 +812,8 @@ def main(argv: list[str]) -> int:
         help="Discover downloadable document links but do not download them.",
     )
     args = parser.parse_args(argv[1:])
+    if args.legacy_domain and args.focus == DEFAULT_FOCUS:
+        args.focus = args.legacy_domain
 
     output_dir = Path(args.output_dir)
     try:

@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 DEFAULT_OUTPUT_DIR = Path("skills/country-profiling/profile-runs")
+DEFAULT_FOCUS = "general healthcare overview"
 REQUIRED_COUNTRY_DOCUMENT_CLASSES = [
     "Country health profile or national health strategy",
     "Burden-of-disease, mortality, surveillance, census, or survey source",
@@ -159,8 +160,18 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
     parser.add_argument(
         "--focus",
-        default="general healthcare overview",
+        default=DEFAULT_FOCUS,
         help="Optional health focus, region, population group, or downstream use.",
+    )
+    parser.add_argument(
+        "--domain",
+        dest="legacy_domain",
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--dak-scope",
+        dest="legacy_dak_scope",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--country-document",
@@ -178,6 +189,8 @@ def main(argv: list[str]) -> int:
     )
     parser.add_argument("--offline", action="store_true", help="Run retrieval in offline mode.")
     args = parser.parse_args(argv[1:])
+    if args.legacy_domain and args.focus == DEFAULT_FOCUS:
+        args.focus = args.legacy_domain
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -246,6 +259,7 @@ def main(argv: list[str]) -> int:
         "generated_at": now_utc(),
         "country": args.country,
         "focus": args.focus,
+        "legacy_dak_scope": args.legacy_dak_scope,
         "run_dir": str(run_dir),
         "environment_gate": environment,
         "who_retrieval_gate": retrieval,

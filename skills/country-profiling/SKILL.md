@@ -1,23 +1,23 @@
 ---
 name: who-smart-country-profiling
-description: Builds a source-backed textual healthcare country profile. Use when asked to understand a country's health context, main health issues, health system, coverage, sanitary conditions, access constraints, health data environment, or readiness for later policy comparison and localization work.
+description: Build a source-backed healthcare country profile for a target country and optional health focus, including health situation, health system context, implementation environment, evidence gaps, and readiness for later WHO SMART Guidelines localization or policy comparison.
 license: MIT
 compatibility: Model-neutral Agent Skill. Uses supplied documents by default. Optional WHO/open data retrieval may be used when available.
 metadata:
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone"
-  version: "0.2"
+  version: "0.3"
 ---
 
 # WHO SMART Country Profiling Skill
 
 ## Purpose
 
-Create a concise, source-backed textual profile of a country from a healthcare perspective.
+Create a concise, source-backed healthcare country profile for a target country.
 
-The profile should explain the country's health context before any detailed policy comparison is attempted. It should cover the main health issues, health system organization, access and coverage, sanitary and environmental health conditions, financing and affordability, workforce and infrastructure, digital health and data systems, equity concerns, and current risks or uncertainties.
+The profile explains the country's health situation and health system context before detailed policy comparison, DAK localization, or SMART Guidelines adaptation. It should cover the main health issues, health system organization, implementation environment, access and coverage, sanitary and environmental health conditions, financing and affordability, workforce and infrastructure, digital health and data systems, equity concerns, and current risks or uncertainties.
 
-Policy-specific analysis is conditional on this profile. Do not compare policies, assess alignment with WHO guidance, or draft localization recommendations unless the user explicitly asks for that as a later step and the country profile identifies adequate sources for doing it.
+The output is designed as an input to the future Policy Comparison skill. It should identify which policy domains can be compared next, which national policy source classes are still needed, and what country context constrains interpretation of national policy. It should not compare policies, assess alignment with WHO guidance, or draft localization recommendations.
 
 ## When to use
 
@@ -50,6 +50,7 @@ Helpful inputs:
 - optional health focus, region, population group, or use case;
 - source documents pasted into the prompt, attached as files, or already present in the conversation;
 - national health strategies, country health profiles, programme reports, census or survey outputs, health financing reports, health workforce documents, WASH or environmental health sources, digital health strategies, and health information system documents;
+- WHO SMART Guidelines or DAK scope if known, as downstream context rather than a required profiling input;
 - WHO, World Bank, UNICEF, UNAIDS, GBD, OECD, regional observatory, or other reputable public-health sources;
 - source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
 
@@ -69,18 +70,21 @@ See `context/execution-modes.md` for the decision rules.
 
 1. Identify the target country and any optional health focus, region, or intended downstream use.
 2. Build a source inventory from user-provided material and any optional retrieved material.
-3. Decide whether the available sources are sufficient for a preliminary healthcare country profile.
-4. Draft the textual profile using `context/profile-schema.md`.
-5. Mark missing information as evidence gaps.
-6. Separate facts, uncertainties, assumptions, and expert-review needs.
-7. Include a policy-analysis readiness section that says what policy comparison can or cannot safely follow from the profile.
-8. Do not fabricate missing country context.
+3. Classify source types as country-specific, regional, global, candidate, or missing.
+4. Decide whether a full profile, limited profile, or skeleton/gap-analysis profile is appropriate.
+5. Draft the textual profile using `context/profile-schema.md`.
+6. Keep the profile narrative and readable.
+7. Mark missing information as evidence gaps.
+8. Separate facts, uncertainties, assumptions, and expert-review needs.
+9. Include a `Policy-analysis readiness` section and, when useful, a `Policy-comparison handoff` table.
+10. State how the output can feed the future Policy Comparison skill.
+11. Do not fabricate missing country context.
 
 ## Output requirements
 
 Always follow `context/profile-schema.md`.
 
-The output is primarily narrative. Tables are used only for source inventory, evidence gaps, and review needs.
+The output is primarily narrative. Tables are used for source inventory, evidence gaps, and policy-comparison handoff when appropriate.
 
 Every substantive country, health system, health burden, coverage, sanitary condition, access, financing, workforce, infrastructure, digital health, or data claim should include:
 
