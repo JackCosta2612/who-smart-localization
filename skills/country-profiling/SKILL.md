@@ -80,6 +80,10 @@ See `context/execution-modes.md` for the decision rules.
 10. State how the output can feed the future Policy Comparison skill.
 11. Do not fabricate missing country context.
 
+When available, consult `examples/` for reference input-output patterns before
+drafting. Treat examples as behavior references, not as tests, benchmarks, or
+final policy evidence.
+
 ## Output requirements
 
 Always follow `context/profile-schema.md`.

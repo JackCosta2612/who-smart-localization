@@ -59,7 +59,11 @@ Path: `skills/policy-comparison/`
 
 ## Examples and tests
 
-Examples and first evaluation tests are the next phase after this polish pass. They should be source-backed rather than fabricated. The current country-profiling example file is only a format scaffold.
+Country Profiling includes draft Italy reference examples under
+`skills/country-profiling/examples/`. These are behavior-shaping examples for
+manual review, not benchmark cases or final policy evidence. Tests and
+validators check structure only; they do not validate clinical correctness,
+policy correctness, country facts, source interpretation, or WHO interpretation.
 
 ## Basic workflow
 

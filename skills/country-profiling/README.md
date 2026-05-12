@@ -96,7 +96,11 @@ country-profiling/
 │   ├── runtime-requirements.md
 │   └── who-data-retrieval.md
 ├── examples/
-│   └── example-format.md
+│   ├── README.md
+│   ├── example-format.md
+│   ├── italy-reference-draft-1/
+│   ├── italy-reference-draft-2/
+│   └── italy-reference-draft-3/
 ├── scripts/
 │   ├── check_environment.py
 │   ├── prepare_profile_run.py
@@ -108,8 +112,11 @@ country-profiling/
 
 ## Current status
 
-Ready for source-backed examples after this polish pass.
+Ready for manual review of draft Italy reference examples.
 
-## TODO: source-backed examples
+## Reference examples
 
-Next, create one complete source-backed example: choose a country and health focus, collect real sources, draft expected output using `context/profile-schema.md`, run the validator, then test whether an agent follows the example.
+The `examples/italy-reference-draft-*` folders contain behavior-shaping
+reference examples, not benchmarks or tests. They show alternative ways to
+normalize inputs, draft source-backed profiles, represent uncertainty, and
+prepare downstream Policy Comparison without performing it.
