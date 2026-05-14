@@ -3,7 +3,7 @@
 ## Profile metadata
 
 - Country: Italy
-- Optional health focus or region: Broad healthcare system overview; immunization noted as a downstream policy area
+- Optional downstream health-area focus, region, or population group: None; broad healthcare system overview, with immunization noted as a downstream policy area
 - Profile date: 2026-05-12
 - Profile author or agent: Country Profiling skill reference draft
 - Intended downstream use: Context for later WHO SMART Guidelines localization and Policy Comparison

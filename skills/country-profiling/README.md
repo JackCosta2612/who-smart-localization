@@ -47,7 +47,7 @@ Prepare a retrieval-assisted run:
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --focus "<optional downstream health-area focus>"
 ```
 
 Run WHO retrieval directly when useful:
@@ -55,7 +55,7 @@ Run WHO retrieval directly when useful:
 ```bash
 python3 skills/country-profiling/scripts/retrieve_who_sources.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --focus "<optional downstream health-area focus>"
 ```
 
 ## Validation
@@ -79,7 +79,7 @@ The validator checks headings, table headers, optional handoff structure, and co
 
 ## Policy Comparison handoff
 
-The profile should identify which health areas matter for later comparison, which national policy source classes are needed, which systems affect policy interpretation, what gaps block safe comparison, and what expert inputs are required. If the evidence base is too thin, the profile should state `Not ready for policy comparison`.
+The profile should identify which downstream health areas matter for later comparison, which national policy source classes are needed, which systems affect policy interpretation, what gaps block safe comparison, and what expert inputs are required. If the evidence base is too thin, the profile should state `Not ready for policy comparison`.
 
 ## Folder structure
 

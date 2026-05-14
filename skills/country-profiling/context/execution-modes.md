@@ -8,7 +8,7 @@ Use document-only mode by default when the user provides enough source material 
 
 In this mode, the Agent should:
 
-- identify the target country and optional health focus, region, population group, or downstream use;
+- identify the target country and optional downstream health-area focus, region, population group, or downstream use;
 - normalize the supplied material into the source inventory from `profile-schema.md`;
 - draft only from the supplied material;
 - mark missing source classes and missing facts as evidence gaps;
@@ -23,7 +23,7 @@ The helper command is:
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --focus "<optional downstream health-area focus>"
 ```
 
 Country documents can be listed with repeated `--country-document` arguments:
