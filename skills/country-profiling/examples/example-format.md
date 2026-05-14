@@ -13,9 +13,9 @@ Placeholder only. Add real WHO and country-specific sources before using this as
 
 <Country>
 
-## Optional focus
+## Optional downstream focus
 
-<General healthcare overview, specific health topic, region, population group, or downstream use>
+<None/general overview, or a downstream health area such as immunization when preparing later policy comparison>
 
 ## Intended downstream use
 
@@ -35,12 +35,12 @@ Placeholder only. Add real WHO and country-specific sources before using this as
 ## Example output format
 
 ```md
-# Country healthcare profile: <Country> — <optional focus>
+# Country healthcare profile: <Country> — <optional downstream health-area focus>
 
 ## Profile metadata
 
 - Country:
-- Optional health focus or region:
+- Optional downstream health-area focus, region, or population group:
 - Profile date:
 - Profile author or agent:
 - Intended downstream use:

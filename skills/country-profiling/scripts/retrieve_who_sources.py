@@ -554,7 +554,7 @@ def build_source_inventory(
         sources.append(
             {
                 "title": source["title"],
-                "source_type": "WHO focus source",
+                "source_type": "WHO downstream-focus source",
                 "url": source["url"],
                 "relevance": "Topic-specific WHO source candidate.",
                 "evidence_scope": source.get("evidence_scope", "global-focus-source"),
@@ -567,7 +567,7 @@ def build_source_inventory(
         sources.append(
             {
                 "title": "Focus-specific WHO source not mapped in retrieval helper",
-                "source_type": "WHO focus source",
+                "source_type": "WHO downstream-focus source",
                 "url": "",
                 "relevance": "Agent should search WHO, regional observatory, or public-health sources manually if the focus is important.",
                 "evidence_scope": "unresolved-source-discovery",
@@ -615,7 +615,7 @@ def write_markdown(bundle: dict[str, Any], path: Path) -> None:
         "",
         f"- Generated at: {bundle['generated_at']}",
         f"- Offline mode: {bundle['offline']}",
-        f"- Focus mapping: {bundle['focus_key'] or 'not mapped'}",
+        f"- Downstream focus mapping: {bundle['focus_key'] or 'not mapped'}",
         "",
         "## Country metadata",
         "",
@@ -768,7 +768,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--focus",
         default=DEFAULT_FOCUS,
-        help="Optional health focus, region, population group, or downstream use.",
+        help="Optional downstream health-area focus, region, population group, or downstream use.",
     )
     parser.add_argument(
         "--domain",
