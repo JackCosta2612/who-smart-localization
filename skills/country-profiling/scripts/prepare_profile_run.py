@@ -93,7 +93,7 @@ def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> 
     lines = [
         f"# Input documentation inventory: {inventory['country']} - {inventory['focus']}",
         "",
-        f"- Optional health focus: {inventory['focus']}",
+        f"- Optional downstream health-area focus: {inventory['focus']}",
         "",
         "## Supplied country documents",
         "",
@@ -161,7 +161,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--focus",
         default=DEFAULT_FOCUS,
-        help="Optional health focus, region, population group, or downstream use.",
+        help="Optional downstream health-area focus, region, population group, or downstream use.",
     )
     parser.add_argument(
         "--domain",

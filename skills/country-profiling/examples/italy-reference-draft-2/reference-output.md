@@ -3,7 +3,7 @@
 ## Profile metadata
 
 - Country: Italy
-- Optional health focus or region: Immunization and vaccination governance
+- Optional downstream health-area focus, region, or population group: Immunization and vaccination governance for later policy comparison
 - Profile date: 2026-05-12
 - Profile author or agent: Country Profiling skill reference draft
 - Intended downstream use: Prepare context for later immunization policy comparison and WHO SMART Guidelines localization

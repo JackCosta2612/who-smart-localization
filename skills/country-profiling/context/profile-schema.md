@@ -7,7 +7,7 @@ The profile may be produced from user-provided documents, retrieval-assisted out
 ## Required sections
 
 ```md
-# Country healthcare profile: <Country> — <optional focus>
+# Country healthcare profile: <Country> — <optional downstream health-area focus>
 
 ## Profile metadata
 
@@ -53,7 +53,7 @@ If there is no specific focus, use `# Country healthcare profile: <Country>`.
 Include:
 
 - country;
-- optional health focus or region;
+- optional downstream health-area focus, region, or population group;
 - profile date;
 - profile author or agent;
 - intended downstream use, if known;
@@ -133,7 +133,7 @@ Explain whether the available profile is sufficient to proceed to later policy c
 
 Address:
 
-- which health areas appear most relevant for later policy comparison;
+- which downstream health areas appear most relevant for later policy comparison;
 - which national policy source classes are needed;
 - which systems are in place that will affect policy interpretation;
 - which source gaps prevent safe comparison;
@@ -175,7 +175,7 @@ Use this table:
 |---|---|---|---|
 ```
 
-Include missing source classes, conflicting evidence, stale documents, unclear applicability, unsupported country/domain facts, and claims that could affect later policy analysis.
+Include missing source classes, conflicting evidence, stale documents, unclear applicability, unsupported country or downstream-focus facts, and claims that could affect later policy analysis.
 
 ## Sources
 

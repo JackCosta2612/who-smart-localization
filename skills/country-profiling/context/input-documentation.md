@@ -10,7 +10,7 @@ Ask for:
 
 Helpful but not required:
 
-- health focus or downstream use;
+- downstream health-area focus or downstream use;
 - region or population group;
 - WHO SMART Guidelines or DAK scope, if known;
 - any country-specific health documents already available.
@@ -20,7 +20,7 @@ When retrieval-assisted mode is useful, these values can be passed into the prep
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --focus "<optional downstream health-area focus>"
 ```
 
 If country documents are available, pass each one with `--country-document` in this format:
@@ -96,7 +96,7 @@ Before profiling, record:
 - language;
 - country ministry, agency, or organization responsible;
 - whether the source covers the country nationally or only a region/population group;
-- whether the source covers the optional health focus directly;
+- whether the source covers the optional downstream health-area focus directly;
 - whether a newer version may exist.
 
 ## Handling missing inputs

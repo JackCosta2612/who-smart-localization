@@ -21,7 +21,7 @@ https://ghoapi.azureedge.net/api/Indicator
 https://ghoapi.azureedge.net/api/<INDICATOR_CODE>
 ```
 
-Use this for structured country indicators related to mortality, morbidity, service coverage, financing, workforce, WASH, and the optional health focus.
+Use this for structured country indicators related to mortality, morbidity, service coverage, financing, workforce, WASH, and the optional downstream health-area focus.
 
 ### WHO SCORE documents
 
@@ -39,9 +39,9 @@ Use National Health Workforce Accounts or related workforce sources when workfor
 
 Use WASH, sanitation, drinking water, hygiene, air pollution, climate, and environmental health sources when sanitary conditions or environmental risks are relevant to country health context.
 
-## Optional focused sources
+## Optional downstream-focus sources
 
-When the user provides a health focus, add topic-specific WHO sources and indicator searches. Examples:
+When the user provides a downstream health-area focus, add topic-specific WHO sources and indicator searches. Examples:
 
 | Focus | Search terms |
 |---|---|
@@ -60,17 +60,17 @@ When retrieval support is useful, run:
 ```bash
 python3 skills/country-profiling/scripts/retrieve_who_sources.py \
   --country "<country>" \
-  --focus "<optional health focus>"
+  --focus "<optional downstream health-area focus>"
 ```
 
 The retrieval runner should:
 
 1. Resolve country metadata where possible.
-2. Build a WHO source inventory with country, GHO, SCORE, expenditure, workforce, WASH, and optional focus source classes.
+2. Build a WHO source inventory with country, GHO, SCORE, expenditure, workforce, WASH, and optional downstream-focus source classes.
 3. Fetch WHO HTML source pages and save extracted text snapshots under `content/`.
 4. Save discovered page links as JSON link inventories.
 5. Download supported linked documents when file sizes are within the configured limit.
-6. Search WHO GHO indicators using general health terms plus optional focus terms.
+6. Search WHO GHO indicators using general health terms plus optional downstream-focus terms.
 7. Retrieve country-filtered GHO data samples for selected indicators when possible.
 8. Write a markdown retrieval report and a machine-readable JSON bundle.
 9. Record every failed or skipped retrieval as an explicit evidence gap.

@@ -3,7 +3,7 @@
 ## Profile metadata
 
 - Country: Italy
-- Optional health focus or region: Policy-comparison handoff, with immunization as the first likely downstream topic
+- Optional downstream health-area focus, region, or population group: Policy-comparison handoff, with immunization as the first likely downstream topic
 - Profile date: 2026-05-12
 - Profile author or agent: Country Profiling skill reference draft
 - Intended downstream use: Handoff context for later Policy Comparison and WHO SMART Guidelines localization
