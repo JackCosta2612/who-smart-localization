@@ -150,4 +150,20 @@ def recommended_source_leads(country: str, iso3: str, focus: str | None = None) 
         enriched["focus"] = focus or ""
         enriched["retrieval_date"] = retrieval_date
         output.append(enriched)
+    if focus and "immun" in focus.casefold():
+        output.append(
+            {
+                "title": "WHO SMART Guidelines Digital Adaptation Kit for Immunization",
+                "publisher": "World Health Organization",
+                "source_type": "WHO SMART / DAK artifact",
+                "url": "shared/assets/who-immunizations-dak.pdf",
+                "date": "Local shared source",
+                "relevance": "Available immunization DAK source for later Policy Comparison. Country Profiling should identify it as downstream comparison material without comparing it to national policy.",
+                "status": "Candidate source lead",
+                "country": country,
+                "iso3": iso3,
+                "focus": focus or "",
+                "retrieval_date": retrieval_date,
+            }
+        )
     return output

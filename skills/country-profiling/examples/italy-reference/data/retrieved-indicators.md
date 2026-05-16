@@ -1,6 +1,6 @@
 # Retrieved baseline indicators: Italy (ITA)
 
-- Retrieval date: 2026-05-16T09:15:28+00:00
+- Retrieval date: 2026-05-16T09:39:05+00:00
 - Downstream focus: immunization
 - Registry: skills/country-profiling/data_sources/indicator_registry.json
 

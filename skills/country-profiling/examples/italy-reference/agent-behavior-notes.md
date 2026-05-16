@@ -17,15 +17,16 @@ country plus optional downstream focus, not a human-built source packet.
 - Ask for human review of the draft and source inventory, not for manual source
   construction, unless key source classes remain missing.
 - Feed the Policy Comparison skill by identifying context, likely source
-  classes, and gaps without performing comparison.
+  classes, the shared immunization DAK, and gaps without performing comparison.
 
 ## Boundary to enforce
 
 Country Profiling may identify Italy's SSN structure, baseline indicators,
-regional implementation risk, and immunization source classes. It should not
-compare Italian immunization policy with WHO guidance, recommend schedule
-changes, make clinical judgments, or claim policy readiness without source
-support.
+regional implementation risk, immunization source classes, and the shared WHO
+immunization DAK at `shared/assets/who-immunizations-dak.pdf`. It should not
+compare Italian immunization policy with the DAK or WHO guidance, recommend
+schedule changes, make clinical judgments, or claim policy readiness without
+source support.
 
 ## Reliability pattern
 

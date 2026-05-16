@@ -17,6 +17,11 @@ when comparing WHO/SMART content with national policy material.
 
 The skills do not make clinical decisions, provide patient advice, draft final national policy, or replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
 
+Shared source artifacts used by multiple skills live under `shared/assets/`.
+The repository currently includes `shared/assets/who-immunizations-dak.pdf` as
+the shared WHO immunization DAK source for immunization-focused profiling
+handoff and later Policy Comparison work.
+
 ## Repository structure
 
 ```text

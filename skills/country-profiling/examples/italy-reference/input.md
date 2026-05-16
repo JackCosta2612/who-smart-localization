@@ -26,3 +26,9 @@ pass.
 
 None. The agent should start from the country, optional focus, deterministic
 retrieval outputs, and controlled source leads.
+
+## Available shared source
+
+The repository includes `shared/assets/who-immunizations-dak.pdf` as the shared
+WHO immunization DAK source. Use it only as downstream comparison material for
+handoff; do not compare it with Italian policy inside Country Profiling.

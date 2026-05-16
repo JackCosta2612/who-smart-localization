@@ -23,6 +23,7 @@ profiling. It is a behavior-shaping example, not a final evidence package.
 | AIFA | Candidate source | Needed for vaccine authorization, safety, and pharmacovigilance context. |
 | National Vaccine Prevention Plan 2023-2025 | Candidate source | The Gazzetta top-level page is a landing page/source lead in this reference. Plan and calendar attachments must be retrieved and reviewed before policy comparison. |
 | OECD / Eurostat datasets | Candidate source | Retrieve only if the downstream comparison needs EU-comparable details beyond the World Bank baseline. |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | Candidate source | Available locally at `shared/assets/who-immunizations-dak.pdf`; use during Policy Comparison after selecting the exact comparison scope. |
 
 ## Landing-page and endpoint rules demonstrated
 
@@ -47,4 +48,5 @@ profiling. It is a behavior-shaping example, not a final evidence package.
 - Regional implementation documents or priority-region operational material.
 - Registry, reporting-form, data dictionary, interoperability, and FSE evidence.
 - Relevant WHO guideline, SMART Guideline, DAK artifact, or other comparison
-  source selected for the future Policy Comparison run.
+  source sections selected from `shared/assets/who-immunizations-dak.pdf` for
+  the future Policy Comparison run.
