@@ -11,7 +11,7 @@ This repository contains Agent Skills for WHO SMART Guidelines localization. Eac
 ## Notes
 
 - Country Profiling is the currently active skill.
-- Country Profiling has a retrieval-assisted Italy reference example for manual
+- Country Profiling has a retrieval-assisted reference example for manual
   review. It is a behavior reference, not a benchmark or test case.
 - Validators check structure only.
 - Skills are review aids and do not replace expert review.

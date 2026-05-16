@@ -74,8 +74,8 @@ Path: `skills/policy-comparison/`
 
 ## Examples and tests
 
-Country Profiling includes a retrieval-assisted Italy reference example under
-`skills/country-profiling/examples/italy-reference/`. It is a behavior-shaping
+Country Profiling includes a retrieval-assisted reference example under
+`skills/country-profiling/examples/example_1/`. It is a behavior-shaping
 example for manual review, not a benchmark case or final policy evidence. Tests
 and validators check structure only; they do not validate clinical correctness,
 policy correctness, country facts, source interpretation, or WHO interpretation.

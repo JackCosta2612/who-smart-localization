@@ -157,17 +157,17 @@ country-profiling/
 ├── examples/
 │   ├── README.md
 │   ├── example-format.md
-│   └── italy-reference/
+│   └── example_1/
 └── tests/
 ```
 
 ## Current status
 
-Ready for manual review of the retrieval-assisted Italy reference example.
+Ready for manual review of the retrieval-assisted reference example.
 
 ## Reference examples
 
-The `examples/italy-reference/` folder contains a behavior-shaping reference
+The `examples/example_1/` folder contains a behavior-shaping reference
 example, not a benchmark or test. It shows the preferred minimal-input pattern:
 country plus optional downstream focus, deterministic baseline retrieval where
 available, controlled web-assisted fallback when scripts are unavailable,
