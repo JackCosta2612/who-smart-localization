@@ -59,7 +59,7 @@ Creates a source-backed textual healthcare country profile covering country cont
 
 The preferred minimal input is a country name plus optional downstream focus.
 The skill supports document-only profiling, deterministic script-assisted
-retrieval for selected baseline indicators and source leads, and controlled
+retrieval for selected baseline indicators, reviewed source artifacts, and controlled
 web-assisted retrieval when scripts are unavailable.
 
 Path: `skills/country-profiling/`

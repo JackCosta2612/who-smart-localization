@@ -25,7 +25,8 @@ pass.
 ## Supplied documents
 
 None. The agent should start from the country, optional focus, deterministic
-retrieval outputs, and controlled source leads.
+retrieval outputs, configured web/PDF source resolution, and short unresolved
+source gaps.
 
 ## Available shared source
 

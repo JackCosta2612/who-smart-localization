@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Retrieve controlled baseline data and source leads for Country Profiling."""
+"""Retrieve controlled baseline data and reviewed source artifacts."""
 
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ REPO_ROOT = SKILL_DIR.parent.parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-import oecd  # noqa: E402
 import source_registry  # noqa: E402
+import web_sources  # noqa: E402
 import who_gho  # noqa: E402
 import world_bank  # noqa: E402
 
@@ -77,75 +77,128 @@ def write_indicators_markdown(bundle: dict[str, Any], path: Path) -> None:
     lines.extend(
         [
             "",
+            "## WHO GHO indicators",
+            "",
+        ]
+    )
+    if bundle["who_gho_indicators"]:
+        lines.extend(
+            [
+                "| Indicator | Code | Value | Unit | Year | Status | Source URL |",
+                "|---|---|---|---|---|---|---|",
+            ]
+        )
+        for item in bundle["who_gho_indicators"]:
+            lines.append(
+                markdown_table_row(
+                    [
+                        item.get("label"),
+                        item.get("indicator_code"),
+                        item.get("value"),
+                        item.get("unit"),
+                        item.get("year"),
+                        item.get("status"),
+                        item.get("url"),
+                    ]
+                )
+            )
+    else:
+        lines.append("No WHO GHO indicators are configured for this focus.")
+
+    lines.extend(
+        [
+            "",
             "## Retrieval caveats",
             "",
             "- Use precise indicator source, code, year, and retrieval date in profile claims.",
             "- `missing_value` means the configured indicator did not return a non-empty country value.",
             "- `failed` means retrieval failed and should be recorded as an evidence gap.",
-            "- WHO GHO and OECD values are not retrieved by this script unless stable source-specific configuration is added later.",
+            "- WHO GHO retrieval is intentionally limited to configured indicator codes; it is not a full GHO data platform.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_source_leads_markdown(bundle: dict[str, Any], path: Path) -> None:
+def write_web_reviewed_markdown(bundle: dict[str, Any], path: Path) -> None:
     lines = [
-        f"# Source leads: {bundle['country']} ({bundle['iso3']})",
+        f"# Web-reviewed sources: {bundle['country']} ({bundle['iso3']})",
         "",
         f"- Retrieval date: {bundle['retrieval_date']}",
         f"- Downstream focus: {bundle['focus'] or 'not specified'}",
         "",
-        "Source leads are discovery artifacts. Mark a source `Reviewed` only after the actual PDF, dataset, official attachment, official full-text HTML, or local file has been opened and used as evidence.",
+        "This artifact records sources that the script actually opened, downloaded, or parsed. A landing page remains a landing page unless its evidence-bearing text or linked PDF was retrieved.",
         "",
-        "## Institutional source leads",
-        "",
-        "| Title | Publisher | Source type | Date | URL | Relevance | Status |",
+        "| Title | Publisher | Source type | Date | Status | URL or file path | Parse status |",
         "|---|---|---|---|---|---|---|",
     ]
-    for lead in bundle["source_leads"]:
+    for item in bundle["web_reviewed_sources"]:
+        path_or_url = item.get("local_file_path") or item.get("url")
         lines.append(
             markdown_table_row(
                 [
-                    lead.get("title"),
-                    lead.get("publisher"),
-                    lead.get("source_type"),
-                    lead.get("date"),
-                    lead.get("url"),
-                    lead.get("relevance"),
-                    lead.get("status"),
+                    item.get("title"),
+                    item.get("publisher"),
+                    item.get("source_type"),
+                    item.get("date"),
+                    item.get("status"),
+                    path_or_url,
+                    item.get("parse_status"),
                 ]
             )
         )
 
-    lines.extend(
-        [
-            "",
-            "## WHO GHO / OECD support status",
-            "",
-            "| Source | Title | Source type | URL | Status | Notes |",
-            "|---|---|---|---|---|---|",
-        ]
-    )
-    for lead in [*bundle["who_gho_candidates"], *bundle["oecd_candidates"]]:
-        lines.append(
-            markdown_table_row(
-                [
-                    lead.get("source"),
-                    lead.get("title"),
-                    lead.get("source_type"),
-                    lead.get("url"),
-                    lead.get("status"),
-                    lead.get("notes"),
-                ]
-            )
+    lines.extend(["", "## Extracted text summaries", ""])
+    for item in bundle["web_reviewed_sources"]:
+        lines.extend(
+            [
+                f"### {item.get('title', 'Untitled source')}",
+                "",
+                f"- URL: {item.get('url', '')}",
+                f"- Local file path: {item.get('local_file_path') or 'not applicable'}",
+                f"- SHA-256: {item.get('sha256') or 'not applicable'}",
+                f"- Status: {item.get('status')}",
+                "",
+                item.get("text_summary") or "_No extracted text summary available._",
+                "",
+            ]
         )
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_source_leads_markdown(bundle: dict[str, Any], path: Path) -> None:
+    lines = [
+        f"# Unresolved source gaps: {bundle['country']} ({bundle['iso3']})",
+        "",
+        f"- Retrieval date: {bundle['retrieval_date']}",
+        f"- Downstream focus: {bundle['focus'] or 'not specified'}",
+        "",
+        "This file is intentionally short. It lists only unresolved source classes that remain useful after deterministic dataset retrieval and configured web/PDF source resolution.",
+        "",
+        "| Source class | Why needed | Suggested action | Status |",
+        "|---|---|---|---|",
+    ]
+    gaps = bundle["source_gaps"][: bundle["max_source_gaps"]]
+    if gaps:
+        for gap in gaps:
+            lines.append(
+                markdown_table_row(
+                    [
+                        gap.get("source_class"),
+                        gap.get("why_needed"),
+                        gap.get("suggested_action"),
+                        gap.get("status"),
+                    ]
+                )
+            )
+    else:
+        lines.append("| None recorded | Configured retrieval did not leave additional generic source gaps. | Continue with human review of retrieved artifacts. | Reviewed |")
 
     lines.extend(
         [
             "",
             "## Web-assisted fallback note",
             "",
-            "If Python scripts are unavailable, use `context/web-assisted-retrieval.md`: follow the approved source priority list, record provenance and status, separate reviewed evidence from candidate leads, and keep inaccessible PDFs or landing-page-only sources as evidence gaps.",
+            "If scripts or configured resolvers are unavailable, use `context/web-assisted-retrieval.md`: follow the approved source priority list, record provenance and status, separate reviewed evidence from candidate leads, and keep inaccessible PDFs or landing-page-only sources as evidence gaps.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -160,9 +213,22 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
         timeout=args.timeout,
         retrieval_date=retrieval_date,
     )
-    who_candidates = who_gho.fetch_configured_indicators(args.country, args.iso3, args.focus)
-    oecd_candidates = oecd.source_metadata(args.country, args.iso3, args.focus)
-    leads = source_registry.recommended_source_leads(args.country, args.iso3, args.focus)
+    who_results = who_gho.fetch_configured_indicators(
+        args.country,
+        args.iso3,
+        args.focus,
+        timeout=args.timeout,
+        retrieval_date=retrieval_date,
+    )
+    web_output_dir = Path(args.output_dir) / "web-reviewed"
+    web_records = web_sources.resolve_sources(
+        source_registry.configured_source_targets(args.country, args.iso3, args.focus),
+        output_dir=web_output_dir,
+        timeout=args.timeout,
+        retrieval_date=retrieval_date,
+        repo_root=REPO_ROOT,
+    )
+    gaps = source_registry.unresolved_source_gaps(args.country, args.iso3, args.focus)
 
     return {
         "country": args.country,
@@ -171,9 +237,22 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
         "retrieval_date": retrieval_date,
         "registry_path": display_path(REGISTRY_PATH),
         "world_bank_indicators": world_bank_results,
-        "who_gho_candidates": who_candidates,
-        "oecd_candidates": oecd_candidates,
-        "source_leads": leads,
+        "who_gho_indicators": who_results,
+        "web_reviewed_sources": web_records,
+        "source_gaps": gaps,
+        "max_source_gaps": args.max_source_gaps,
+    }
+
+
+def indicator_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "country": bundle["country"],
+        "iso3": bundle["iso3"],
+        "focus": bundle["focus"],
+        "retrieval_date": bundle["retrieval_date"],
+        "registry_path": bundle["registry_path"],
+        "world_bank_indicators": bundle["world_bank_indicators"],
+        "who_gho_indicators": bundle["who_gho_indicators"],
     }
 
 
@@ -181,7 +260,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Retrieve a controlled Country Profiling baseline bundle: World Bank indicators, "
-            "WHO GHO/OECD candidate metadata, and institutional source leads."
+            "configured WHO GHO indicators, reviewed web/PDF source artifacts, and short unresolved source gaps."
         )
     )
     parser.add_argument("--country", required=True, help="Country name.")
@@ -190,9 +269,15 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
-        help="Directory for retrieved-indicators.json, retrieved-indicators.md, and source-leads.md.",
+        help="Directory for retrieved-indicators, web-reviewed-sources, and source-leads artifacts.",
     )
     parser.add_argument("--timeout", type=int, default=30, help="HTTP timeout in seconds.")
+    parser.add_argument(
+        "--max-source-gaps",
+        type=int,
+        default=5,
+        help="Maximum unresolved source gaps to write to source-leads.md.",
+    )
     args = parser.parse_args(argv[1:])
 
     output_dir = Path(args.output_dir)
@@ -201,19 +286,40 @@ def main(argv: list[str]) -> int:
     bundle = build_bundle(args)
     indicators_json = output_dir / "retrieved-indicators.json"
     indicators_md = output_dir / "retrieved-indicators.md"
+    web_json = output_dir / "web-reviewed-sources.json"
+    web_md = output_dir / "web-reviewed-sources.md"
     source_leads_md = output_dir / "source-leads.md"
 
-    indicators_json.write_text(json.dumps(bundle, indent=2, sort_keys=True), encoding="utf-8")
+    indicators_json.write_text(
+        json.dumps(indicator_bundle(bundle), indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
     write_indicators_markdown(bundle, indicators_md)
+    web_json.write_text(
+        json.dumps(bundle["web_reviewed_sources"], indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
+    write_web_reviewed_markdown(bundle, web_md)
     write_source_leads_markdown(bundle, source_leads_md)
 
-    retrieved = sum(1 for item in bundle["world_bank_indicators"] if item.get("status") == "retrieved")
-    total = len(bundle["world_bank_indicators"])
+    wb_retrieved = sum(1 for item in bundle["world_bank_indicators"] if item.get("status") == "retrieved")
+    wb_total = len(bundle["world_bank_indicators"])
+    gho_retrieved = sum(1 for item in bundle["who_gho_indicators"] if item.get("status") == "retrieved")
+    gho_total = len(bundle["who_gho_indicators"])
+    web_reviewed = sum(
+        1
+        for item in bundle["web_reviewed_sources"]
+        if item.get("status") in {"reviewed_html", "parsed"}
+    )
     print(f"Wrote {display_path(indicators_json)}")
     print(f"Wrote {display_path(indicators_md)}")
+    print(f"Wrote {display_path(web_json)}")
+    print(f"Wrote {display_path(web_md)}")
     print(f"Wrote {display_path(source_leads_md)}")
-    print(f"World Bank indicators retrieved: {retrieved}/{total}")
-    if retrieved < total:
+    print(f"World Bank indicators retrieved: {wb_retrieved}/{wb_total}")
+    print(f"WHO GHO indicators retrieved: {gho_retrieved}/{gho_total}")
+    print(f"Web/PDF sources reviewed or parsed: {web_reviewed}/{len(bundle['web_reviewed_sources'])}")
+    if wb_retrieved < wb_total or gho_retrieved < gho_total:
         print("Some indicators were missing or failed; carry them into evidence gaps.")
     return 0
 

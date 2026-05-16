@@ -24,7 +24,9 @@ The example contains:
 - `reference-output.md`: a concise source-backed output pattern following `context/profile-schema.md`;
 - `data/retrieved-indicators.json`: deterministic baseline indicator bundle;
 - `data/retrieved-indicators.md`: human-readable retrieved indicator artifact;
-- `data/source-leads.md`: institutional source leads and fallback guidance;
+- `data/web-reviewed-sources.json`: reviewed HTML, downloaded PDFs, parsed text summaries, checksums, URLs, and parse statuses;
+- `data/web-reviewed-sources.md`: human-readable reviewed web/PDF artifact;
+- `data/source-leads.md`: short unresolved source gaps and fallback guidance;
 - `../../../shared/assets/who-immunizations-dak.pdf`: shared immunization DAK
   source for later Policy Comparison when the downstream focus is immunization;
 - `source-notes.md`: source rationale, reviewed-versus-candidate distinctions,

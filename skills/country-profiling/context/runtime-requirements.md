@@ -11,7 +11,9 @@ The Country Profiling retrieval helpers are designed to run in changing Agent en
 ## Optional
 
 - Outbound HTTPS access for live World Bank retrieval.
-- No optional Python packages are required for the current helper scripts.
+- Outbound HTTPS access for live WHO GHO and configured institutional web/PDF retrieval.
+- `pypdf>=6.0` for PDF text extraction. Without it, PDFs can still be
+  downloaded and checksummed, but their status is `downloaded_parse_failed`.
 - MCP tooling is optional and documented separately in `mcp-integration-plan.md`.
 
 ## Deterministic baseline retrieval command
@@ -25,9 +27,10 @@ python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.
   --focus "immunization"
 ```
 
-This writes `retrieved-indicators.json`, `retrieved-indicators.md`, and
-`source-leads.md`. Treat these as source artifacts and gap-mapping support, not
-as proof of country-profile completeness.
+This writes `retrieved-indicators.json`, `retrieved-indicators.md`,
+`web-reviewed-sources.json`, `web-reviewed-sources.md`, and `source-leads.md`.
+Treat these as source artifacts and gap-mapping support, not as proof of
+country-profile completeness.
 
 ## Structural validation command
 

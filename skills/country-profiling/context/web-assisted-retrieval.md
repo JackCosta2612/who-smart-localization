@@ -78,9 +78,12 @@ evidence gaps.
 
 For Italy, prioritize:
 
-- European Observatory / WHO health system review or health system summary;
+- European Observatory / WHO country overview at
+  `https://eurohealthobservatory.who.int/overview`, resolving to the country
+  page such as `https://eurohealthobservatory.who.int/countries/italy`;
 - State of Health in the EU Italy Country Health Profile;
 - World Bank Data for baseline indicators;
+- WHO GHO configured immunization indicators when focus is immunization;
 - Italian Ministry of Health;
 - Istituto Superiore di Sanita;
 - AIFA;

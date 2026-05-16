@@ -1,6 +1,6 @@
 # Retrieved baseline indicators: Italy (ITA)
 
-- Retrieval date: 2026-05-16T09:39:05+00:00
+- Retrieval date: 2026-05-16T15:07:59+00:00
 - Downstream focus: immunization
 - Registry: skills/country-profiling/sourcing_scripts/indicator_registry.json
 
@@ -20,9 +20,18 @@ These indicators provide a small baseline context layer. They do not prove count
 | People using at least basic drinking water services | SH.H2O.BASW.ZS | 99.9170340740928 | percent of population | 2024 | retrieved | https://api.worldbank.org/v2/country/ITA/indicator/SH.H2O.BASW.ZS?format=json&per_page=100 |
 | Immunization, measles | SH.IMM.MEAS | 95 | percent of children ages 12-23 months | 2024 | retrieved | https://api.worldbank.org/v2/country/ITA/indicator/SH.IMM.MEAS?format=json&per_page=100 |
 
+## WHO GHO indicators
+
+| Indicator | Code | Value | Unit | Year | Status | Source URL |
+|---|---|---|---|---|---|---|
+| DTP3 immunization coverage among 1-year-olds | WHS4_100 | 94.0 | percent | 2024 | retrieved | https://ghoapi.azureedge.net/api/WHS4_100 |
+| MCV1 immunization coverage among 1-year-olds | WHS8_110 | 95.0 | percent | 2024 | retrieved | https://ghoapi.azureedge.net/api/WHS8_110 |
+| MCV2 immunization coverage by nationally recommended age | MCV2 | 84.0 | percent | 2024 | retrieved | https://ghoapi.azureedge.net/api/MCV2 |
+| PCV3 immunization coverage among 1-year-olds | PCV3 | 90.0 | percent | 2024 | retrieved | https://ghoapi.azureedge.net/api/PCV3 |
+
 ## Retrieval caveats
 
 - Use precise indicator source, code, year, and retrieval date in profile claims.
 - `missing_value` means the configured indicator did not return a non-empty country value.
 - `failed` means retrieval failed and should be recorded as an evidence gap.
-- WHO GHO and OECD values are not retrieved by this script unless stable source-specific configuration is added later.
+- WHO GHO retrieval is intentionally limited to configured indicator codes; it is not a full GHO data platform.

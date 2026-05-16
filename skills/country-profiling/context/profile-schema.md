@@ -85,6 +85,7 @@ Supported source types include:
 - `Landing page`
 - `Candidate source lead`
 - `Web-reviewed source`
+- `Parsed PDF`
 - `National ministry`
 - `National public health institute`
 - `National medicines agency`
