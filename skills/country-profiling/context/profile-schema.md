@@ -2,7 +2,10 @@
 
 The Country Profiling skill should produce a markdown document with the sections below.
 
-The profile may be produced from user-provided documents, retrieval-assisted outputs, or a combination of both. If a source class is missing, record it as an evidence gap rather than filling it from assumption.
+The profile may be produced from user-provided documents, deterministic
+script-assisted retrieval outputs, semi-deterministic web-assisted retrieval, or
+a combination of these. If a source class is missing, record it as an evidence
+gap rather than filling it from assumption.
 
 ## Required sections
 
@@ -57,7 +60,12 @@ Include:
 - profile date;
 - profile author or agent;
 - intended downstream use, if known;
-- source mode: `document-only`, `retrieval-assisted`, or `mixed`;
+- retrieval mode: `document-only`, `deterministic script-assisted`,
+  `semi-deterministic web-assisted`, or `mixed`;
+- retrieval date;
+- retrieved indicator bundle path, if available;
+- source lead bundle path, if available;
+- web-reviewed source inventory path or note, if available;
 - known input limitations.
 
 ## Source inventory
@@ -68,6 +76,21 @@ Use this table:
 | Source | Source type | Publisher | Date | URL or file path | Relevance | Status |
 |---|---|---|---|---|---|---|
 ```
+
+Supported source types include:
+
+- `Dataset`
+- `Official document`
+- `Institutional profile`
+- `Landing page`
+- `Candidate source lead`
+- `Web-reviewed source`
+- `National ministry`
+- `National public health institute`
+- `National medicines agency`
+- `National statistics office`
+- `WHO source class`
+- `Regional implementation source`
 
 Allowed `Status` values:
 
@@ -88,6 +111,15 @@ retrieval` until the material endpoint is resolved and reviewed.
 ## Narrative sections
 
 The main body should be textual, with short paragraphs and source-backed statements. Use bullets only where they improve scanability.
+
+Precise data claims must include the indicator source, indicator code when
+applicable, year, and retrieval date if the value comes from a retrieved
+dataset. For example, use the source artifact wording rather than a bare number:
+`World Bank indicator SP.DYN.LE00.IN, 2024 value, retrieved 2026-05-16`.
+
+Do not treat baseline indicators as complete country context. Combine them with
+reviewed documents, source inventories, implementation context, and evidence
+gaps.
 
 ### Country context snapshot
 
@@ -181,7 +213,21 @@ Use this table:
 |---|---|---|---|
 ```
 
-Include missing source classes, conflicting evidence, stale documents, unclear applicability, unsupported country or downstream-focus facts, and claims that could affect later policy analysis.
+Include missing source classes, conflicting evidence, stale documents, unclear
+applicability, unsupported country or downstream-focus facts, and claims that
+could affect later policy analysis.
+
+Include gaps from:
+
+- missing data;
+- unavailable indicator values;
+- failed retrieval;
+- landing-page-only sources;
+- inaccessible PDFs or datasets;
+- national or regional source classes not reviewed;
+- policy source not yet retrieved for later comparison;
+- digital health, registry, reporting, or interoperability sources not yet
+  reviewed.
 
 ## Sources
 

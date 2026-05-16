@@ -2,7 +2,7 @@
 
 The Country Profiling retrieval helpers are designed to run in changing Agent environments with minimal setup.
 
-## Required for retrieval-assisted scripts
+## Required for deterministic script-assisted retrieval
 
 - Python 3.10 or newer.
 - Python standard library only.
@@ -10,13 +10,14 @@ The Country Profiling retrieval helpers are designed to run in changing Agent en
 
 ## Optional
 
-- Outbound HTTPS access for live WHO retrieval.
+- Outbound HTTPS access for live World Bank and WHO retrieval.
 - No optional Python packages are required for the current helper scripts.
 - MCP tooling is optional and documented separately in `mcp-integration-plan.md`.
 
 ## Optional preparation check
 
-The Agent can run the combined preparation command when retrieval-assisted mode is requested or useful:
+The Agent can run the combined preparation command when document inventory and
+WHO source-discovery support are useful:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
@@ -40,7 +41,22 @@ Expected behavior:
 - warns, but does not fail, when live network access cannot be confirmed;
 - prints clear remediation notes.
 
-## Retrieval command
+## Deterministic baseline retrieval command
+
+Run from the repository root:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+  --country "Italy" \
+  --iso3 "ITA" \
+  --focus "immunization"
+```
+
+This writes `retrieved-indicators.json`, `retrieved-indicators.md`, and
+`source-leads.md`. Treat these as source artifacts and gap-mapping support, not
+as proof of country-profile completeness.
+
+## WHO source-discovery command
 
 Run from the repository root:
 

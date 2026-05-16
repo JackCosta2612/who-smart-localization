@@ -27,6 +27,12 @@ Placeholder only. Add real WHO and country-specific sources before using this as
 |---|---|---|---|---|---|
 | <source title> | <source class> | <publisher> | <date> | <direct PDF, dataset, official full-text/attachment URL, or local file path> | <why it matters; note if only a landing page is available> |
 
+## Retrieval note
+
+<If no documents are supplied, use deterministic script-assisted retrieval where
+available. If scripts are unavailable but web access exists, use controlled
+web-assisted retrieval.>
+
 ## Known limitations
 
 - <missing source class, stale document, language limitation, or scope limitation>
@@ -44,7 +50,11 @@ Placeholder only. Add real WHO and country-specific sources before using this as
 - Profile date:
 - Profile author or agent:
 - Intended downstream use:
-- Source mode: <document-only | retrieval-assisted | mixed>
+- Retrieval mode: <document-only | deterministic script-assisted | semi-deterministic web-assisted | mixed>
+- Retrieval date:
+- Retrieved indicator bundle path, if available:
+- Source lead bundle path, if available:
+- Web-reviewed source inventory path or note, if available:
 - Known input limitations:
 
 ## Executive summary

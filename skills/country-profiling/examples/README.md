@@ -1,8 +1,8 @@
 # Country Profiling reference examples
 
-These folders contain draft reference examples for the Country Profiling skill.
-They are behavior-shaping examples, not a benchmark, test suite, or gold-standard
-evaluation set.
+These folders contain reference examples for the Country Profiling skill. They
+are behavior-shaping examples, not tests, benchmarks, gold-standard evaluations,
+final country evidence, or clinical/policy validation.
 
 Use them to see how a country profile request should be normalized, how the
 profile schema should be filled, how sources and gaps should be represented, and
@@ -16,14 +16,23 @@ main purpose is to reduce variance in agent behavior during real skill use.
 
 | Example | Focus | Best used to demonstrate |
 |---|---|---|
-| `italy-reference/` | Broad health-system overview with immunization-readiness handoff | A balanced country profile that uses direct source-material endpoints, keeps policy comparison out of scope, and combines readable narrative, source discipline, and conservative handoff/gap framing. |
+| `italy-reference/` | Retrieval-assisted minimal-input profile with immunization-readiness handoff | A country profile that starts from country plus optional focus, uses deterministic baseline retrieval artifacts, demonstrates controlled web-assisted fallback discipline, keeps policy comparison out of scope, and combines readable narrative, source discipline, and conservative handoff/gap framing. |
 
 The example contains:
 
 - `input.md`: a realistic user request that should activate the skill;
 - `reference-output.md`: a concise source-backed output pattern following `context/profile-schema.md`;
-- `source-notes.md`: source rationale and proposed follow-up source work;
+- `data/retrieved-indicators.json`: deterministic baseline indicator bundle;
+- `data/retrieved-indicators.md`: human-readable retrieved indicator artifact;
+- `data/source-leads.md`: institutional source leads and fallback guidance;
+- `source-notes.md`: source rationale, reviewed-versus-candidate distinctions,
+  and proposed follow-up source work;
 - `agent-behavior-notes.md`: what behavior the draft is meant to enforce, including where it stops before policy comparison.
+
+If scripts are unavailable, the same example should be interpreted through
+semi-deterministic web-assisted retrieval: use approved source classes, prefer
+official and institutional sources, record strict provenance, and keep
+landing-page-only or inaccessible material as evidence gaps.
 
 ## Use guidance
 
@@ -31,3 +40,5 @@ Before drafting a new country profile, consult the closest example for the
 requested use case. Imitate the structure, source discipline, uncertainty
 handling, and handoff framing. Do not copy country facts into a different
 country, and do not treat these drafts as final WHO or national policy evidence.
+Retrieved data artifacts are included as reference material only and require
+human review before reuse in real policy work.

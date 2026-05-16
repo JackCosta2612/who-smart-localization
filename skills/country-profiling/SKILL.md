@@ -2,7 +2,7 @@
 name: who-smart-country-profiling
 description: Build a source-backed healthcare country profile for a target country and optional downstream health-area focus, including health situation, health system context, implementation environment, evidence gaps, and readiness for later WHO SMART Guidelines localization or policy comparison.
 license: MIT
-compatibility: Model-neutral Agent Skill. Uses supplied documents by default. Optional WHO/open data retrieval may be used when available.
+compatibility: Model-neutral Agent Skill. Supports document-only, deterministic script-assisted, and semi-deterministic web-assisted retrieval modes.
 metadata:
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone"
@@ -18,6 +18,15 @@ Create a concise, source-backed healthcare country profile for a target country.
 The profile explains the country's health situation and health system context before detailed policy comparison, DAK localization, or SMART Guidelines adaptation. It should cover the main health issues, health system organization, implementation environment, access and coverage, sanitary and environmental health conditions, financing and affordability, workforce and infrastructure, digital health and data systems, equity concerns, and current risks or uncertainties.
 
 The output is designed as an input to the future Policy Comparison skill. It should identify which downstream health areas may need later comparison, which national policy source classes are still needed, and what country context constrains interpretation of national policy. It should not compare policies, assess alignment with WHO guidance, or draft localization recommendations.
+
+Country Profiling is not only for countries missing from WHO databases. It is
+for any target country where WHO / SMART / DAK content needs country-specific
+contextualization before policy comparison or localization. A country can have
+WHO, World Bank, OECD, EU, or national data coverage and still require
+localization because implementation depends on health-system structure,
+governance, regional variation, digital health infrastructure, policy ownership,
+service delivery, and source gaps. WHO database coverage is not enough by
+itself.
 
 ## When to use
 
@@ -54,7 +63,9 @@ Helpful inputs:
 - WHO, World Bank, UNICEF, UNAIDS, GBD, OECD, regional observatory, or other reputable public-health sources;
 - source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
 
-Inputs may be unstructured. Normalize the prompt, attached files, conversation context, and optional retrieval outputs into a source inventory before writing the profile.
+Inputs may be unstructured. Normalize the prompt, attached files, conversation
+context, deterministic retrieval outputs, web-reviewed sources, and optional
+source leads into a source inventory before writing the profile.
 
 Source URLs must resolve to usable source material before they are marked `Reviewed`.
 A publication page, catalog page, search result, or "Download PDF" page can be
@@ -68,28 +79,56 @@ The optional downstream health-area focus can name an area such as immunization,
 
 ## Execution modes
 
-Use document-only mode by default when the user provides enough source material directly.
+Use one of three execution modes:
 
-Use retrieval-assisted mode only when scripts or tools are available and the user asks for, allows, or clearly needs retrieval support. Retrieval and preflight scripts can prepare a run, create an inventory, retrieve candidate WHO sources, or check environment readiness. They are optional support, not mandatory blockers.
+1. Document-only mode. Use when the user provides source documents, excerpts, or
+   attachments. Profile only from supplied material and record missing source
+   classes as evidence gaps.
+2. Deterministic script-assisted retrieval mode. Use when Python scripts are
+   available, especially when the human provides only a target country and
+   optional downstream focus. This is the preferred minimal-input assistance
+   path.
+3. Semi-deterministic web-assisted retrieval mode. Use when scripts are
+   unavailable but web access is available. Follow the controlled source
+   priority and provenance protocol in `context/web-assisted-retrieval.md`.
 
-If scripts fail, continue in document-only mode when enough user-provided source material is available. If scripts fail and source material is insufficient, ask for sources or produce only a limited skeleton/gap-analysis profile with explicit evidence gaps.
+Use mixed mode when supplied documents are combined with deterministic retrieval
+or controlled web-assisted retrieval.
+
+If neither scripts, web access, nor enough documents are available, ask for
+source material or produce only a skeleton/gap-analysis profile. Do not draft
+unsupported country facts.
 
 See `context/execution-modes.md` for the decision rules.
 
 ## Workflow
 
 1. Identify the target country and any optional downstream health-area focus, region, population group, or intended downstream use.
-2. Build a source inventory from user-provided material and any optional retrieved material.
-3. Resolve supplied source locations to source material where possible.
-4. Classify source types as country-specific, regional, global, candidate, or missing.
-5. Decide whether a full profile, limited profile, or skeleton/gap-analysis profile is appropriate.
-6. Draft the textual profile using `context/profile-schema.md`.
-7. Keep the profile narrative and readable.
-8. Mark missing information as evidence gaps.
-9. Separate facts, uncertainties, assumptions, and expert-review needs.
-10. Include a `Policy-analysis readiness` section and, when useful, a `Policy-comparison handoff` table.
-11. State how the output can feed the future Policy Comparison skill.
-12. Do not fabricate missing country context.
+2. If the user supplies documents, use document-only or mixed mode.
+3. If the user provides only country and optional focus, use deterministic
+   script-assisted retrieval if scripts are available.
+4. If scripts are unavailable but web access is available, use
+   semi-deterministic web-assisted retrieval.
+5. If neither scripts nor web access are available, ask for source material or
+   produce only a skeleton/gap-analysis profile.
+6. Build a source inventory from supplied material, retrieved data, reviewed web
+   sources, and candidate source leads.
+7. Resolve source locations to source material where possible.
+8. Classify source types as datasets, official documents, institutional
+   profiles, landing pages, reviewed web sources, candidate source leads, or
+   missing source classes.
+9. Decide whether a full profile, limited profile, or skeleton/gap-analysis
+   profile is appropriate.
+10. Draft the textual profile using `context/profile-schema.md`.
+11. Mark unavailable data, failed retrieval, landing-page-only sources, and
+   unreviewed national/regional sources as evidence gaps.
+12. Separate facts, uncertainties, assumptions, and expert-review needs.
+13. Include a `Policy-analysis readiness` section and, when useful, a
+   `Policy-comparison handoff` table.
+14. State how the output can feed the future Policy Comparison skill.
+15. Ask for human review, not manual source-hunting, unless key source classes
+   remain missing after controlled retrieval.
+16. Do not fabricate missing country context.
 
 When available, consult `examples/` for reference input-output patterns before
 drafting. Treat examples as behavior references, not as tests, benchmarks, or
@@ -110,9 +149,12 @@ Every substantive country, health system, health burden, coverage, sanitary cond
 - confidence level or uncertainty note;
 - review need when the claim affects later policy analysis.
 
+Precise indicator claims must include indicator source, code, year, value, URL,
+and retrieval date when relevant.
+
 ## Optional script usage
 
-Scripts in `scripts/` may be used to prepare or validate work:
+Scripts in `scripts/` may be used to retrieve, prepare, or validate work:
 
 ```bash
 python3 skills/country-profiling/scripts/check_environment.py
@@ -124,6 +166,16 @@ python3 skills/country-profiling/scripts/prepare_profile_run.py \
 python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
 ```
 
+The deterministic baseline retrieval helper is preferred when the human gives
+only a country and optional focus:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+  --country "<country>" \
+  --iso3 "<ISO3>" \
+  --focus "<optional downstream health-area focus>"
+```
+
 The WHO retrieval helper can also be run directly when retrieval assistance is useful:
 
 ```bash
@@ -132,7 +184,11 @@ python3 skills/country-profiling/scripts/retrieve_who_sources.py \
   --focus "<optional downstream health-area focus>"
 ```
 
-Script outputs are support artifacts. A failed retrieval or preflight run does not automatically prevent profile drafting if supplied sources are adequate. A successful retrieval does not prove that all country-specific evidence exists; generic WHO source discovery must not be treated as country evidence.
+Script outputs are support artifacts. A failed retrieval or preflight run does
+not automatically prevent profile drafting if supplied sources are adequate. A
+successful retrieval does not prove that all country-specific evidence exists;
+generic WHO source discovery, baseline indicators, and source leads must not be
+treated as complete country evidence.
 
 ## Safety and uncertainty
 
@@ -142,3 +198,4 @@ Script outputs are support artifacts. A failed retrieval or preflight run does n
 - Keep global or regional evidence separate from country-specific evidence.
 - Do not infer national policy, service availability, sanitary conditions, or coverage from missing documents.
 - Recommend human expert review where evidence is incomplete, ambiguous, conflicting, stale, locally sensitive, or likely to affect later policy comparison.
+- Do not claim completeness from retrieved indicators or web search alone.
