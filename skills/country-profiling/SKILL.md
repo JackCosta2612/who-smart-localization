@@ -64,8 +64,9 @@ Helpful inputs:
 - source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
 
 Inputs may be unstructured. Normalize the prompt, attached files, conversation
-context, deterministic retrieval outputs, web-reviewed sources, and optional
-source leads into a source inventory before writing the profile.
+context, deterministic retrieval outputs, web-reviewed sources, parsed PDFs,
+and short unresolved source gaps into a source inventory before writing the
+profile.
 
 Source URLs must resolve to usable source material before they are marked `Reviewed`.
 A publication page, catalog page, search result, or "Download PDF" page can be
@@ -117,11 +118,11 @@ See `context/execution-modes.md` for the decision rules.
 5. If neither scripts nor web access are available, ask for source material or
    produce only a skeleton/gap-analysis profile.
 6. Build a source inventory from supplied material, retrieved data, reviewed web
-   sources, and candidate source leads.
+   sources, parsed PDFs, and short unresolved source gaps.
 7. Resolve source locations to source material where possible.
 8. Classify source types as datasets, official documents, institutional
-   profiles, landing pages, reviewed web sources, candidate source leads, or
-   missing source classes.
+   profiles, landing pages, reviewed web sources, parsed PDFs, candidate source
+   leads, or missing source classes.
 9. Decide whether a full profile, limited profile, or skeleton/gap-analysis
    profile is appropriate.
 10. Draft the textual profile using `context/profile-schema.md`.
@@ -181,8 +182,8 @@ python3 skills/country-profiling/sourcing_scripts/validate_profile.py <profile.m
 Script outputs are support artifacts. A failed retrieval run does not
 automatically prevent profile drafting if supplied sources are adequate. A
 successful retrieval does not prove that all country-specific evidence exists;
-baseline indicators and source leads must not be treated as complete country
-evidence.
+baseline indicators, reviewed web/PDF artifacts, and short unresolved gaps must
+not be treated as complete country evidence.
 
 ## Safety and uncertainty
 

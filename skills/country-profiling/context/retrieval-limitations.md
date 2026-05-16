@@ -2,10 +2,9 @@
 
 The retrieval runners are source-discovery and baseline-data helpers for country
 profiling. The deterministic baseline runner can retrieve selected World Bank
-indicator values and institutional source leads. The WHO runner can retrieve
-reachable WHO pages, link inventories, downloadable files, and selected GHO JSON
-samples. In all cases, reachability is not the same as country-specific
-evidence.
+indicator values, configured WHO GHO indicator values, configured institutional
+HTML/PDF sources, and short unresolved source gaps. In all cases, reachability
+is not the same as country-specific evidence.
 
 Retrieval output cannot prove that a profile is complete. Missing or unresolved
 retrieval outputs should become evidence gaps, not hidden assumptions. Retrieved
@@ -17,8 +16,10 @@ source inventories, implementation context, and human review.
 The deterministic baseline layer intentionally retrieves only a small controlled
 indicator set. It does not retrieve regional implementation, national policy
 text, digital registry specifications, service delivery workflows, or expert
-interpretation. WHO GHO and OECD values may be recorded as candidate/manual
-review sources unless stable retrieval is configured.
+interpretation. WHO GHO retrieval is limited to configured indicator codes.
+OECD SDMX retrieval is not active; OECD/EU evidence should be represented as
+reviewed institutional source material unless a future narrow retriever is
+added.
 
 ## Known limitations
 
@@ -33,7 +34,10 @@ Some source classes are broad discovery surfaces:
 - National Health Workforce Accounts
 - WASH or environmental health landing pages
 
-The runner may fetch a landing page and record discovered links without resolving the exact country-specific document or dataset. Generic landing pages use a `discover-links-only` policy so the script does not download arbitrary documents just because they are linked from an accessible page.
+The runner may fetch a configured landing page and record discovered links
+without resolving every country-specific document or dataset. Generic landing
+pages should not become long source inventories; unresolved items should be
+compressed into short actionable gaps.
 
 ### Landing pages versus source material
 
@@ -46,8 +50,8 @@ source `Reviewed`.
 
 Examples:
 
-- OECD country profile pages should be resolved to the direct `content/dam`
-  PDF when the profile relies on the publication contents.
+- Country profile pages should be resolved to the direct PDF or full-text HTML
+  when the profile relies on the publication contents.
 - Gazzetta Ufficiale top-level act pages should be resolved to the relevant
   full-text attachment pages when the plan or schedule attachment is being used.
 - Dataset portals should be resolved to country-filtered rows or an export
@@ -56,9 +60,11 @@ Examples:
 If only the landing page was checked, use `Candidate source` or `Needs
 retrieval` and carry the unresolved material endpoint into the evidence gaps.
 
-### GHO indicator metadata versus country data
+### GHO indicator configuration versus country data
 
-The GHO indicator search returns candidate indicator codes by search term. The follow-up country-filtered requests can return zero rows even when the indicator exists and the country code was resolved.
+Configured GHO indicators are retrieved from `https://ghoapi.azureedge.net/api/<INDICATOR_CODE>`.
+Country-filtered parsing can return zero rows even when the indicator exists and
+the country code was resolved.
 
 This can happen when:
 
@@ -67,7 +73,8 @@ This can happen when:
 - the indicator code is legacy or exposed differently from the searchable metadata;
 - the selected candidate indicators are topic-relevant but not populated for the country.
 
-Zero rows are marked as `retrieved_empty` and should be treated as a data gap, not as proof that the indicator is irrelevant.
+Zero rows are marked as missing values and should be treated as data gaps, not
+as proof that the indicator is irrelevant.
 
 ## Needed future retrieval improvements
 
@@ -78,7 +85,7 @@ Zero rows are marked as `retrieved_empty` and should be treated as a data gap, n
 | GHED | Use a data endpoint or export path that returns country-level expenditure data, not only the GHED landing page. |
 | Workforce data | Retrieve country-specific workforce data or record that only the framework/source class was retrieved. |
 | WASH and environmental health | Retrieve country-specific sanitation, water, hygiene, pollution, or environmental risk indicators. |
-| GHO indicators | Distinguish candidate indicator discovery from country-row retrieval; record zero-row datasets as `retrieved_empty`. |
+| GHO indicators | Add only verified indicator codes and keep zero-row country results as explicit missing values. |
 
 ## Documentation rule for Agents
 

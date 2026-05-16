@@ -6,10 +6,11 @@ it is not a substitute for source review.
 
 For minimal-input profiling, prefer
 `sourcing_scripts/retrieve_country_profile_data.py` when Python scripts are available.
-That script retrieves selected World Bank baseline indicators and institutional
-source leads with provenance. Generic WHO pages must not be treated as
-country-specific evidence unless a country-specific document or country-filtered
-dataset is actually retrieved and reviewed.
+That script retrieves selected World Bank baseline indicators, configured WHO
+GHO indicators, and configured institutional web/PDF sources with provenance.
+Generic WHO pages must not be treated as country-specific evidence unless a
+country-specific document or country-filtered dataset is actually retrieved and
+reviewed.
 
 Country profiling comes first. Later policy comparison may use the profile to decide which national policies, guidelines, reporting artifacts, or terminology sources to retrieve next.
 
@@ -30,11 +31,10 @@ https://ghoapi.azureedge.net/api/Indicator
 https://ghoapi.azureedge.net/api/<INDICATOR_CODE>
 ```
 
-Use this for structured country indicators related to mortality, morbidity,
-service coverage, financing, workforce, WASH, and the optional downstream
-health-area focus only when stable indicator codes and country filters are
-configured. If indicator codes are uncertain, record GHO as a candidate source
-lead rather than inventing values.
+Use this for structured country indicators only when stable indicator codes and
+country filters are configured. The maintained immunization focus currently
+retrieves DTP3 (`WHS4_100`), MCV1 (`WHS8_110`), MCV2 (`MCV2`), and PCV3
+(`PCV3`). If indicator codes are uncertain, do not invent values.
 
 ### WHO SCORE documents
 
@@ -77,10 +77,10 @@ python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.
   --focus "<optional downstream health-area focus>"
 ```
 
-If WHO-specific source discovery is needed beyond the configured candidate
-metadata, use the semi-deterministic web-assisted retrieval protocol in
+If WHO-specific source discovery is needed beyond configured retrieval, use the
+semi-deterministic web-assisted retrieval protocol in
 `web-assisted-retrieval.md` and record reviewed sources separately from
-candidate source leads.
+candidate source leads or unresolved gaps.
 
 ## Country-specific documentation note
 

@@ -35,7 +35,7 @@ overall.
 
 The skill should reduce human source-gathering. With minimal input, use
 deterministic retrieval where available to collect selected baseline indicators
-and source leads. If scripts are unavailable but web access exists, use
+and reviewed source artifacts. If scripts are unavailable but web access exists, use
 semi-deterministic web-assisted retrieval from approved source classes with
 strict provenance. Human input should mainly be review and optional source
 supplementation.
@@ -67,10 +67,10 @@ Use this when Python scripts are available, especially when the user gives only
 a country and optional downstream focus. This is the preferred minimal-input
 assistance path.
 
-The baseline retrieval script collects selected World Bank indicators and
-institutional source leads. These artifacts support drafting and gap mapping;
-they do not replace reading official or institutional sources and they do not
-prove completeness.
+The baseline retrieval script collects selected World Bank indicators,
+configured WHO GHO indicators, reviewed web/PDF artifacts for configured source
+targets, and a short unresolved-gap list. These artifacts support drafting and
+gap mapping; they do not prove completeness.
 
 ### Semi-deterministic web-assisted retrieval mode
 
@@ -85,9 +85,10 @@ materials as evidence gaps.
 The maintained Country Profiling tooling is consolidated under
 `sourcing_scripts/`. Older preflight and broad WHO-discovery scripts were
 removed because the current workflow uses controlled baseline retrieval,
-institutional source leads, and documented web-assisted fallback rules.
+configured institutional source resolution, short unresolved source gaps, and
+documented web-assisted fallback rules.
 
-Retrieve controlled baseline indicators and source leads:
+Retrieve controlled baseline indicators and reviewed source artifacts:
 
 ```bash
 python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
@@ -99,6 +100,11 @@ python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.
 
 For source classes not covered by the maintained script, use the controlled
 web-assisted retrieval protocol in `context/web-assisted-retrieval.md`.
+
+PDF parsing uses `pypdf>=6.0` when available. Install
+`skills/country-profiling/sourcing_scripts/requirements.txt` in environments
+that should parse downloaded PDFs instead of recording them as downloaded but
+not parsed.
 
 ## Validation
 
@@ -141,10 +147,11 @@ country-profiling/
 ├── sourcing_scripts/
 │   ├── README.md
 │   ├── indicator_registry.json
-│   ├── oecd.py
+│   ├── requirements.txt
 │   ├── retrieve_country_profile_data.py
 │   ├── source_registry.py
 │   ├── validate_profile.py
+│   ├── web_sources.py
 │   ├── who_gho.py
 │   └── world_bank.py
 ├── examples/
@@ -164,5 +171,5 @@ The `examples/italy-reference/` folder contains a behavior-shaping reference
 example, not a benchmark or test. It shows the preferred minimal-input pattern:
 country plus optional downstream focus, deterministic baseline retrieval where
 available, controlled web-assisted fallback when scripts are unavailable,
-source-material endpoint discipline, evidence gaps, and downstream Policy
-Comparison handoff without performing comparison.
+configured web/PDF source resolution, short evidence gaps, and downstream
+Policy Comparison handoff without performing comparison.

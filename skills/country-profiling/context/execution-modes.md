@@ -49,12 +49,15 @@ The script writes:
 
 - `retrieved-indicators.json`;
 - `retrieved-indicators.md`;
+- `web-reviewed-sources.json`;
+- `web-reviewed-sources.md`;
 - `source-leads.md`.
 
 The deterministic layer is intentionally small. It retrieves selected World Bank
-baseline indicators and prepares institutional source leads. WHO GHO and OECD
-support are conservative: if stable values are not configured, they are recorded
-as candidate/manual-review sources rather than fabricated data.
+baseline indicators, configured WHO GHO indicators, configured institutional
+web/PDF sources, and short unresolved source gaps. OECD SDMX retrieval is not
+active in this mode; OECD/EU context should come from reviewed institutional
+profiles unless a future narrow dataset-specific retriever is added.
 
 Use deterministic outputs as source artifacts. Precise data claims must include
 indicator source, code, year, source URL, and retrieval date. Successful
@@ -84,8 +87,8 @@ The Agent should:
 
 Use mixed mode when supplied documents are combined with deterministic retrieval
 or controlled web-assisted retrieval. This is common when the user supplies a
-few national documents but still needs baseline indicators, source leads, or
-gap mapping.
+few national documents but still needs baseline indicators, reviewed source
+artifacts, or gap mapping.
 
 ## What counts as enough evidence
 
