@@ -157,43 +157,32 @@ Every substantive country, health system, health burden, coverage, sanitary cond
 Precise indicator claims must include indicator source, code, year, value, URL,
 and retrieval date when relevant.
 
-## Optional script usage
+## Sourcing script usage
 
-Scripts in `scripts/` may be used to retrieve, prepare, or validate work:
-
-```bash
-python3 skills/country-profiling/scripts/check_environment.py
-
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>"
-
-python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
-```
+Maintained retrieval and validation tooling lives in
+`skills/country-profiling/sourcing_scripts/`.
 
 The deterministic baseline retrieval helper is preferred when the human gives
 only a country and optional focus:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>"
 ```
 
-The WHO retrieval helper can also be run directly when retrieval assistance is useful:
+Validate a completed profile:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>"
+python3 skills/country-profiling/sourcing_scripts/validate_profile.py <profile.md>
 ```
 
-Script outputs are support artifacts. A failed retrieval or preflight run does
-not automatically prevent profile drafting if supplied sources are adequate. A
+Script outputs are support artifacts. A failed retrieval run does not
+automatically prevent profile drafting if supplied sources are adequate. A
 successful retrieval does not prove that all country-specific evidence exists;
-generic WHO source discovery, baseline indicators, and source leads must not be
-treated as complete country evidence.
+baseline indicators and source leads must not be treated as complete country
+evidence.
 
 ## Safety and uncertainty
 

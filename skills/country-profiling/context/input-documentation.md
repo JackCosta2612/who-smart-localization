@@ -29,7 +29,7 @@ When deterministic script-assisted retrieval is useful, these values can be
 passed into the baseline retrieval command:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>"
@@ -38,16 +38,8 @@ python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
 The output files can be treated as source artifacts, not as a complete evidence
 base.
 
-When broader run preparation is useful, these values can also be passed into the
-preparation command:
-
-```bash
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>"
-```
-
-If country documents are available, pass each one with `--country-document` in this format:
+If country documents are available, record each one in this format when building
+the source inventory:
 
 ```text
 title|document type|path-or-url|date
@@ -154,5 +146,3 @@ If a country source is missing:
 If neither scripts nor enough documents are available, ask for source material
 or produce only a skeleton/gap-analysis profile. Do not draft unsupported
 country facts.
-
-The optional preparation script writes `input-documentation-inventory.md` with supplied documents and missing source classes. The profile should reflect missing source classes as evidence gaps whether they are identified by the script or manually from the supplied material.

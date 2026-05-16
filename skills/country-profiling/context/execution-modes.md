@@ -39,7 +39,7 @@ preferred assistance path for minimal-input profiling.
 The baseline retrieval command is:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>"

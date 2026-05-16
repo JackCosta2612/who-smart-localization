@@ -38,7 +38,7 @@ handoff and later Policy Comparison work.
     │   ├── README.md
     │   ├── context/
     │   ├── examples/
-    │   ├── scripts/
+    │   ├── sourcing_scripts/
     │   └── tests/
     └── policy-comparison/
         ├── SKILL.md
@@ -104,7 +104,7 @@ Open a pull request on GitHub for team review before merging.
 Country profile validator:
 
 ```bash
-python3 skills/country-profiling/scripts/validate_profile.py --help
+python3 skills/country-profiling/sourcing_scripts/validate_profile.py --help
 ```
 
 Policy comparison validator:

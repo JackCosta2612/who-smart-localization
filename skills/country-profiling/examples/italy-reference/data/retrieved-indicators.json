@@ -28,7 +28,7 @@
       "url": "https://eurohealthobservatory.who.int/countries"
     }
   ],
-  "registry_path": "skills/country-profiling/data_sources/indicator_registry.json",
+  "registry_path": "skills/country-profiling/sourcing_scripts/indicator_registry.json",
   "retrieval_date": "2026-05-16T09:39:05+00:00",
   "source_leads": [
     {

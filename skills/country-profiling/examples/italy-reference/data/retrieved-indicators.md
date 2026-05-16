@@ -2,7 +2,7 @@
 
 - Retrieval date: 2026-05-16T09:39:05+00:00
 - Downstream focus: immunization
-- Registry: skills/country-profiling/data_sources/indicator_registry.json
+- Registry: skills/country-profiling/sourcing_scripts/indicator_registry.json
 
 These indicators provide a small baseline context layer. They do not prove country-profile completeness and must be combined with reviewed country documents, source inventories, and evidence gaps.
 

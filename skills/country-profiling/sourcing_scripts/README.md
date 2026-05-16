@@ -1,9 +1,9 @@
-# Country Profiling deterministic data sources
+# Country Profiling sourcing scripts
 
-This directory contains a small deterministic retrieval layer for the Country
-Profiling skill. Retrieval is used to collect selected baseline indicators and
-source metadata. It is not a complete country evidence base, a full data
-platform, or proof that a country profile is complete.
+This directory contains the maintained sourcing and validation tooling for the
+Country Profiling skill. Retrieval is used to collect selected baseline
+indicators and source metadata. It is not a complete country evidence base, a
+full data platform, or proof that a country profile is complete.
 
 The preferred minimal-input path is:
 
@@ -40,3 +40,15 @@ All retrieved or reviewed values must preserve:
 
 Deterministic retrieval should be small and controlled. Add indicators only when
 their public codes and interpretation are stable enough for repeated use.
+
+## Maintained files
+
+| File | Purpose |
+|---|---|
+| `retrieve_country_profile_data.py` | Orchestrates World Bank baseline retrieval and source-lead bundle creation. |
+| `indicator_registry.json` | Small controlled indicator list. |
+| `world_bank.py` | World Bank API helper. |
+| `who_gho.py` | Conservative WHO GHO candidate metadata helper. |
+| `oecd.py` | OECD / European institutional source-lead helper. |
+| `source_registry.py` | Institutional source-lead registry. |
+| `validate_profile.py` | Structural validator for Country Profiling outputs. |

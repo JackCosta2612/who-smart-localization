@@ -22,7 +22,7 @@ skills/<skill-name>/
 ├── README.md
 ├── context/
 ├── examples/
-├── scripts/
+├── scripts/ or sourcing_scripts/
 └── tests/
 ```
 
@@ -41,6 +41,8 @@ When adding another skill:
 2. Add a valid `SKILL.md` with frontmatter.
 3. Keep long definitions in `context/`.
 4. Put structural examples in `examples/`.
-5. Put lightweight validation or helper code in `scripts/`.
+5. Put lightweight validation or helper code in `scripts/`, or in
+   `sourcing_scripts/` when the skill has source retrieval and source registry
+   helpers.
 6. Add evaluation notes or test cases in `tests/`.
 7. Update the root `README.md` and `SKILLS.md`.
