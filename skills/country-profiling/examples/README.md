@@ -25,6 +25,8 @@ The example contains:
 - `data/retrieved-indicators.json`: deterministic baseline indicator bundle;
 - `data/retrieved-indicators.md`: human-readable retrieved indicator artifact;
 - `data/source-leads.md`: institutional source leads and fallback guidance;
+- `../../../shared/assets/who-immunizations-dak.pdf`: shared immunization DAK
+  source for later Policy Comparison when the downstream focus is immunization;
 - `source-notes.md`: source rationale, reviewed-versus-candidate distinctions,
   and proposed follow-up source work;
 - `agent-behavior-notes.md`: what behavior the draft is meant to enforce, including where it stops before policy comparison.

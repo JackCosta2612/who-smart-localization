@@ -1,6 +1,6 @@
 # Source leads: Italy (ITA)
 
-- Retrieval date: 2026-05-16T09:15:28+00:00
+- Retrieval date: 2026-05-16T09:39:05+00:00
 - Downstream focus: immunization
 
 Source leads are discovery artifacts. Mark a source `Reviewed` only after the actual PDF, dataset, official attachment, official full-text HTML, or local file has been opened and used as evidence.
@@ -17,6 +17,7 @@ Source leads are discovery artifacts. Mark a source `Reviewed` only after the ac
 | Italian Medicines Agency vaccines page | AIFA | National medicines agency | Current | https://www.aifa.gov.it/en/vaccini | Vaccine authorization, quality, safety, and pharmacovigilance context. | Candidate source lead |
 | National Vaccine Prevention Plan 2023-2025 | Italian Ministry of Health / Conferenza Stato-Regioni / Gazzetta Ufficiale | Official document | 2023 | https://www.gazzettaufficiale.it/eli/id/2023/08/21/23A04685/sg | Core immunization policy source class for later Policy Comparison. Resolve plan and calendar attachments before reviewed use. | Candidate source lead |
 | OECD, Eurostat, and EU health datasets | OECD / Eurostat / European Union | Dataset candidate source lead | Latest available | https://ec.europa.eu/eurostat/web/health | Comparable EU indicators, workforce, expenditure, access, demography, and regional context where relevant. | Candidate source lead |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | World Health Organization | WHO SMART / DAK artifact | Local shared source | shared/assets/who-immunizations-dak.pdf | Available immunization DAK source for later Policy Comparison. Country Profiling should identify it as downstream comparison material without comparing it to national policy. | Candidate source lead |
 
 ## WHO GHO / OECD support status
 

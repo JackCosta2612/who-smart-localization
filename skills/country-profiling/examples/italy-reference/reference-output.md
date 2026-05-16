@@ -12,7 +12,7 @@
 - Retrieved indicator bundle path: `skills/country-profiling/examples/italy-reference/data/retrieved-indicators.json`
 - Source lead bundle path: `skills/country-profiling/examples/italy-reference/data/source-leads.md`
 - Web-reviewed source inventory: OECD direct PDF reviewed for country health-system context; other institutional pages kept as candidate leads unless listed as reviewed below
-- Known input limitations: This reference starts from minimal human input. It uses deterministic World Bank indicators and one web-reviewed institutional profile. It does not parse Italian immunization policy attachments, regional implementation documents, national coverage datasets, registry specifications, or WHO/SMART comparison material.
+- Known input limitations: This reference starts from minimal human input. It uses deterministic World Bank indicators, one web-reviewed institutional profile, and the shared WHO immunization DAK as available downstream comparison material. It does not parse Italian immunization policy attachments, regional implementation documents, national coverage datasets, registry specifications, or compare the DAK with Italian policy.
 
 ## Executive summary
 
@@ -20,7 +20,7 @@ Italy is a high-income EU country with a universal National Health Service, the 
 
 The deterministic baseline indicator bundle gives a compact data root: Italy's 2024 World Bank population value is 58,952,704 (`SP.POP.TOTL`), life expectancy is 83.95 years (`SP.DYN.LE00.IN`), current health expenditure per capita is 3,397.69 current US dollars (`SH.XPD.CHEX.PC.CD`), out-of-pocket expenditure is 22.31% of current health expenditure (`SH.XPD.OOPC.CH.ZS`), and measles immunization is 95% of children ages 12-23 months (`SH.IMM.MEAS`), all retrieved 2026-05-16. These values support baseline context only and do not replace national datasets or reviewed policy sources.
 
-Immunization is a suitable downstream focus because the deterministic source-lead bundle identifies the Italian Ministry of Health, Istituto Superiore di Sanita, AIFA, and the National Vaccine Prevention Plan 2023-2025 as likely source classes. This profile is ready for Policy Comparison scoping, not for alignment findings. Before comparison, the agent still needs official Italian policy attachments, current Ministry/ISS coverage data, regional implementation evidence, digital registry/reporting specifications, relevant WHO/SMART material, and expert review.
+Immunization is a suitable downstream focus because the deterministic source-lead bundle identifies the Italian Ministry of Health, Istituto Superiore di Sanita, AIFA, the National Vaccine Prevention Plan 2023-2025, and the shared WHO immunization DAK as likely source classes. This profile is ready for Policy Comparison scoping, not for alignment findings. Before comparison, the agent still needs official Italian policy attachments, current Ministry/ISS coverage data, regional implementation evidence, digital registry/reporting specifications, DAK scope extraction, and expert review.
 
 ## Source inventory
 
@@ -37,7 +37,7 @@ Immunization is a suitable downstream focus because the deterministic source-lea
 | Italian Medicines Agency vaccines page | Candidate source lead | AIFA | Current | https://www.aifa.gov.it/en/vaccini | Vaccine authorization, quality, safety, and pharmacovigilance context | Candidate source |
 | National Vaccine Prevention Plan 2023-2025 landing page | Landing page | Italian Ministry of Health / Conferenza Stato-Regioni / Gazzetta Ufficiale | 2023 | https://www.gazzettaufficiale.it/eli/id/2023/08/21/23A04685/sg | Core immunization policy source class for later Policy Comparison; plan and calendar attachments still need direct review | Candidate source |
 | OECD, Eurostat, and EU health datasets | Candidate source lead | OECD / Eurostat / European Union | Latest available | https://ec.europa.eu/eurostat/web/health | Comparable EU indicators, workforce, access, expenditure, demography, and regional context | Candidate source |
-| WHO guideline, SMART Guideline, or DAK artifact for selected immunization question | Candidate source lead | WHO | Not supplied | Not supplied | Required only for later Policy Comparison | Not available in supplied material |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | Candidate source lead | World Health Organization | Local shared source | shared/assets/who-immunizations-dak.pdf | Available immunization DAK source for later Policy Comparison; not evidence about Italy's country context | Candidate source |
 
 ## Country context snapshot
 
@@ -103,13 +103,13 @@ For immunization, likely equity dimensions include region, age, socioeconomic st
 
 Carry forward these system watchpoints: regional implementation variation, ageing-related demand, NCD burden, waiting times, out-of-pocket pathways, workforce constraints, general practice capacity, nursing pipeline concerns, infrastructure modernization, digital-health adoption, data completeness, and expert-review needs.
 
-For immunization, carry forward these as retrieval tasks rather than conclusions: PNPV/calendar source review, Ministry circulars, NITAG or advisory process evidence where relevant, regional adoption timing, vaccine coverage by cohort and region, safety surveillance, public communication, supply continuity, registry/reporting workflows, and WHO/SMART comparison source selection.
+For immunization, carry forward these as retrieval tasks rather than conclusions: PNPV/calendar source review, Ministry circulars, NITAG or advisory process evidence where relevant, regional adoption timing, vaccine coverage by cohort and region, safety surveillance, public communication, supply continuity, registry/reporting workflows, and DAK scope extraction from the shared WHO immunization DAK.
 
 ## Policy-analysis readiness
 
 Partially ready for Policy Comparison scoping. The profile has enough reviewed and retrieved evidence to explain the core Italy context: universal SSN, decentralized regional implementation, baseline population and life expectancy, expenditure and out-of-pocket context, workforce and infrastructure baseline indicators, WASH baseline indicators, digital-health watchpoints, and immunization source classes.
 
-Not ready for detailed policy comparison or alignment claims. The next step requires direct review of official Italian immunization policy attachments, current Ministry/ISS coverage and surveillance datasets, regional implementation sources, digital reporting specifications, relevant WHO/SMART/DAK material, and Italy health-system expert validation. Use this output as context and a source-work checklist only.
+Not ready for detailed policy comparison or alignment claims. The next step requires direct review of official Italian immunization policy attachments, current Ministry/ISS coverage and surveillance datasets, regional implementation sources, digital reporting specifications, extraction of the relevant comparison scope from the shared WHO immunization DAK, and Italy health-system expert validation. Use this output as context and a source-work checklist only.
 
 ## Policy-comparison handoff
 
@@ -121,7 +121,7 @@ Not ready for detailed policy comparison or alignment claims. The next step requ
 | Collect coverage and surveillance data | Policy text cannot show uptake, equity, or implementation | World Bank measles baseline retrieved | Ministry/ISS coverage by vaccine, dose, cohort, region, and year missing | Retrieve current Ministry/ISS datasets and metadata |
 | Map regional implementation | National policy may not reflect local practice | Regional autonomy and variation documented in reviewed source | Regional acts, operational circulars, and monitoring reports missing | Retrieve regional implementation documents or define priority regions |
 | Map digital data flow | SMART localization may depend on data elements and reporting | Digital-health watchpoint identified from reviewed source | Registry specs, forms, interoperability, FSE vaccination data, and reporting rules missing | Retrieve data dictionaries, registry/reporting specifications, and FSE evidence |
-| Bring in WHO/SMART source material | Required for comparison | Not supplied | WHO guidance and SMART/DAK artifacts absent | Add WHO source package in the future Policy Comparison run |
+| Scope WHO/SMART DAK material | Required for comparison | Shared WHO immunization DAK is available at `shared/assets/who-immunizations-dak.pdf` | Relevant DAK sections, data elements, business processes, and decision logic not extracted | Select the exact DAK scope for the future Policy Comparison run |
 | Expert validation | Italian law, regions, service delivery, and digital systems need local interpretation | Source classes and gaps identified | Human reviewers not assigned | Assign Italy public health, legal/policy, regional health-system, digital-health, and immunization reviewers |
 
 ## Evidence gaps and expert input needed
@@ -135,7 +135,7 @@ Not ready for detailed policy comparison or alignment claims. The next step requ
 | Observatory health system review not directly reviewed in this reference | Deeper system details may be needed beyond the 2025 profile | Resolve source lead to direct PDF and review relevant sections | Health-system reviewer |
 | OECD/Eurostat datasets not retrieved beyond World Bank baseline | EU-comparable regional or workforce detail may be useful | Retrieve only indicators needed for the selected comparison question | Data analyst |
 | WHO GHO values not configured | WHO data may be useful but indicator codes need review | Add stable GHO indicator codes or use web-assisted retrieval with strict provenance | WHO data reviewer |
-| WHO/SMART material absent | Country Profiling cannot perform comparison without comparison source | Defer to Policy Comparison and collect WHO/SMART source package | Policy Comparison agent |
+| Shared WHO immunization DAK not scoped | Country Profiling should not compare the DAK with Italy policy, but Policy Comparison needs exact DAK sections | Extract relevant DAK business processes, data elements, decision logic, and guideline references during Policy Comparison | Policy Comparison agent |
 
 ## Sources
 
@@ -144,3 +144,4 @@ Not ready for detailed policy comparison or alignment claims. The next step requ
 - Source leads: Italy, Country Profiling source registry, `skills/country-profiling/examples/italy-reference/data/source-leads.md`, retrieved 2026-05-16.
 - State of Health in the EU: Italy Country Health Profile 2025, OECD / European Observatory / European Commission, 2025, https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/12/country-health-profile-2025-country-notes_7e72146d/italy_1a019ab7/2b5e1270-en.pdf, reviewed 2026-05-16.
 - National Vaccine Prevention Plan 2023-2025 landing page, Gazzetta Ufficiale, 2023, https://www.gazzettaufficiale.it/eli/id/2023/08/21/23A04685/sg, candidate source lead only in this reference.
+- WHO SMART Guidelines Digital Adaptation Kit for Immunization, World Health Organization, local shared source, `shared/assets/who-immunizations-dak.pdf`, candidate source lead for later Policy Comparison.

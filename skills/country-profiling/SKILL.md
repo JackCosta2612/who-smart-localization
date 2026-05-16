@@ -77,6 +77,11 @@ the unresolved material endpoint as an evidence gap.
 
 The optional downstream health-area focus can name an area such as immunization, HIV, tuberculosis, or maternal health when the profile is being prepared for later policy comparison. It should guide source discovery and readiness notes, but the country profile should still describe the country's healthcare system and context overall.
 
+When the downstream focus is immunization, include the shared WHO immunization
+DAK at `shared/assets/who-immunizations-dak.pdf` as an available downstream
+comparison source if the file exists. Country Profiling should identify this
+source for handoff only; it should not compare the DAK with national policy.
+
 ## Execution modes
 
 Use one of three execution modes:
