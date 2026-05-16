@@ -74,28 +74,35 @@ Separate:
 This distinction should appear in the source inventory, source notes, and
 evidence gaps.
 
-## Italy recommended source leads
+## Country-specific source leads
 
-For Italy, prioritize:
+For any target country, translate the source-priority list into country-specific
+queries and reviewed source records. Prefer sources that can be resolved to
+country pages, country-filtered datasets, full-text HTML, PDFs, or official
+attachments. Do not copy source leads from a reference example into another
+country profile unless they are actually relevant to that country.
 
-- European Observatory / WHO country overview at
-  `https://eurohealthobservatory.who.int/overview`, resolving to the country
-  page such as `https://eurohealthobservatory.who.int/countries/italy`;
-- State of Health in the EU Italy Country Health Profile;
-- World Bank Data for baseline indicators;
-- WHO GHO configured immunization indicators when focus is immunization;
-- Italian Ministry of Health;
-- Istituto Superiore di Sanita;
-- AIFA;
-- National Vaccine Prevention Plan 2023-2025;
-- OECD / Eurostat where relevant.
+Useful query patterns include:
 
-For immunization-focused downstream work, also look for Ministry/ISS coverage
-datasets, official circulars, national vaccine calendar attachments, regional
-implementation documents, pharmacovigilance material, registry/reporting
-specifications, and digital health data-flow sources. Country Profiling should
-identify these as source classes and gaps; it should not compare Italian policy
-with WHO guidance.
+- WHO country page or WHO regional country profile for the target country;
+- regional observatory or institutional country overview where one exists;
+- country health profile from OECD, EU, PAHO, WHO regional offices, World Bank,
+  or another institutional publisher where relevant;
+- World Bank country-filtered data for baseline indicators;
+- WHO GHO configured indicators when the focus has stable configured codes;
+- national Ministry of Health or equivalent;
+- national public health institute, disease-control center, or equivalent;
+- medicines agency, vaccine authority, or regulatory authority where relevant;
+- national statistics office or official open-data portal;
+- current official policy, strategy, plan, calendar, circular, or attachment
+  for the downstream focus.
+
+For immunization-focused downstream work, also look for national coverage
+datasets, official circulars, national vaccine calendar attachments, regional or
+subnational implementation documents, pharmacovigilance material,
+registry/reporting specifications, and digital health data-flow sources. Country
+Profiling should identify these as source classes and gaps; it should not
+compare national policy with WHO guidance.
 
 If the shared local DAK exists at `shared/assets/who-immunizations-dak.pdf`,
 include it as an available WHO SMART / DAK artifact for later Policy Comparison.

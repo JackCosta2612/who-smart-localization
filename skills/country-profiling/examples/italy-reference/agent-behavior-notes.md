@@ -23,12 +23,13 @@ country plus optional downstream focus, not a human-built source packet.
 
 ## Boundary to enforce
 
-Country Profiling may identify Italy's SSN structure, baseline indicators, WHO
-GHO immunization estimates, parsed Observatory sources, reviewed PNPV source
-anchors, remaining source gaps, and the shared WHO immunization DAK at
-`shared/assets/who-immunizations-dak.pdf`. It should not compare Italian
-immunization policy with the DAK or WHO guidance, recommend schedule changes,
-make clinical judgments, or claim policy readiness without source support.
+Country Profiling may identify the target country's health-system structure,
+baseline indicators, configured WHO GHO estimates, reviewed institutional
+sources, official source anchors, remaining source gaps, and the shared WHO
+immunization DAK at `shared/assets/who-immunizations-dak.pdf` when the focus is
+immunization. It should not compare national policy with the DAK or WHO
+guidance, recommend schedule changes, make clinical judgments, or claim policy
+readiness without source support.
 
 ## Reliability pattern
 

@@ -52,8 +52,9 @@ Examples:
 
 - Country profile pages should be resolved to the direct PDF or full-text HTML
   when the profile relies on the publication contents.
-- Gazzetta Ufficiale top-level act pages should be resolved to the relevant
-  full-text attachment pages when the plan or schedule attachment is being used.
+- Official gazette, legal notice, or government act pages should be resolved to
+  the relevant full-text attachments when a plan, schedule, annex, or circular
+  is being used.
 - Dataset portals should be resolved to country-filtered rows or an export
   before making country-specific quantitative claims.
 

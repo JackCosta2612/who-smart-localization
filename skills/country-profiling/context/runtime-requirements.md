@@ -22,9 +22,9 @@ Run from the repository root:
 
 ```bash
 python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
-  --country "Italy" \
-  --iso3 "ITA" \
-  --focus "immunization"
+  --country "<country>" \
+  --iso3 "<ISO3>" \
+  --focus "<optional downstream focus>"
 ```
 
 This writes `retrieved-indicators.json`, `retrieved-indicators.md`,
