@@ -6,7 +6,7 @@ compatibility: Model-neutral Agent Skill. Supports document-only, deterministic 
 metadata:
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone"
-  version: "0.3"
+  version: "1.0"
 ---
 
 # WHO SMART Country Profiling Skill
