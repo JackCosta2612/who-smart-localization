@@ -30,6 +30,13 @@ Domain-specific policy documents are useful only when the next step is policy co
 
 Use this by default when the user provides enough source material in the prompt, attached files, local files, or conversation context. Draft only from supplied material and turn missing source classes into explicit evidence gaps.
 
+A supplied URL is not automatically supplied evidence. Treat catalog pages,
+publication landing pages, search results, and download pages as source
+discovery unless the actual PDF, dataset, official attachment, official
+full-text HTML, or local file is opened and reviewed. For example, an OECD
+Country Health Profile publication page should be resolved to the `content/dam`
+PDF before the profile cites the profile's contents as `Reviewed` evidence.
+
 ### Retrieval-assisted mode
 
 Use this only when scripts or tools are available and retrieval support is useful. The scripts can check the environment, prepare a run folder, retrieve candidate WHO sources, and write an input documentation inventory. These artifacts support source discovery; they are not mandatory and do not replace reading the actual sources.
@@ -47,8 +54,13 @@ Prepare a retrieval-assisted run:
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
-  --focus "<optional downstream health-area focus>"
+  --focus "<optional downstream health-area focus>" \
+  --country-document "Title|Country health profile|https://example.org/profile.pdf|2025"
 ```
+
+The preparation manifest classifies supplied country-document locations as
+direct source material, official full-text/attachment HTML, local or non-URL
+material, or landing pages that still require source-material follow-up.
 
 Run WHO retrieval directly when useful:
 
@@ -98,9 +110,7 @@ country-profiling/
 ├── examples/
 │   ├── README.md
 │   ├── example-format.md
-│   ├── italy-reference-draft-1/
-│   ├── italy-reference-draft-2/
-│   └── italy-reference-draft-3/
+│   └── italy-reference/
 ├── scripts/
 │   ├── check_environment.py
 │   ├── prepare_profile_run.py
@@ -112,11 +122,11 @@ country-profiling/
 
 ## Current status
 
-Ready for manual review of draft Italy reference examples.
+Ready for manual review of the consolidated Italy reference example.
 
 ## Reference examples
 
-The `examples/italy-reference-draft-*` folders contain behavior-shaping
-reference examples, not benchmarks or tests. They show alternative ways to
-normalize inputs, draft source-backed profiles, represent uncertainty, and
-prepare downstream Policy Comparison without performing it.
+The `examples/italy-reference/` folder contains a behavior-shaping reference
+example, not a benchmark or test. It shows how to normalize inputs, use
+source-material endpoints, draft a source-backed profile, represent
+uncertainty, and prepare downstream Policy Comparison without performing it.

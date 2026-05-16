@@ -29,6 +29,12 @@ If country documents are available, pass each one with `--country-document` in t
 title|document type|path-or-url|date
 ```
 
+The path or URL should point as close as possible to the actual source
+material. Prefer a direct PDF, dataset export, official attachment page,
+official full-text page, or local file over a catalog or publication landing
+page. If only a landing page is available, record it, but keep the source as
+candidate material until the evidence-bearing document is opened.
+
 Domain-specific policy documents are not mandatory for Country Profiling. They become important when the profile is used to prepare the future Policy Comparison skill.
 
 ## Recommended source classes by profile section
@@ -97,6 +103,8 @@ Before profiling, record:
 - country ministry, agency, or organization responsible;
 - whether the source covers the country nationally or only a region/population group;
 - whether the source covers the optional downstream health-area focus directly;
+- whether the URL is direct source material or only a landing/download page;
+- whether the material endpoint was opened and reviewed before use;
 - whether a newer version may exist.
 
 ## Handling missing inputs

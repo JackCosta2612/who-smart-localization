@@ -56,6 +56,14 @@ Helpful inputs:
 
 Inputs may be unstructured. Normalize the prompt, attached files, conversation context, and optional retrieval outputs into a source inventory before writing the profile.
 
+Source URLs must resolve to usable source material before they are marked `Reviewed`.
+A publication page, catalog page, search result, or "Download PDF" page can be
+listed as a candidate, but the Agent should follow it to the PDF, dataset,
+official attachment, official full-text HTML, or local file and review that
+material before citing substantive findings. If only the landing page is
+reachable, keep the source as `Candidate source` or `Needs retrieval` and record
+the unresolved material endpoint as an evidence gap.
+
 The optional downstream health-area focus can name an area such as immunization, HIV, tuberculosis, or maternal health when the profile is being prepared for later policy comparison. It should guide source discovery and readiness notes, but the country profile should still describe the country's healthcare system and context overall.
 
 ## Execution modes
@@ -72,15 +80,16 @@ See `context/execution-modes.md` for the decision rules.
 
 1. Identify the target country and any optional downstream health-area focus, region, population group, or intended downstream use.
 2. Build a source inventory from user-provided material and any optional retrieved material.
-3. Classify source types as country-specific, regional, global, candidate, or missing.
-4. Decide whether a full profile, limited profile, or skeleton/gap-analysis profile is appropriate.
-5. Draft the textual profile using `context/profile-schema.md`.
-6. Keep the profile narrative and readable.
-7. Mark missing information as evidence gaps.
-8. Separate facts, uncertainties, assumptions, and expert-review needs.
-9. Include a `Policy-analysis readiness` section and, when useful, a `Policy-comparison handoff` table.
-10. State how the output can feed the future Policy Comparison skill.
-11. Do not fabricate missing country context.
+3. Resolve supplied source locations to source material where possible.
+4. Classify source types as country-specific, regional, global, candidate, or missing.
+5. Decide whether a full profile, limited profile, or skeleton/gap-analysis profile is appropriate.
+6. Draft the textual profile using `context/profile-schema.md`.
+7. Keep the profile narrative and readable.
+8. Mark missing information as evidence gaps.
+9. Separate facts, uncertainties, assumptions, and expert-review needs.
+10. Include a `Policy-analysis readiness` section and, when useful, a `Policy-comparison handoff` table.
+11. State how the output can feed the future Policy Comparison skill.
+12. Do not fabricate missing country context.
 
 When available, consult `examples/` for reference input-output patterns before
 drafting. Treat examples as behavior references, not as tests, benchmarks, or

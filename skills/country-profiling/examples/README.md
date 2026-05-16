@@ -12,15 +12,13 @@ The structural validator may be run on `reference-output.md` files as a sanity
 check, but passing validation is not the main purpose of these examples. The
 main purpose is to reduce variance in agent behavior during real skill use.
 
-## Italy drafts
+## Italy reference
 
-| Draft | Focus | Best used to demonstrate |
+| Example | Focus | Best used to demonstrate |
 |---|---|---|
-| `italy-reference-draft-1/` | Broad health-system overview | A balanced country profile covering system organization, access, financing, workforce, infrastructure, digital health, equity, risks, and downstream readiness. |
-| `italy-reference-draft-2/` | Immunization-oriented country profile | How to prepare for later immunization policy comparison while still producing a country profile rather than a policy comparison. |
-| `italy-reference-draft-3/` | Policy-comparison handoff style | A conservative, gap-oriented profile that explicitly identifies source classes, constraints, uncertainties, and handoff actions for the future Policy Comparison skill. |
+| `italy-reference/` | Broad health-system overview with immunization-readiness handoff | A balanced country profile that uses direct source-material endpoints, keeps policy comparison out of scope, and combines readable narrative, source discipline, and conservative handoff/gap framing. |
 
-Each draft contains:
+The example contains:
 
 - `input.md`: a realistic user request that should activate the skill;
 - `reference-output.md`: a concise source-backed output pattern following `context/profile-schema.md`;

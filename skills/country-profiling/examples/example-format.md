@@ -25,7 +25,7 @@ Placeholder only. Add real WHO and country-specific sources before using this as
 
 | Source | Source type | Publisher | Date | URL or file path | Notes |
 |---|---|---|---|---|---|
-| <source title> | <source class> | <publisher> | <date> | <url-or-path> | <why it matters> |
+| <source title> | <source class> | <publisher> | <date> | <direct PDF, dataset, official full-text/attachment URL, or local file path> | <why it matters; note if only a landing page is available> |
 
 ## Known limitations
 
