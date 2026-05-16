@@ -1,6 +1,16 @@
 # WHO documentation and data retrieval guidance
 
-This note records source classes that can support healthcare country profiling. Retrieval is optional assistance for source discovery and evidence collection; it is not a substitute for source review.
+This note records source classes that can support healthcare country profiling.
+Retrieval is optional assistance for source discovery and evidence collection;
+it is not a substitute for source review.
+
+For minimal-input profiling, prefer
+`scripts/retrieve_country_profile_data.py` when Python scripts are available.
+That script retrieves selected World Bank baseline indicators and institutional
+source leads with provenance. The older WHO retrieval helper remains useful for
+WHO source discovery, but generic WHO pages must not be treated as
+country-specific evidence unless a country-specific document or country-filtered
+dataset is actually retrieved and reviewed.
 
 Country profiling comes first. Later policy comparison may use the profile to decide which national policies, guidelines, reporting artifacts, or terminology sources to retrieve next.
 
@@ -21,7 +31,11 @@ https://ghoapi.azureedge.net/api/Indicator
 https://ghoapi.azureedge.net/api/<INDICATOR_CODE>
 ```
 
-Use this for structured country indicators related to mortality, morbidity, service coverage, financing, workforce, WASH, and the optional downstream health-area focus.
+Use this for structured country indicators related to mortality, morbidity,
+service coverage, financing, workforce, WASH, and the optional downstream
+health-area focus only when stable indicator codes and country filters are
+configured. If indicator codes are uncertain, record GHO as a candidate source
+lead rather than inventing values.
 
 ### WHO SCORE documents
 
@@ -55,7 +69,16 @@ When the user provides a downstream health-area focus, add topic-specific WHO so
 
 ## Suggested retrieval workflow
 
-When retrieval support is useful, run:
+When deterministic baseline retrieval is useful, run:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+  --country "<country>" \
+  --iso3 "<ISO3>" \
+  --focus "<optional downstream health-area focus>"
+```
+
+When WHO-specific source discovery is useful, run:
 
 ```bash
 python3 skills/country-profiling/scripts/retrieve_who_sources.py \

@@ -2,7 +2,7 @@
 """Prepare optional support artifacts for a country healthcare profile run.
 
 This helper checks runtime readiness, runs optional WHO source retrieval, and
-writes an input documentation inventory. It supports retrieval-assisted mode
+writes an input documentation inventory. It supports mixed retrieval workflows
 but is not required for document-only profiling from user-supplied sources.
 """
 
@@ -404,7 +404,7 @@ def write_input_inventory_markdown(inventory: dict[str, object], path: Path) -> 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare optional retrieval-assisted support artifacts for Country Profiling."
+        description="Prepare optional source-inventory and WHO discovery support artifacts for Country Profiling."
     )
     parser.add_argument("--country", required=True, help="Country name or GHO country code.")
     parser.add_argument(

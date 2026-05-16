@@ -1,6 +1,16 @@
 # Input documentation guidance
 
-The skill should work from supplied documents first. Retrieval can support the workflow, but country-specific sources should be treated as explicit inputs whenever possible.
+The skill can start from only a country name. Country Profiling is not only for
+countries missing from WHO databases; it is for any target country where WHO /
+SMART / DAK content needs country-specific contextualization before later policy
+comparison or localization.
+
+The profile should combine deterministic public-health data where available,
+semi-deterministic web-assisted retrieval when scripts are unavailable, official
+or institutional documents, source inventories, evidence gaps, and
+implementation context. WHO database coverage alone is not enough for
+localization because service delivery, governance, digital systems, regional
+variation, and policy ownership still need country context.
 
 ## Minimum input request
 
@@ -15,7 +25,21 @@ Helpful but not required:
 - WHO SMART Guidelines or DAK scope, if known;
 - any country-specific health documents already available.
 
-When retrieval-assisted mode is useful, these values can be passed into the preparation command:
+When deterministic script-assisted retrieval is useful, these values can be
+passed into the baseline retrieval command:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+  --country "<country>" \
+  --iso3 "<ISO3>" \
+  --focus "<optional downstream health-area focus>"
+```
+
+The output files can be treated as source artifacts, not as a complete evidence
+base.
+
+When broader run preparation is useful, these values can also be passed into the
+preparation command:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
@@ -35,7 +59,13 @@ official full-text page, or local file over a catalog or publication landing
 page. If only a landing page is available, record it, but keep the source as
 candidate material until the evidence-bearing document is opened.
 
-Domain-specific policy documents are not mandatory for Country Profiling. They become important when the profile is used to prepare the future Policy Comparison skill.
+Domain-specific policy documents are not mandatory for Country Profiling. They
+become important when the profile is used to prepare the future Policy
+Comparison skill.
+
+If Python scripts are unavailable but web access exists, use
+`web-assisted-retrieval.md` to retrieve or identify the same source classes in a
+controlled way. Record reviewed sources separately from candidate source leads.
 
 ## Recommended source classes by profile section
 
@@ -115,5 +145,9 @@ If a country source is missing:
 - do not infer national health conditions from global guidance alone;
 - propose likely source owners, such as ministry of health, national statistics office, public health institute, WHO country office, UNICEF, World Bank, regional observatory, or relevant programme authority;
 - flag the gap for human follow-up.
+
+If neither scripts nor enough documents are available, ask for source material
+or produce only a skeleton/gap-analysis profile. Do not draft unsupported
+country facts.
 
 The optional preparation script writes `input-documentation-inventory.md` with supplied documents and missing source classes. The profile should reflect missing source classes as evidence gaps whether they are identified by the script or manually from the supplied material.

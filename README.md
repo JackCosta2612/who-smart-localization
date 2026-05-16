@@ -8,7 +8,12 @@ This repository is part of a one-month, 3 ECTS university NLP project connected 
 
 The skills support preparation and review work for WHO SMART Guidelines and Digital Adaptation Kits (DAKs). They help organize sources, identify evidence gaps, and prepare structured outputs for human review.
 
-Country Profiling creates a healthcare country profile. It does not perform policy alignment analysis. Later, Policy Comparison should use the country profile as context when comparing WHO/SMART content with national policy material.
+Country Profiling creates a healthcare country profile. It is for any target
+country where WHO / SMART / DAK content needs country-specific
+contextualization before policy comparison or localization, not only for
+countries missing from WHO databases. It does not perform policy alignment
+analysis. Later, Policy Comparison should use the country profile as context
+when comparing WHO/SMART content with national policy material.
 
 The skills do not make clinical decisions, provide patient advice, draft final national policy, or replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
 
@@ -47,6 +52,11 @@ Status: active / MVP polish.
 
 Creates a source-backed textual healthcare country profile covering country context, main health issues, health system organization, implementation environment, access and coverage, sanitary conditions, financing, workforce, infrastructure, digital health, equity, risks, and readiness for later policy comparison.
 
+The preferred minimal input is a country name plus optional downstream focus.
+The skill supports document-only profiling, deterministic script-assisted
+retrieval for selected baseline indicators and source leads, and controlled
+web-assisted retrieval when scripts are unavailable.
+
 Path: `skills/country-profiling/`
 
 ### Policy Comparison
@@ -59,10 +69,10 @@ Path: `skills/policy-comparison/`
 
 ## Examples and tests
 
-Country Profiling includes draft Italy reference examples under
-`skills/country-profiling/examples/`. These are behavior-shaping examples for
-manual review, not benchmark cases or final policy evidence. Tests and
-validators check structure only; they do not validate clinical correctness,
+Country Profiling includes a retrieval-assisted Italy reference example under
+`skills/country-profiling/examples/italy-reference/`. It is a behavior-shaping
+example for manual review, not a benchmark case or final policy evidence. Tests
+and validators check structure only; they do not validate clinical correctness,
 policy correctness, country facts, source interpretation, or WHO interpretation.
 
 ## Basic workflow

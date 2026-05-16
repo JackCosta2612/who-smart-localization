@@ -2,6 +2,14 @@
 
 The Country Profiling skill creates a source-backed healthcare overview for a target country. It summarizes the health situation, health system structure, implementation environment, data and digital health context, equity issues, risks, and readiness for later policy comparison or SMART Guidelines localization.
 
+Country Profiling is not only for countries missing from WHO databases. It is
+for any target country where WHO / SMART / DAK content needs country-specific
+contextualization before policy comparison or localization. A country can have
+WHO, World Bank, OECD, EU, or national data coverage and still require
+localization because implementation depends on health-system structure,
+governance, regional variation, digital health infrastructure, policy ownership,
+service delivery, and source gaps.
+
 ## Why this comes first
 
 Policy comparison depends on context. A national policy excerpt is hard to interpret without knowing the country's service delivery model, coverage rules, financing constraints, workforce and infrastructure limits, WASH conditions, data systems, and regional inequalities. This skill makes that context explicit before the future Policy Comparison skill compares WHO/SMART content with national policy material.
@@ -20,7 +28,23 @@ The skill produces a narrative markdown profile using `context/profile-schema.md
 
 ## Sources
 
-Minimum input is a country name. Better profiles use country-specific sources such as country health profiles, national health strategies, health sector plans, financing or UHC reports, workforce and infrastructure sources, WASH/environmental health sources, digital health or HIS documents, surveillance outputs, and survey or burden-of-disease sources.
+Minimum input is a country name. An optional downstream focus such as
+immunization can guide source prioritization and policy-comparison readiness
+notes, but the profile should still describe the country's healthcare context
+overall.
+
+The skill should reduce human source-gathering. With minimal input, use
+deterministic retrieval where available to collect selected baseline indicators
+and source leads. If scripts are unavailable but web access exists, use
+semi-deterministic web-assisted retrieval from approved source classes with
+strict provenance. Human input should mainly be review and optional source
+supplementation.
+
+Better profiles use country-specific sources such as country health profiles,
+national health strategies, health sector plans, financing or UHC reports,
+workforce and infrastructure sources, WASH/environmental health sources, digital
+health or HIS documents, surveillance outputs, and survey or burden-of-disease
+sources.
 
 Domain-specific policy documents are useful only when the next step is policy comparison. They are not required to create the country profile.
 
@@ -37,9 +61,24 @@ full-text HTML, or local file is opened and reviewed. For example, an OECD
 Country Health Profile publication page should be resolved to the `content/dam`
 PDF before the profile cites the profile's contents as `Reviewed` evidence.
 
-### Retrieval-assisted mode
+### Deterministic script-assisted retrieval mode
 
-Use this only when scripts or tools are available and retrieval support is useful. The scripts can check the environment, prepare a run folder, retrieve candidate WHO sources, and write an input documentation inventory. These artifacts support source discovery; they are not mandatory and do not replace reading the actual sources.
+Use this when Python scripts are available, especially when the user gives only
+a country and optional downstream focus. This is the preferred minimal-input
+assistance path.
+
+The baseline retrieval script collects selected World Bank indicators and
+institutional source leads. These artifacts support drafting and gap mapping;
+they do not replace reading official or institutional sources and they do not
+prove completeness.
+
+### Semi-deterministic web-assisted retrieval mode
+
+Use this when scripts are unavailable but web access exists. Follow
+`context/web-assisted-retrieval.md`: use the approved source priority list,
+record publisher/title/date/URL/retrieval date/source type/status, separate
+reviewed sources from candidate leads, and keep landing-page-only or inaccessible
+materials as evidence gaps.
 
 ## Optional scripts
 
@@ -49,13 +88,23 @@ Check the local environment:
 python3 skills/country-profiling/scripts/check_environment.py
 ```
 
-Prepare a retrieval-assisted run:
+Prepare a run with source inventory and WHO discovery support:
 
 ```bash
 python3 skills/country-profiling/scripts/prepare_profile_run.py \
   --country "<country>" \
   --focus "<optional downstream health-area focus>" \
   --country-document "Title|Country health profile|https://example.org/profile.pdf|2025"
+```
+
+Retrieve controlled baseline indicators and source leads:
+
+```bash
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+  --country "<country>" \
+  --iso3 "<ISO3>" \
+  --focus "<optional downstream health-area focus>" \
+  --output-dir "<output-directory>"
 ```
 
 The preparation manifest classifies supplied country-document locations as
@@ -106,7 +155,15 @@ country-profiling/
 │   ├── profile-schema.md
 │   ├── retrieval-limitations.md
 │   ├── runtime-requirements.md
+│   ├── web-assisted-retrieval.md
 │   └── who-data-retrieval.md
+├── data_sources/
+│   ├── README.md
+│   ├── indicator_registry.json
+│   ├── oecd.py
+│   ├── source_registry.py
+│   ├── who_gho.py
+│   └── world_bank.py
 ├── examples/
 │   ├── README.md
 │   ├── example-format.md
@@ -122,11 +179,13 @@ country-profiling/
 
 ## Current status
 
-Ready for manual review of the consolidated Italy reference example.
+Ready for manual review of the retrieval-assisted Italy reference example.
 
 ## Reference examples
 
 The `examples/italy-reference/` folder contains a behavior-shaping reference
-example, not a benchmark or test. It shows how to normalize inputs, use
-source-material endpoints, draft a source-backed profile, represent
-uncertainty, and prepare downstream Policy Comparison without performing it.
+example, not a benchmark or test. It shows the preferred minimal-input pattern:
+country plus optional downstream focus, deterministic baseline retrieval where
+available, controlled web-assisted fallback when scripts are unavailable,
+source-material endpoint discipline, evidence gaps, and downstream Policy
+Comparison handoff without performing comparison.

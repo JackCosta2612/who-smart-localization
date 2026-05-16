@@ -1,87 +1,146 @@
 # Execution modes
 
-Country Profiling supports two execution modes. Preflight and retrieval scripts are optional assistance, not mandatory gates for every profile.
+Country Profiling creates a country context layer for WHO / SMART / DAK
+localization work. It is not only for countries missing from WHO databases. A
+country may have strong WHO, World Bank, OECD, EU, or national data coverage and
+still require localization because implementation depends on health-system
+structure, governance, regional variation, digital infrastructure, service
+delivery, policy ownership, and source gaps.
 
-## Document-only mode
+The skill supports three execution modes.
 
-Use document-only mode by default when the user provides enough source material in the prompt, attached files, local files, or conversation context.
+## 1. Document-only mode
+
+Use document-only mode when the user provides source documents, excerpts,
+attachments, local files, or conversation context that are sufficient to draft
+from supplied material.
 
 In this mode, the Agent should:
 
-- identify the target country and optional downstream health-area focus, region, population group, or downstream use;
-- normalize the supplied material into the source inventory from `profile-schema.md`;
-- draft only from the supplied material;
+- identify the target country and optional downstream health-area focus;
+- normalize supplied material into the source inventory from
+  `profile-schema.md`;
+- draft only from supplied material;
 - mark missing source classes and missing facts as evidence gaps;
-- avoid using assumptions to fill country context.
+- avoid using web search or deterministic scripts unless the user asks for mixed
+  retrieval support.
 
-## Retrieval-assisted mode
+Supplied URLs are not automatically reviewed evidence. A catalog page,
+publication landing page, search result, or download page remains a candidate
+until the PDF, dataset, official attachment, official full-text HTML, or local
+file has been opened and reviewed.
 
-Use retrieval-assisted mode when scripts or tools are available and the user asks for, allows, or clearly needs assistance finding candidate sources.
+## 2. Deterministic script-assisted retrieval mode
 
-The helper command is:
+Use deterministic script-assisted retrieval when Python scripts are available
+and the user provides only a country and optional downstream focus. This is the
+preferred assistance path for minimal-input profiling.
+
+The baseline retrieval command is:
 
 ```bash
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
+python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
   --country "<country>" \
+  --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>"
 ```
 
-Country documents can be listed with repeated `--country-document` arguments:
+The script writes:
 
-```text
-title|document type|path-or-url|date
-```
+- `retrieved-indicators.json`;
+- `retrieved-indicators.md`;
+- `source-leads.md`.
 
-The command can write:
+The deterministic layer is intentionally small. It retrieves selected World Bank
+baseline indicators and prepares institutional source leads. WHO GHO and OECD
+support are conservative: if stable values are not configured, they are recorded
+as candidate/manual-review sources rather than fabricated data.
 
-- `profile-preflight-manifest.json`;
-- `input-documentation-inventory.md`;
-- a `who-retrieval/` directory with candidate retrieval artifacts.
+Use deterministic outputs as source artifacts. Precise data claims must include
+indicator source, code, year, source URL, and retrieval date. Successful
+retrieval does not prove completeness; it only provides a baseline context
+bundle.
 
-Treat these outputs as source-inventory support. They can improve traceability, but they do not replace reading and citing the actual sources. Generic WHO or global pages are discovery surfaces; they are not country-specific evidence unless they resolve to country-specific documents or country-filtered datasets.
+## 3. Semi-deterministic web-assisted retrieval mode
 
-## Proceeding with a profile
+Use semi-deterministic web-assisted retrieval when Python scripts are
+unavailable but web access is available. Follow
+`web-assisted-retrieval.md`.
 
-Use this decision rule:
+This mode is structured source discovery and review, not open-ended browsing.
+The Agent should:
+
+- follow the predefined source priority list;
+- search only for specific approved source classes;
+- prefer official and institutional sources;
+- record publisher, title, URL, date, retrieval date, source type, and status;
+- separate reviewed evidence from candidate source leads;
+- treat landing pages as landing pages unless the evidence-bearing material is
+  retrieved and reviewed;
+- mark inaccessible PDFs, missing datasets, and unresolved national/regional
+  sources as evidence gaps.
+
+## Mixed mode
+
+Use mixed mode when supplied documents are combined with deterministic retrieval
+or controlled web-assisted retrieval. This is common when the user supplies a
+few national documents but still needs baseline indicators, source leads, or
+gap mapping.
+
+## What counts as enough evidence
 
 | Output type | When to use |
 |---|---|
-| Full profile | The country is known and enough country-specific sources are available to support several major profile sections. |
-| Limited profile | The country is known and some relevant evidence is available, but important sections depend on missing, stale, generic, or uncertain sources. |
-| Skeleton/gap-analysis profile | The country is known, little evidence is available, and the user asks for planning, source discovery, or gap analysis. |
-| Pause and ask for sources | No country is specified, or no relevant source is available and the user did not request a skeleton/gap-analysis profile. |
+| Full profile | The country is known and several major sections are supported by reviewed documents, retrieved indicators, or reviewed web sources. |
+| Limited profile | Some relevant evidence is available, but important sections rely on missing, stale, landing-page-only, inaccessible, or unreviewed source classes. |
+| Skeleton/gap-analysis profile | The country is known but there is too little reviewed evidence; the useful output is a source plan, evidence-gap map, and policy-comparison readiness assessment. |
+| Pause and ask for sources | No country is specified, or neither scripts, web access, nor sufficient supplied documents are available and the user did not request a skeleton/gap analysis. |
 
-If scripts are unavailable or fail, the Agent may still proceed in document-only mode when user-provided sources satisfy the conditions above. If both scripts fail and sources are insufficient, ask for source material or produce only a limited skeleton/gap-analysis profile if the user requested one.
+Baseline indicators alone are not enough for a full profile. A full profile also
+needs health-system context, source inventory, evidence gaps, and implementation
+context. Official or institutional documents are usually required for system
+organization, policy ownership, digital health, regional implementation, and
+downstream policy-comparison readiness.
+
+## When scripts are unavailable
+
+If scripts are unavailable but web access exists, switch to semi-deterministic
+web-assisted retrieval. Do not ask the user to construct a source package before
+attempting controlled retrieval unless the task is high risk, the country is
+ambiguous, or web access is blocked.
+
+If scripts fail but supplied source material is adequate, proceed in
+document-only or mixed mode and record the script failure as a retrieval gap
+only if it affects the profile.
+
+## When neither scripts nor enough documents are available
+
+If there is no web access, no usable script path, and insufficient source
+material, do not draft unsupported country facts. Ask for source material or
+produce only a skeleton/gap-analysis profile if that is useful.
+
+## Evidence gaps
+
+Missing content should become evidence gaps, not assumptions. Include gaps from:
+
+- missing data;
+- unavailable indicator values;
+- failed retrieval;
+- landing-page-only sources;
+- inaccessible PDFs or datasets;
+- national, regional, or programme sources not reviewed;
+- digital health or registry source classes not reviewed;
+- policy sources needed later for comparison but not yet retrieved.
 
 ## Downstream policy-comparison decision
 
-A profile can feed the future Policy Comparison skill only if it identifies enough country context and at least suggests which national policy documents are needed. It does not need to include the policy documents themselves unless the user is preparing an immediate comparison.
+A profile can feed the future Policy Comparison skill only if it identifies
+enough country context and at least suggests which national policy source
+classes are needed. It does not need to include policy documents unless the user
+is preparing an immediate comparison.
 
-If the profile cannot support downstream comparison, write `Not ready for policy comparison` in the `Policy-analysis readiness` section and explain why. Common reasons include missing national policy sources, no country-specific health system evidence, unresolved source conflicts, stale documents, or insufficient context for interpreting policy text.
-
-## Handling missing sources
-
-Missing content should become evidence gaps, not assumptions. This keeps later policy comparison work honest about what still requires retrieval, review, or local expertise.
-
-Examples of evidence gaps:
-
-- missing country health profile or national health strategy;
-- missing recent burden-of-disease or surveillance source;
-- missing health financing or coverage source;
-- missing WASH, sanitary, or environmental health source;
-- missing health workforce or facility-capacity source;
-- missing digital health or health information system documentation;
-- missing authoritative policy documents for the downstream comparison topic.
-
-## Handling conflicting sources
-
-When sources conflict:
-
-- record both sources in the source inventory;
-- describe the conflict in `Evidence gaps and expert input needed`;
-- avoid choosing one source as authoritative unless the provided evidence clearly supports that choice;
-- assign a human expert review action.
-
-## Retrieval cautions
-
-Retrieved WHO/global sources may be globally relevant without being country-specific evidence. Generic WHO landing pages, broad dashboards, empty datasets, or unresolved source discovery should be recorded as candidate sources or evidence gaps, not as proof of national health conditions, coverage, sanitary conditions, or implementation context.
+If the profile cannot support downstream comparison, write `Not ready for
+policy comparison` in the `Policy-analysis readiness` section and explain why.
+Common reasons include missing national policy sources, no country-specific
+health system evidence, unresolved source conflicts, stale documents, or
+insufficient context for interpreting policy text.

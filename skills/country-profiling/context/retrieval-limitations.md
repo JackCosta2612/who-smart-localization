@@ -1,8 +1,24 @@
 # Retrieval limitations
 
-The retrieval runner is a source-discovery helper for country profiling. It can retrieve reachable WHO pages, link inventories, downloadable files, and selected GHO JSON samples, but reachability is not the same as country-specific evidence.
+The retrieval runners are source-discovery and baseline-data helpers for country
+profiling. The deterministic baseline runner can retrieve selected World Bank
+indicator values and institutional source leads. The WHO runner can retrieve
+reachable WHO pages, link inventories, downloadable files, and selected GHO JSON
+samples. In all cases, reachability is not the same as country-specific
+evidence.
 
-Retrieval output cannot prove that a profile is complete. Missing or unresolved retrieval outputs should become evidence gaps, not hidden assumptions.
+Retrieval output cannot prove that a profile is complete. Missing or unresolved
+retrieval outputs should become evidence gaps, not hidden assumptions. Retrieved
+baseline indicators must be combined with official or institutional documents,
+source inventories, implementation context, and human review.
+
+## Deterministic baseline limitations
+
+The deterministic baseline layer intentionally retrieves only a small controlled
+indicator set. It does not retrieve regional implementation, national policy
+text, digital registry specifications, service delivery workflows, or expert
+interpretation. WHO GHO and OECD values may be recorded as candidate/manual
+review sources unless stable retrieval is configured.
 
 ## Known limitations
 

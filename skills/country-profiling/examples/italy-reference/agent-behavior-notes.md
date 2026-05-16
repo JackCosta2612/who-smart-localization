@@ -1,35 +1,38 @@
 # Agent behavior notes
 
-This example should shape Country Profiling behavior for Italy-like requests.
+This example demonstrates the preferred minimal-input Country Profiling pattern:
+country plus optional downstream focus, not a human-built source packet.
 
 ## Expected behavior
 
-- Resolve supplied source URLs to source material before marking sources
-  `Reviewed`.
-- Keep a balanced country profile even when a downstream focus such as
-  immunization is supplied.
-- Treat immunization policy sources as handoff material unless the user asks for
-  the future Policy Comparison skill.
-- Separate national policy text, regional implementation, coverage evidence,
-  digital data flows, operational capacity, and expert validation.
-- Prefer explicit evidence gaps over assumptions.
+- Use deterministic retrieval to produce a baseline indicator bundle when
+  scripts are available.
+- Use semi-deterministic web-assisted retrieval when scripts are unavailable,
+  following the source priority and provenance rules in
+  `context/web-assisted-retrieval.md`.
+- Treat source leads carefully. A source lead is not reviewed evidence until the
+  PDF, dataset, official attachment, official full-text HTML, or local file is
+  opened and used.
+- Use retrieved indicators as context, not as proof of completeness.
+- Ask for human review of the draft and source inventory, not for manual source
+  construction, unless key source classes remain missing.
+- Feed the Policy Comparison skill by identifying context, likely source
+  classes, and gaps without performing comparison.
 
 ## Boundary to enforce
 
-The Country Profiling skill may say that PNPV 2023-2025 and the national
-vaccination calendar are the core Italian immunization source family for later
-comparison. It should not decide whether Italian policy aligns with WHO
-guidance, recommend schedule changes, or make clinical judgments.
+Country Profiling may identify Italy's SSN structure, baseline indicators,
+regional implementation risk, and immunization source classes. It should not
+compare Italian immunization policy with WHO guidance, recommend schedule
+changes, make clinical judgments, or claim policy readiness without source
+support.
 
 ## Reliability pattern
 
-When a user supplies a URL like an OECD publication page with a "Download PDF"
-button, the Agent should answer the implicit question this example is designed
-to catch:
+When scripts are available, the agent should preserve indicator source, code,
+value, year, URL, retrieval date, and status.
 
-- if the PDF or full-text material endpoint is opened, the source can become
-  `Reviewed`;
-- if only the landing page is opened, the source remains a candidate or
-  retrieval gap;
-- if the direct material endpoint is not reachable, the Agent should record the
-  failure and avoid evidence claims that require that source.
+When scripts are unavailable, the agent should use the approved source priority
+list, record publisher/title/date/URL/retrieval date/source type/status, and
+separate reviewed evidence from candidate leads. Landing pages and inaccessible
+PDFs become evidence gaps, not hidden assumptions.
