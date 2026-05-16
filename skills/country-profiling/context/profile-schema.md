@@ -79,6 +79,12 @@ Allowed `Status` values:
 
 Use `Reviewed` only when the profile actually uses the source as evidence. Use `Candidate source` for sources identified but not fully reviewed.
 
+`Reviewed` also requires a usable material endpoint. The Agent must have opened
+and reviewed the PDF, dataset, official attachment, official full-text HTML, or
+local file that contains the evidence. A publication landing page or download
+page can identify a source, but it should remain `Candidate source` or `Needs
+retrieval` until the material endpoint is resolved and reviewed.
+
 ## Narrative sections
 
 The main body should be textual, with short paragraphs and source-backed statements. Use bullets only where they improve scanability.

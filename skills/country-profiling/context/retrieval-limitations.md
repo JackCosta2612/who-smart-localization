@@ -19,6 +19,27 @@ Some source classes are broad discovery surfaces:
 
 The runner may fetch a landing page and record discovered links without resolving the exact country-specific document or dataset. Generic landing pages use a `discover-links-only` policy so the script does not download arbitrary documents just because they are linked from an accessible page.
 
+### Landing pages versus source material
+
+Publication pages and download pages are useful for discovery, but they are not
+always the evidence-bearing material. If a source row points to a page whose
+main function is "Download PDF", "view attachment", search, catalog navigation,
+or language selection, the Agent must follow the page to the PDF, dataset,
+official attachment, official full-text HTML, or local file before marking the
+source `Reviewed`.
+
+Examples:
+
+- OECD country profile pages should be resolved to the direct `content/dam`
+  PDF when the profile relies on the publication contents.
+- Gazzetta Ufficiale top-level act pages should be resolved to the relevant
+  full-text attachment pages when the plan or schedule attachment is being used.
+- Dataset portals should be resolved to country-filtered rows or an export
+  before making country-specific quantitative claims.
+
+If only the landing page was checked, use `Candidate source` or `Needs
+retrieval` and carry the unresolved material endpoint into the evidence gaps.
+
 ### GHO indicator metadata versus country data
 
 The GHO indicator search returns candidate indicator codes by search term. The follow-up country-filtered requests can return zero rows even when the indicator exists and the country code was resolved.
