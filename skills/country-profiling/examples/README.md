@@ -12,11 +12,11 @@ The structural validator may be run on `reference-output.md` files as a sanity
 check, but passing validation is not the main purpose of these examples. The
 main purpose is to reduce variance in agent behavior during real skill use.
 
-## Italy reference
+## Example 1
 
 | Example | Focus | Best used to demonstrate |
 |---|---|---|
-| `italy-reference/` | Retrieval-assisted minimal-input profile with immunization-readiness handoff | A country profile that starts from country plus optional focus, uses deterministic baseline retrieval artifacts, demonstrates controlled web-assisted fallback discipline, keeps policy comparison out of scope, and combines readable narrative, source discipline, and conservative handoff/gap framing. |
+| `example_1/` | Retrieval-assisted minimal-input profile with immunization-readiness handoff | A country profile that starts from country plus optional focus, uses deterministic baseline retrieval artifacts, demonstrates controlled web-assisted fallback discipline, keeps policy comparison out of scope, and combines readable narrative, source discipline, and conservative handoff/gap framing. |
 
 The example contains:
 
@@ -24,7 +24,7 @@ The example contains:
 - `reference-output.md`: a concise source-backed output pattern following `context/profile-schema.md`;
 - `data/retrieved-indicators.json`: deterministic baseline indicator bundle;
 - `data/retrieved-indicators.md`: human-readable retrieved indicator artifact;
-- `data/web-reviewed-sources.json`: reviewed HTML, downloaded PDFs, parsed text summaries, checksums, URLs, and parse statuses;
+- `data/web-reviewed-sources.json`: reviewed HTML, direct PDF URLs, parsed text summaries, checksums, URLs, and parse statuses;
 - `data/web-reviewed-sources.md`: human-readable reviewed web/PDF artifact;
 - `data/source-leads.md`: short unresolved source gaps and fallback guidance;
 - `../../../shared/assets/who-immunizations-dak.pdf`: shared immunization DAK

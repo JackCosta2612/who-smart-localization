@@ -36,5 +36,5 @@ country-profile completeness.
 
 ```bash
 python3 skills/country-profiling/sourcing_scripts/validate_profile.py \
-  skills/country-profiling/examples/italy-reference/reference-output.md
+  skills/country-profiling/examples/example_1/reference-output.md
 ```
