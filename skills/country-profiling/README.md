@@ -80,51 +80,32 @@ record publisher/title/date/URL/retrieval date/source type/status, separate
 reviewed sources from candidate leads, and keep landing-page-only or inaccessible
 materials as evidence gaps.
 
-## Optional scripts
+## Sourcing scripts
 
-Check the local environment:
-
-```bash
-python3 skills/country-profiling/scripts/check_environment.py
-```
-
-Prepare a run with source inventory and WHO discovery support:
-
-```bash
-python3 skills/country-profiling/scripts/prepare_profile_run.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>" \
-  --country-document "Title|Country health profile|https://example.org/profile.pdf|2025"
-```
+The maintained Country Profiling tooling is consolidated under
+`sourcing_scripts/`. Older preflight and broad WHO-discovery scripts were
+removed because the current workflow uses controlled baseline retrieval,
+institutional source leads, and documented web-assisted fallback rules.
 
 Retrieve controlled baseline indicators and source leads:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>" \
   --output-dir "<output-directory>"
 ```
 
-The preparation manifest classifies supplied country-document locations as
-direct source material, official full-text/attachment HTML, local or non-URL
-material, or landing pages that still require source-material follow-up.
-
-Run WHO retrieval directly when useful:
-
-```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>"
-```
+For source classes not covered by the maintained script, use the controlled
+web-assisted retrieval protocol in `context/web-assisted-retrieval.md`.
 
 ## Validation
 
 Validate a completed profile:
 
 ```bash
-python3 skills/country-profiling/scripts/validate_profile.py <profile.md>
+python3 skills/country-profiling/sourcing_scripts/validate_profile.py <profile.md>
 ```
 
 The validator checks headings, table headers, optional handoff structure, and controlled source-status values. It does not validate factual correctness, epidemiology, policy interpretation, clinical correctness, source interpretation, WASH interpretation, or WHO interpretation.
@@ -157,23 +138,19 @@ country-profiling/
 │   ├── runtime-requirements.md
 │   ├── web-assisted-retrieval.md
 │   └── who-data-retrieval.md
-├── data_sources/
+├── sourcing_scripts/
 │   ├── README.md
 │   ├── indicator_registry.json
 │   ├── oecd.py
+│   ├── retrieve_country_profile_data.py
 │   ├── source_registry.py
+│   ├── validate_profile.py
 │   ├── who_gho.py
 │   └── world_bank.py
 ├── examples/
 │   ├── README.md
 │   ├── example-format.md
 │   └── italy-reference/
-├── scripts/
-│   ├── check_environment.py
-│   ├── prepare_profile_run.py
-│   ├── retrieve_who_sources.py
-│   ├── validate_profile.py
-│   └── who_gho_client.py
 └── tests/
 ```
 

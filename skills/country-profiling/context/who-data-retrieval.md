@@ -5,10 +5,9 @@ Retrieval is optional assistance for source discovery and evidence collection;
 it is not a substitute for source review.
 
 For minimal-input profiling, prefer
-`scripts/retrieve_country_profile_data.py` when Python scripts are available.
+`sourcing_scripts/retrieve_country_profile_data.py` when Python scripts are available.
 That script retrieves selected World Bank baseline indicators and institutional
-source leads with provenance. The older WHO retrieval helper remains useful for
-WHO source discovery, but generic WHO pages must not be treated as
+source leads with provenance. Generic WHO pages must not be treated as
 country-specific evidence unless a country-specific document or country-filtered
 dataset is actually retrieved and reviewed.
 
@@ -72,45 +71,16 @@ When the user provides a downstream health-area focus, add topic-specific WHO so
 When deterministic baseline retrieval is useful, run:
 
 ```bash
-python3 skills/country-profiling/scripts/retrieve_country_profile_data.py \
+python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>"
 ```
 
-When WHO-specific source discovery is useful, run:
-
-```bash
-python3 skills/country-profiling/scripts/retrieve_who_sources.py \
-  --country "<country>" \
-  --focus "<optional downstream health-area focus>"
-```
-
-The retrieval runner should:
-
-1. Resolve country metadata where possible.
-2. Build a WHO source inventory with country, GHO, SCORE, expenditure, workforce, WASH, and optional downstream-focus source classes.
-3. Fetch WHO HTML source pages and save extracted text snapshots under `content/`.
-4. Save discovered page links as JSON link inventories.
-5. Download supported linked documents when file sizes are within the configured limit.
-6. Search WHO GHO indicators using general health terms plus optional downstream-focus terms.
-7. Retrieve country-filtered GHO data samples for selected indicators when possible.
-8. Write a markdown retrieval report and a machine-readable JSON bundle.
-9. Record every failed or skipped retrieval as an explicit evidence gap.
-
-The runner retrieves available page text and structured data. For PDFs and spreadsheets, it retrieves files for later parsing by a PDF, spreadsheet, or document-processing tool. It does not claim to fully interpret binary document contents by itself.
-
-The runner also does not guarantee country-specific retrieval for every source class or prove evidence completeness. Some WHO sources are represented by generic landing pages. For those sources, reachable content must be treated as source discovery unless a country-specific document or dataset is explicitly resolved.
-
-After the retrieval bundle is generated, the Agent should:
-
-1. Review source titles, dates, URLs, and local content paths.
-2. Distinguish country-specific evidence from generic source discovery.
-3. Use country-filtered GHO rows only when the country code and indicator are clear.
-4. Add non-WHO sources supplied by the user or retrieved through approved tools.
-5. Record every retrieval date and distinguish official sources from secondary sources.
-6. Carry unresolved source classes into evidence gaps.
-7. Avoid using retrieval output to perform policy comparison; use it only to support country profiling and downstream-readiness notes.
+If WHO-specific source discovery is needed beyond the configured candidate
+metadata, use the semi-deterministic web-assisted retrieval protocol in
+`web-assisted-retrieval.md` and record reviewed sources separately from
+candidate source leads.
 
 ## Country-specific documentation note
 

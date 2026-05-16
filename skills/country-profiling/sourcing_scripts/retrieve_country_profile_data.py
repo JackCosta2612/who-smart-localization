@@ -13,13 +13,16 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
 REPO_ROOT = SKILL_DIR.parent.parent
-if str(SKILL_DIR) not in sys.path:
-    sys.path.insert(0, str(SKILL_DIR))
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
-from data_sources import oecd, source_registry, who_gho, world_bank  # noqa: E402
+import oecd  # noqa: E402
+import source_registry  # noqa: E402
+import who_gho  # noqa: E402
+import world_bank  # noqa: E402
 
 DEFAULT_OUTPUT_DIR = SKILL_DIR / "retrieval-output" / "country-profile-data"
-REGISTRY_PATH = SKILL_DIR / "data_sources" / "indicator_registry.json"
+REGISTRY_PATH = SCRIPT_DIR / "indicator_registry.json"
 
 
 def now_utc() -> str:
