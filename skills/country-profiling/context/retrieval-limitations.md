@@ -2,9 +2,10 @@
 
 The retrieval runners are source-discovery and baseline-data helpers for country
 profiling. The deterministic baseline runner can retrieve selected World Bank
-indicator values, configured WHO GHO indicator values, configured institutional
-HTML/PDF sources, and short unresolved source gaps. In all cases, reachability
-is not the same as country-specific evidence.
+indicator values, configured WHO GHO indicator values, stable local WHO/DAK
+artifacts, manifest-supplied institutional HTML/PDF sources, and short
+unresolved source gaps. In all cases, reachability is not the same as
+country-specific evidence.
 
 Retrieval output cannot prove that a profile is complete. Missing or unresolved
 retrieval outputs should become evidence gaps, not hidden assumptions. Retrieved
@@ -14,12 +15,13 @@ source inventories, implementation context, and human review.
 ## Deterministic baseline limitations
 
 The deterministic baseline layer intentionally retrieves only a small controlled
-indicator set. It does not retrieve regional implementation, national policy
+indicator set. It does not discover regional implementation, national policy
 text, digital registry specifications, service delivery workflows, or expert
-interpretation. WHO GHO retrieval is limited to configured indicator codes.
-OECD SDMX retrieval is not active; OECD/EU evidence should be represented as
-reviewed institutional source material unless a future narrow retriever is
-added.
+interpretation by itself. WHO GHO retrieval is limited to configured indicator
+codes. Country-specific institutional sources must be discovered per run and
+passed through a source manifest. OECD SDMX retrieval is not active; OECD/EU
+evidence should be represented as reviewed institutional source material unless
+a future narrow retriever is added.
 
 ## Known limitations
 
@@ -38,6 +40,12 @@ The runner may fetch a configured landing page and record discovered links
 without resolving every country-specific document or dataset. Generic landing
 pages should not become long source inventories; unresolved items should be
 compressed into short actionable gaps.
+
+Country-specific ministry, public-health, statistics, policy, digital-health,
+programme, and registry URLs are not configured as code branches. If the Agent
+does not provide a source manifest, the web-reviewed artifact should state that
+no country-specific source targets were supplied and the profile should carry
+the relevant source classes as evidence gaps.
 
 ### Landing pages versus source material
 

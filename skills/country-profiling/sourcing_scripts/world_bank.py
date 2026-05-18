@@ -14,6 +14,8 @@ from typing import Any
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+import network_errors
+
 BASE_URL = "https://api.worldbank.org/v2"
 USER_AGENT = "who-smart-localization/0.1"
 
@@ -97,7 +99,8 @@ def fetch_latest_indicator(
             "value": None,
             "url": url,
             "retrieval_date": retrieval_date,
-            "status": "failed",
+            "status": network_errors.status_for_exception(exc),
+            "failure_type": network_errors.classify_exception(exc),
             "error": str(exc),
         }
 

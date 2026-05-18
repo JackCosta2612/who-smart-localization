@@ -1,9 +1,9 @@
 ---
-name: who-smart-country-profiling
+name: country-profiling
 description: Build a source-backed healthcare country profile for a target country and optional downstream health-area focus, including health situation, health system context, implementation environment, evidence gaps, and readiness for later WHO SMART Guidelines localization or policy comparison.
 license: MIT
-compatibility: Model-neutral Agent Skill. Supports document-only, deterministic script-assisted, and semi-deterministic web-assisted retrieval modes.
 metadata:
+  compatibility: "Model-neutral Agent Skill. Supports document-only, deterministic script-assisted, and semi-deterministic web-assisted retrieval modes."
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone"
   version: "1.0"
@@ -92,8 +92,9 @@ Use one of three execution modes:
    classes as evidence gaps.
 2. Deterministic script-assisted retrieval mode. Use when Python scripts are
    available, especially when the human provides only a target country and
-   optional downstream focus. This is the preferred minimal-input assistance
-   path.
+   optional downstream focus. This retrieves stable global indicators and
+   resolves Agent- or user-supplied country source manifests; it does not
+   hardcode country-specific ministry, institute, or policy URLs.
 3. Semi-deterministic web-assisted retrieval mode. Use when scripts are
    unavailable but web access is available. Follow the controlled source
    priority and provenance protocol in `context/web-assisted-retrieval.md`.
@@ -117,24 +118,29 @@ See `context/execution-modes.md` for the decision rules.
    semi-deterministic web-assisted retrieval.
 5. If neither scripts nor web access are available, ask for source material or
    produce only a skeleton/gap-analysis profile.
-6. Build a source inventory from supplied material, retrieved data, reviewed web
-   sources, parsed PDFs, and short unresolved source gaps.
-7. Resolve source locations to source material where possible.
-8. Classify source types as datasets, official documents, institutional
+6. When country-specific official URLs are needed, discover them through
+   controlled web-assisted retrieval and pass them to the retrieval helper with
+   `--source-manifest` so scripts can resolve, parse, checksum, and record them.
+7. Build a source inventory from supplied material, retrieved data, reviewed web
+   sources, parsed PDFs, manifest-resolved sources, and short unresolved source
+   gaps.
+8. Resolve source locations to source material where possible.
+9. Classify source types as datasets, official documents, institutional
    profiles, landing pages, reviewed web sources, parsed PDFs, candidate source
    leads, or missing source classes.
-9. Decide whether a full profile, limited profile, or skeleton/gap-analysis
+10. Decide whether a full profile, limited profile, or skeleton/gap-analysis
    profile is appropriate.
-10. Draft the textual profile using `context/profile-schema.md`.
-11. Mark unavailable data, failed retrieval, landing-page-only sources, and
-   unreviewed national/regional sources as evidence gaps.
-12. Separate facts, uncertainties, assumptions, and expert-review needs.
-13. Include a `Policy-analysis readiness` section and, when useful, a
+11. Draft the textual profile using `context/profile-schema.md`.
+12. Mark unavailable data, failed retrieval, empty source manifests,
+   landing-page-only sources, and unreviewed national/regional sources as
+   evidence gaps.
+13. Separate facts, uncertainties, assumptions, and expert-review needs.
+14. Include a `Policy-analysis readiness` section and, when useful, a
    `Policy-comparison handoff` table.
-14. State how the output can feed the future Policy Comparison skill.
-15. Ask for human review, not manual source-hunting, unless key source classes
+15. State how the output can feed the future Policy Comparison skill.
+16. Ask for human review, not manual source-hunting, unless key source classes
    remain missing after controlled retrieval.
-16. Do not fabricate missing country context.
+17. Do not fabricate missing country context.
 
 When available, consult `examples/` for reference input-output patterns before
 drafting. Treat examples as behavior references, not as tests, benchmarks, or
@@ -170,7 +176,8 @@ only a country and optional focus:
 python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
-  --focus "<optional downstream health-area focus>"
+  --focus "<optional downstream health-area focus>" \
+  --source-manifest "<optional Agent-discovered source manifest>"
 ```
 
 Validate a completed profile:
@@ -184,6 +191,11 @@ automatically prevent profile drafting if supplied sources are adequate. A
 successful retrieval does not prove that all country-specific evidence exists;
 baseline indicators, reviewed web/PDF artifacts, and short unresolved gaps must
 not be treated as complete country evidence.
+
+Country-specific institutional discovery is intentionally Agent-led rather than
+hardcoded. Use `context/source-manifest-schema.md` when preparing a manifest of
+official ministry, public-health, statistics, policy, digital health, programme,
+or registry sources for the retrieval helper.
 
 ## Safety and uncertainty
 

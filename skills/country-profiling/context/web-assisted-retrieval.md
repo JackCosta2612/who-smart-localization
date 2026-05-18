@@ -104,6 +104,12 @@ registry/reporting specifications, and digital health data-flow sources. Country
 Profiling should identify these as source classes and gaps; it should not
 compare national policy with WHO guidance.
 
+When scripts are available, record reviewed or candidate country-specific
+source URLs in a source manifest using `source-manifest-schema.md`, then pass
+that manifest to `retrieve_country_profile_data.py --source-manifest`. This
+keeps country-specific official source discovery Agent-led while preserving
+scripted parsing, checksums, material-endpoint status, and provenance.
+
 If the bundled local DAK exists at `assets/who-immunizations-dak.pdf`,
 include it as an available WHO SMART / DAK artifact for later Policy Comparison.
 Do not treat it as evidence about the target country's health system or
