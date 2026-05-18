@@ -7,7 +7,8 @@ it is not a substitute for source review.
 For minimal-input profiling, prefer
 `sourcing_scripts/retrieve_country_profile_data.py` when Python scripts are available.
 That script retrieves selected World Bank baseline indicators, configured WHO
-GHO indicators, and configured institutional web/PDF sources with provenance.
+GHO indicators, stable WHO/DAK artifacts where relevant, and
+manifest-supplied institutional web/PDF sources with provenance.
 Generic WHO pages must not be treated as country-specific evidence unless a
 country-specific document or country-filtered dataset is actually retrieved and
 reviewed.
@@ -74,7 +75,8 @@ When deterministic baseline retrieval is useful, run:
 python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
-  --focus "<optional downstream health-area focus>"
+  --focus "<optional downstream health-area focus>" \
+  --source-manifest "<optional Agent-discovered source manifest>"
 ```
 
 If WHO-specific source discovery is needed beyond configured retrieval, use the

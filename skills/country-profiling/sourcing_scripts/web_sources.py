@@ -12,8 +12,17 @@ from typing import Any
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
+import network_errors
+
 USER_AGENT = "who-smart-localization/0.1"
 SKILL_DIR = Path(__file__).resolve().parent.parent
+SOURCE_METADATA_KEYS = (
+    "source_class",
+    "evidence_role",
+    "retrieval_priority",
+    "intent",
+    "reviewed_intent",
+)
 
 
 def now_utc() -> str:
@@ -86,6 +95,14 @@ def fetch_bytes(url: str, timeout: int) -> tuple[bytes, str, str]:
         content_type = response.headers.get("Content-Type", "")
         final_url = response.geturl()
         return response.read(), content_type, final_url
+
+
+def source_metadata(target: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: target.get(key, "")
+        for key in SOURCE_METADATA_KEYS
+        if target.get(key) is not None
+    }
 
 
 def parse_html(content: bytes, base_url: str) -> dict[str, Any]:
@@ -186,6 +203,7 @@ def pdf_record_from_bytes(
     repo_root: Path,
     date: str = "",
     source_url: str = "",
+    metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
     filename = f"{slugify(title)}.pdf"
@@ -197,12 +215,14 @@ def pdf_record_from_bytes(
     path.write_bytes(content)
     extracted_text, parse_error = parse_pdf(path)
     status = "parsed" if extracted_text else "downloaded_parse_failed"
-    return {
+    record = {
         "title": title,
         "publisher": publisher,
         "source_type": source_type,
         "url": url,
         "source_page_url": source_url,
+        "material_endpoint": url,
+        "material_endpoint_type": "pdf",
         "date": date,
         "retrieval_date": retrieval_date,
         "status": status,
@@ -213,6 +233,8 @@ def pdf_record_from_bytes(
         "text_summary": extracted_text[:2000],
         "review_status": "reviewed" if extracted_text else "downloaded_not_parsed",
     }
+    record.update(metadata or {})
+    return record
 
 
 def local_pdf_record(
@@ -229,11 +251,13 @@ def local_pdf_record(
     )
     path = next((candidate for candidate in candidates if candidate.is_file()), candidates[0])
     if not path.is_file():
-        return {
+        record = {
             "title": target["title"],
             "publisher": target["publisher"],
             "source_type": target["source_type"],
             "url": target["path"],
+            "material_endpoint": target["path"],
+            "material_endpoint_type": "local_pdf",
             "date": target.get("date", ""),
             "retrieval_date": retrieval_date,
             "status": "retrieval_failed",
@@ -244,12 +268,16 @@ def local_pdf_record(
             "text_summary": "",
             "review_status": "missing",
         }
+        record.update(source_metadata(target))
+        return record
     extracted_text, parse_error = parse_pdf(path)
-    return {
+    record = {
         "title": target["title"],
         "publisher": target["publisher"],
         "source_type": target["source_type"],
         "url": target["path"],
+        "material_endpoint": display_path(path, repo_root),
+        "material_endpoint_type": "local_pdf",
         "date": target.get("date", ""),
         "retrieval_date": retrieval_date,
         "status": "parsed" if extracted_text else "downloaded_parse_failed",
@@ -260,6 +288,8 @@ def local_pdf_record(
         "text_summary": extracted_text[:2000],
         "review_status": "reviewed" if extracted_text else "available_not_parsed",
     }
+    record.update(source_metadata(target))
+    return record
 
 
 def resolve_html_target(
@@ -274,23 +304,26 @@ def resolve_html_target(
     try:
         content, content_type, final_url = fetch_bytes(target["url"], timeout)
     except Exception as exc:
-        return [
-            {
-                "title": target["title"],
-                "publisher": target["publisher"],
-                "source_type": target["source_type"],
-                "url": target["url"],
-                "date": target.get("date", ""),
-                "retrieval_date": retrieval_date,
-                "status": "retrieval_failed",
-                "local_file_path": "",
-                "sha256": "",
-                "parse_status": "not_parsed",
-                "parse_error": str(exc),
-                "text_summary": "",
-                "review_status": "failed",
-            }
-        ]
+        record = {
+            "title": target["title"],
+            "publisher": target["publisher"],
+            "source_type": target["source_type"],
+            "url": target["url"],
+            "material_endpoint": target["url"],
+            "material_endpoint_type": "unresolved",
+            "date": target.get("date", ""),
+            "retrieval_date": retrieval_date,
+            "status": network_errors.status_for_exception(exc),
+            "local_file_path": "",
+            "sha256": "",
+            "parse_status": "not_parsed",
+            "failure_type": network_errors.classify_exception(exc),
+            "parse_error": str(exc),
+            "text_summary": "",
+            "review_status": "failed",
+        }
+        record.update(source_metadata(target))
+        return [record]
 
     if looks_like_pdf(final_url, content, content_type):
         return [
@@ -304,6 +337,7 @@ def resolve_html_target(
                 retrieval_date=retrieval_date,
                 repo_root=repo_root,
                 date=target.get("date", ""),
+                metadata=source_metadata(target),
             )
         ]
 
@@ -313,28 +347,30 @@ def resolve_html_target(
         target.get("excerpt_keywords", []),
         max_chars=target.get("max_summary_chars", 2000),
     )
-    records.append(
-        {
-            "title": target["title"],
-            "page_title": parsed["title"],
-            "publisher": target["publisher"],
-            "source_type": target["source_type"],
-            "url": final_url,
-            "date": target.get("date", ""),
-            "retrieval_date": retrieval_date,
-            "status": "reviewed_html" if text_summary else "retrieved_empty",
-            "local_file_path": "",
-            "sha256": hashlib.sha256(content).hexdigest(),
-            "parse_status": "html_extracted" if text_summary else "empty",
-            "parse_error": "",
-            "text_summary": text_summary,
-            "review_status": "reviewed" if text_summary else "empty",
-            "discovered_links": selected_pdf_links(
-                parsed["links"],
-                int(target.get("max_downloads", 0)),
-            ),
-        }
-    )
+    html_record = {
+        "title": target["title"],
+        "page_title": parsed["title"],
+        "publisher": target["publisher"],
+        "source_type": target["source_type"],
+        "url": final_url,
+        "material_endpoint": final_url,
+        "material_endpoint_type": "full_text_html",
+        "date": target.get("date", ""),
+        "retrieval_date": retrieval_date,
+        "status": "reviewed_html" if text_summary else "retrieved_empty",
+        "local_file_path": "",
+        "sha256": hashlib.sha256(content).hexdigest(),
+        "parse_status": "html_extracted" if text_summary else "empty",
+        "parse_error": "",
+        "text_summary": text_summary,
+        "review_status": "reviewed" if text_summary else "empty",
+        "discovered_links": selected_pdf_links(
+            parsed["links"],
+            int(target.get("max_downloads", 0)),
+        ),
+    }
+    html_record.update(source_metadata(target))
+    records.append(html_record)
 
     if target.get("download_pdfs"):
         pdf_dir = output_dir / "downloads"
@@ -345,24 +381,27 @@ def resolve_html_target(
             try:
                 pdf_content, pdf_content_type, final_pdf_url = fetch_bytes(link["url"], timeout)
             except Exception as exc:
-                records.append(
-                    {
-                        "title": link.get("text") or f"{target['title']} PDF {index}",
-                        "publisher": target["publisher"],
-                        "source_type": "Official or institutional PDF",
-                        "url": link["url"],
-                        "source_page_url": final_url,
-                        "date": target.get("date", ""),
-                        "retrieval_date": retrieval_date,
-                        "status": "retrieval_failed",
-                        "local_file_path": "",
-                        "sha256": "",
-                        "parse_status": "not_parsed",
-                        "parse_error": str(exc),
-                        "text_summary": "",
-                        "review_status": "failed",
-                    }
-                )
+                record = {
+                    "title": link.get("text") or f"{target['title']} PDF {index}",
+                    "publisher": target["publisher"],
+                    "source_type": "Official or institutional PDF",
+                    "url": link["url"],
+                    "source_page_url": final_url,
+                    "material_endpoint": link["url"],
+                    "material_endpoint_type": "unresolved_pdf",
+                    "date": target.get("date", ""),
+                    "retrieval_date": retrieval_date,
+                    "status": network_errors.status_for_exception(exc),
+                    "local_file_path": "",
+                    "sha256": "",
+                    "parse_status": "not_parsed",
+                    "failure_type": network_errors.classify_exception(exc),
+                    "parse_error": str(exc),
+                    "text_summary": "",
+                    "review_status": "failed",
+                }
+                record.update(source_metadata(target))
+                records.append(record)
                 continue
             if not looks_like_pdf(final_pdf_url, pdf_content, pdf_content_type):
                 continue
@@ -378,6 +417,7 @@ def resolve_html_target(
                     repo_root=repo_root,
                     date=target.get("date", ""),
                     source_url=final_url,
+                    metadata=source_metadata(target),
                 )
             )
     return records

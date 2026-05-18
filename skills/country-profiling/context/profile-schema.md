@@ -62,10 +62,13 @@ Include:
 - intended downstream use, if known;
 - retrieval mode: `document-only`, `deterministic script-assisted`,
   `semi-deterministic web-assisted`, or `mixed`;
+- profile evidence level: `full profile`, `limited profile`, or
+  `skeleton/gap-analysis profile`;
 - retrieval date;
 - retrieved indicator bundle path, if available;
 - source lead bundle path, if available;
 - web-reviewed source inventory path or note, if available;
+- source manifest path or note, if available;
 - known input limitations.
 
 ## Source inventory
@@ -223,6 +226,7 @@ Include gaps from:
 - missing data;
 - unavailable indicator values;
 - failed retrieval;
+- empty or non-matching source manifests;
 - landing-page-only sources;
 - inaccessible PDFs or datasets;
 - national or regional source classes not reviewed;
@@ -244,4 +248,9 @@ The structural validator checks for:
 - the optional policy-comparison handoff table when the section is present;
 - controlled values for source status.
 
-The validator does not check whether the country profile is factually, epidemiologically, clinically, legally, operationally, policy, source-interpretation, or WHO-interpretation correct.
+The validator also performs limited source-artifact semantic checks, such as
+flagging `Reviewed` landing-page rows, missing locators for reviewed sources,
+missing local paths, and empty web-reviewed artifacts when they can be read.
+It does not check whether the country profile is factually, epidemiologically,
+clinically, legally, operationally, policy, source-interpretation, or
+WHO-interpretation correct.

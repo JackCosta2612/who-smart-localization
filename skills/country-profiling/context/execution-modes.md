@@ -42,7 +42,8 @@ The baseline retrieval command is:
 python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.py \
   --country "<country>" \
   --iso3 "<ISO3>" \
-  --focus "<optional downstream health-area focus>"
+  --focus "<optional downstream health-area focus>" \
+  --source-manifest "<optional Agent-discovered source manifest>"
 ```
 
 The script writes:
@@ -54,10 +55,17 @@ The script writes:
 - `source-leads.md`.
 
 The deterministic layer is intentionally small. It retrieves selected World Bank
-baseline indicators, configured WHO GHO indicators, configured institutional
-web/PDF sources, and short unresolved source gaps. OECD SDMX retrieval is not
-active in this mode; OECD/EU context should come from reviewed institutional
-profiles unless a future narrow dataset-specific retriever is added.
+baseline indicators, configured WHO GHO indicators, stable local WHO/DAK
+artifacts where relevant, optional source-manifest web/PDF sources, and short
+unresolved source gaps. OECD SDMX retrieval is not active in this mode; OECD/EU
+context should come from reviewed institutional profiles unless a future narrow
+dataset-specific retriever is added.
+
+Country-specific institutional discovery is not hardcoded in scripts. When the
+Agent identifies official ministry, public-health, statistics, policy, digital
+health, programme, or registry sources, it should record them in the manifest
+format from `source-manifest-schema.md` and rerun the helper with
+`--source-manifest <file>`.
 
 Use deterministic outputs as source artifacts. Precise data claims must include
 indicator source, code, year, source URL, and retrieval date. Successful
@@ -129,6 +137,7 @@ Missing content should become evidence gaps, not assumptions. Include gaps from:
 - missing data;
 - unavailable indicator values;
 - failed retrieval;
+- empty or non-matching source manifests;
 - landing-page-only sources;
 - inaccessible PDFs or datasets;
 - national, regional, or programme sources not reviewed;

@@ -8,6 +8,8 @@ from typing import Any
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+import network_errors
+
 BASE_GHO_URL = "https://ghoapi.azureedge.net/api"
 USER_AGENT = "who-smart-localization/0.1"
 
@@ -139,7 +141,8 @@ def fetch_latest_indicator(
             "url": url,
             "retrieval_date": retrieval_date,
             "iso3": iso3.upper(),
-            "status": "failed",
+            "status": network_errors.status_for_exception(exc),
+            "failure_type": network_errors.classify_exception(exc),
             "error": str(exc),
         }
 

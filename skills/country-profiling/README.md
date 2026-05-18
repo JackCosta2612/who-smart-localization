@@ -35,10 +35,12 @@ overall.
 
 The skill should reduce human source-gathering. With minimal input, use
 deterministic retrieval where available to collect selected baseline indicators
-and reviewed source artifacts. If scripts are unavailable but web access exists, use
-semi-deterministic web-assisted retrieval from approved source classes with
-strict provenance. Human input should mainly be review and optional source
-supplementation.
+from stable global endpoints. Country-specific institutional URLs are not
+hardcoded; the Agent discovers official sources through controlled
+web-assisted retrieval and passes them to the script with a source manifest. If
+scripts are unavailable but web access exists, use semi-deterministic
+web-assisted retrieval from approved source classes with strict provenance.
+Human input should mainly be review and optional source supplementation.
 
 Better profiles use country-specific sources such as country health profiles,
 national health strategies, health sector plans, financing or UHC reports,
@@ -68,9 +70,9 @@ a country and optional downstream focus. This is the preferred minimal-input
 assistance path.
 
 The baseline retrieval script collects selected World Bank indicators,
-configured WHO GHO indicators, reviewed web/PDF artifacts for configured source
-targets, and a short unresolved-gap list. These artifacts support drafting and
-gap mapping; they do not prove completeness.
+configured WHO GHO indicators, stable local WHO/DAK artifacts where relevant,
+manifest-supplied web/PDF artifacts, and a short unresolved-gap list. These
+artifacts support drafting and gap mapping; they do not prove completeness.
 
 ### Semi-deterministic web-assisted retrieval mode
 
@@ -85,7 +87,7 @@ materials as evidence gaps.
 The maintained Country Profiling tooling is consolidated under
 `sourcing_scripts/`. Older preflight and broad WHO-discovery scripts were
 removed because the current workflow uses controlled baseline retrieval,
-configured institutional source resolution, short unresolved source gaps, and
+manifest-driven institutional source resolution, short unresolved source gaps, and
 documented web-assisted fallback rules.
 
 Retrieve controlled baseline indicators and reviewed source artifacts:
@@ -95,11 +97,14 @@ python3 skills/country-profiling/sourcing_scripts/retrieve_country_profile_data.
   --country "<country>" \
   --iso3 "<ISO3>" \
   --focus "<optional downstream health-area focus>" \
+  --source-manifest "<optional Agent-discovered source manifest>" \
   --output-dir "<output-directory>"
 ```
 
-For source classes not covered by the maintained script, use the controlled
-web-assisted retrieval protocol in `context/web-assisted-retrieval.md`.
+For country-specific source classes, use the controlled web-assisted retrieval
+protocol in `context/web-assisted-retrieval.md`, record discovered official
+sources in the schema from `context/source-manifest-schema.md`, and rerun the
+retrieval helper with `--source-manifest`.
 
 PDF parsing uses `pypdf>=6.0` when available. Install
 `skills/country-profiling/sourcing_scripts/requirements.txt` in environments
@@ -144,6 +149,7 @@ country-profiling/
 │   ├── profile-schema.md
 │   ├── retrieval-limitations.md
 │   ├── runtime-requirements.md
+│   ├── source-manifest-schema.md
 │   ├── web-assisted-retrieval.md
 │   └── who-data-retrieval.md
 ├── sourcing_scripts/

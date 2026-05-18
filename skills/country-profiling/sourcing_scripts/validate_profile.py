@@ -8,6 +8,7 @@ epidemiological, policy, country, legal, WASH, or WHO interpretation correctness
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -127,6 +128,54 @@ def section_exists(content: str, heading: str) -> bool:
     return heading in content
 
 
+def path_candidates(cell: str) -> list[str]:
+    candidates = []
+    for value in re.findall(r"`([^`]+)`", cell):
+        if value.startswith(("http://", "https://")):
+            continue
+        if "/" in value or value.endswith((".md", ".json", ".pdf", ".txt")):
+            candidates.append(value)
+    return candidates
+
+
+def reviewed_source_warnings_and_errors(
+    target: Path,
+    source_rows: list[tuple[int, list[str]]],
+) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    repo_root = target.resolve().parent
+    for line_number, row in source_rows:
+        if len(row) != len(SOURCE_COLUMNS):
+            continue
+        source_type = row[1]
+        locator = row[4]
+        status = row[6]
+        if status == "Reviewed" and not locator.strip():
+            errors.append(f"Line {line_number}: Reviewed source has no URL or file path.")
+        if status == "Reviewed" and source_type == "Landing page":
+            errors.append(
+                f"Line {line_number}: Landing page cannot be marked Reviewed unless the evidence-bearing material was reviewed."
+            )
+        for candidate in path_candidates(locator):
+            path = Path(candidate)
+            if not path.is_absolute():
+                path = repo_root / path
+            if not path.exists():
+                warnings.append(f"Line {line_number}: referenced local path does not exist: {candidate}")
+            elif path.name == "web-reviewed-sources.md":
+                text = path.read_text(encoding="utf-8", errors="replace")
+                if "_No web/PDF source targets were supplied" in text:
+                    warnings.append(
+                        f"Line {line_number}: referenced web-reviewed source artifact has no supplied or configured targets."
+                    )
+                if "_A source manifest was supplied, but no entries matched" in text:
+                    warnings.append(
+                        f"Line {line_number}: referenced web-reviewed source artifact has no matching manifest entries."
+                    )
+    return warnings, errors
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
@@ -148,6 +197,7 @@ def main(argv: list[str]) -> int:
     content = target.read_text(encoding="utf-8")
     lines = content.splitlines()
     errors: list[str] = []
+    warnings: list[str] = []
 
     for section in REQUIRED_SECTIONS:
         if section not in content:
@@ -161,11 +211,21 @@ def main(argv: list[str]) -> int:
             continue
         if row[6] not in ALLOWED_SOURCE_STATUS:
             errors.append(f"Line {line_number}: invalid source Status '{row[6]}'.")
+    source_warnings, source_semantic_errors = reviewed_source_warnings_and_errors(target, source_rows)
+    warnings.extend(source_warnings)
+    errors.extend(source_semantic_errors)
 
     gap_errors, _gap_rows = validate_table(
-        lines, GAP_COLUMNS, "Evidence gaps and expert input needed"
+        lines, GAP_COLUMNS, "Evidence gaps and expert input needed", require_rows=True
     )
     errors.extend(gap_errors)
+
+    if any(token in content for token in ("network_failed", "retrieval_failed", "downloaded_parse_failed")):
+        evidence_gap_section = content.split("## Evidence gaps and expert input needed", 1)[-1]
+        if not any(token in evidence_gap_section for token in ("network_failed", "retrieval_failed", "downloaded_parse_failed", "failed retrieval")):
+            warnings.append(
+                "Retrieval failure text appears outside the evidence-gap section; confirm failed retrievals are carried into evidence gaps."
+            )
 
     if section_exists(content, "## Policy-comparison handoff"):
         handoff_errors, _handoff_rows = validate_table(
@@ -177,14 +237,22 @@ def main(argv: list[str]) -> int:
         print("Structural validation failed:")
         for error in errors:
             print(f"- {error}")
+        if warnings:
+            print("Semantic validation warnings:")
+            for warning in warnings:
+                print(f"- {warning}")
         print(
             "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
         )
         return 1
 
     print(f"Structural validation passed for {target}.")
+    if warnings:
+        print("Semantic validation warnings:")
+        for warning in warnings:
+            print(f"- {warning}")
     print(
-        "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+        "Note: this validator checks structure and limited source-artifact semantics only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
     )
     return 0
 
