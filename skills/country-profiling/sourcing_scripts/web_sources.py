@@ -122,7 +122,12 @@ def parse_html(content: bytes, base_url: str) -> dict[str, Any]:
     }
 
 
-def excerpt_from_text(text: str, keywords: list[str] | None = None, *, max_chars: int = 2000) -> str:
+def excerpt_from_text(
+    text: str,
+    keywords: list[str] | None = None,
+    *,
+    max_chars: int = 2000,
+) -> str:
     if not text:
         return ""
     lowered = text.casefold()
@@ -436,7 +441,13 @@ def resolve_sources(
     for target in targets:
         target_type = target.get("target_type", "html")
         if target_type == "local_pdf":
-            records.append(local_pdf_record(target, retrieval_date=retrieval_date, repo_root=repo_root))
+            records.append(
+                local_pdf_record(
+                    target,
+                    retrieval_date=retrieval_date,
+                    repo_root=repo_root,
+                )
+            )
         else:
             records.extend(
                 resolve_html_target(

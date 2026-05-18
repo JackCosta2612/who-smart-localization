@@ -47,7 +47,8 @@ gap rather than filling it from assumption.
 ## Sources
 ```
 
-Add `## Policy-comparison handoff` after `## Policy-analysis readiness` when it helps structure downstream work.
+Add `## Policy-comparison handoff` after `## Policy-analysis readiness` when it
+helps structure downstream work.
 
 If there is no specific focus, use `# Country healthcare profile: <Country>`.
 
@@ -104,7 +105,8 @@ Allowed `Status` values:
 - `Needs expert validation`
 - `Not available in supplied material`
 
-Use `Reviewed` only when the profile actually uses the source as evidence. Use `Candidate source` for sources identified but not fully reviewed.
+Use `Reviewed` only when the profile actually uses the source as evidence. Use
+`Candidate source` for sources identified but not fully reviewed.
 
 `Reviewed` also requires a usable material endpoint. The Agent must have opened
 and reviewed the PDF, dataset, official attachment, official full-text HTML, or
@@ -114,7 +116,8 @@ retrieval` until the material endpoint is resolved and reviewed.
 
 ## Narrative sections
 
-The main body should be textual, with short paragraphs and source-backed statements. Use bullets only where they improve scanability.
+The main body should be textual, with short paragraphs and source-backed
+statements. Use bullets only where they improve scanability.
 
 Precise data claims must include the indicator source, indicator code when
 applicable, year, and retrieval date if the value comes from a retrieved
@@ -127,51 +130,75 @@ gaps.
 
 ### Country context snapshot
 
-Summarize the basic demographic, geographic, administrative, economic, or regional context needed to understand health conditions. Avoid general encyclopedia content unless it directly affects healthcare context.
+Summarize the basic demographic, geographic, administrative, economic, or
+regional context needed to understand health conditions. Avoid general
+encyclopedia content unless it directly affects healthcare context.
 
 ### Population health overview
 
-Summarize life expectancy, mortality patterns, population structure, maternal and child health context, and broad health outcomes when supported by sources.
+Summarize life expectancy, mortality patterns, population structure, maternal
+and child health context, and broad health outcomes when supported by sources.
 
 ### Main health issues and burden
 
-Discuss major communicable diseases, noncommunicable diseases, injuries, mental health concerns, maternal and child health issues, outbreaks, or other burdens relevant to the country. Note whether evidence is national, regional, modelled, reported, or survey-based.
+Discuss major communicable diseases, noncommunicable diseases, injuries, mental
+health concerns, maternal and child health issues, outbreaks, or other burdens
+relevant to the country. Note whether evidence is national, regional, modelled,
+reported, or survey-based.
 
 ### Health system organization and capacity
 
-Describe governance, public/private roles, primary care, referral care, hospital capacity, decentralization, emergency preparedness, service delivery constraints, and implementation environment when sourced.
+Describe governance, public/private roles, primary care, referral care,
+hospital capacity, decentralization, emergency preparedness, service delivery
+constraints, and implementation environment when sourced.
 
 ### Healthcare access and coverage
 
-Discuss universal health coverage, insurance or entitlement models, benefit coverage, service availability, affordability, geographic access, waiting times, and continuity of care when sourced.
+Discuss universal health coverage, insurance or entitlement models, benefit
+coverage, service availability, affordability, geographic access, waiting times,
+and continuity of care when sourced.
 
 ### Sanitary conditions and environmental health
 
-Discuss drinking water, sanitation, hygiene, waste management, air pollution, housing, climate and environmental risks, vector conditions, food safety, or occupational/environmental exposures when sourced.
+Discuss drinking water, sanitation, hygiene, waste management, air pollution,
+housing, climate and environmental risks, vector conditions, food safety, or
+occupational/environmental exposures when sourced.
 
 ### Health financing and affordability
 
-Discuss total health expenditure, public spending, out-of-pocket payments, external financing, financial hardship, or programme funding vulnerabilities when sourced.
+Discuss total health expenditure, public spending, out-of-pocket payments,
+external financing, financial hardship, or programme funding vulnerabilities
+when sourced.
 
 ### Health workforce, infrastructure, and supply availability
 
-Discuss workforce density and distribution, training capacity, facility availability, laboratories, supply chains, essential medicines, vaccines, diagnostics, and equipment when sourced.
+Discuss workforce density and distribution, training capacity, facility
+availability, laboratories, supply chains, essential medicines, vaccines,
+diagnostics, and equipment when sourced.
 
 ### Digital health and health information systems
 
-Discuss civil registration and vital statistics, routine health information systems, registries, surveillance, data quality, interoperability, digital health strategy, and patient-level system readiness when sourced.
+Discuss civil registration and vital statistics, routine health information
+systems, registries, surveillance, data quality, interoperability, digital
+health strategy, and patient-level system readiness when sourced.
 
 ### Equity, vulnerable groups, and regional variation
 
-Discuss disparities by income, region, urban/rural status, sex, age, disability, migration status, ethnicity, conflict exposure, or other locally relevant dimensions when sourced.
+Discuss disparities by income, region, urban/rural status, sex, age,
+disability, migration status, ethnicity, conflict exposure, or other locally
+relevant dimensions when sourced.
 
 ### Current concerns, risks, and watchpoints
 
-Summarize active or recent health system pressures, outbreaks, humanitarian conditions, climate risks, workforce strain, medicine shortages, financing risks, trust or misinformation concerns, and other watchpoints when supported by evidence.
+Summarize active or recent health system pressures, outbreaks, humanitarian
+conditions, climate risks, workforce strain, medicine shortages, financing
+risks, trust or misinformation concerns, and other watchpoints when supported
+by evidence.
 
 ## Policy-analysis readiness
 
-Explain whether the available profile is sufficient to proceed to later policy comparison. This section should not perform policy comparison.
+Explain whether the available profile is sufficient to proceed to later policy
+comparison. This section should not perform policy comparison.
 
 Address:
 
@@ -184,11 +211,14 @@ Address:
 - whether the profile is sufficient for a first policy-comparison pass;
 - any limits that should constrain downstream DAK or SMART Guidelines localization work.
 
-If the evidence base is too thin, explicitly state `Not ready for policy comparison` and explain why.
+If the evidence base is too thin, explicitly state
+`Not ready for policy comparison` and explain why.
 
 ## Policy-comparison handoff
 
-Add this section when it helps structure downstream work. This section should prepare the future Policy Comparison skill; it should not compare WHO and national policy.
+Add this section when it helps structure downstream work. This section should
+prepare the future Policy Comparison skill; it should not compare WHO and
+national policy.
 
 Use this table:
 
@@ -236,7 +266,8 @@ Include gaps from:
 
 ## Sources
 
-List every source used. Include URLs, local file paths, dataset identifiers, publication dates, and retrieval dates for web sources when available.
+List every source used. Include URLs, local file paths, dataset identifiers,
+publication dates, and retrieval dates for web sources when available.
 
 ## Validation expectations
 

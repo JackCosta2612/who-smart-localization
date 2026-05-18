@@ -1,6 +1,10 @@
 # Country Profiling Skill
 
-The Country Profiling skill creates a source-backed healthcare overview for a target country. It summarizes the health situation, health system structure, implementation environment, data and digital health context, equity issues, risks, and readiness for later policy comparison or SMART Guidelines localization.
+The Country Profiling skill creates a source-backed healthcare overview for a
+target country. It summarizes the health situation, health system structure,
+implementation environment, data and digital health context, equity issues,
+risks, and readiness for later policy comparison or SMART Guidelines
+localization.
 
 Country Profiling is not only for countries missing from WHO databases. It is
 for any target country where WHO / SMART / DAK content needs country-specific
@@ -12,7 +16,12 @@ service delivery, and source gaps.
 
 ## Why this comes first
 
-Policy comparison depends on context. A national policy excerpt is hard to interpret without knowing the country's service delivery model, coverage rules, financing constraints, workforce and infrastructure limits, WASH conditions, data systems, and regional inequalities. This skill makes that context explicit before the future Policy Comparison skill compares WHO/SMART content with national policy material.
+Policy comparison depends on context. A national policy excerpt is hard to
+interpret without knowing the country's service delivery model, coverage rules,
+financing constraints, workforce and infrastructure limits, WASH conditions,
+data systems, and regional inequalities. This skill makes that context explicit
+before the future Policy Comparison skill compares WHO/SMART content with
+national policy material.
 
 ## Output
 
@@ -48,13 +57,16 @@ workforce and infrastructure sources, WASH/environmental health sources, digital
 health or HIS documents, surveillance outputs, and survey or burden-of-disease
 sources.
 
-Domain-specific policy documents are useful only when the next step is policy comparison. They are not required to create the country profile.
+Domain-specific policy documents are useful only when the next step is policy
+comparison. They are not required to create the country profile.
 
 ## Execution modes
 
 ### Document-only mode
 
-Use this by default when the user provides enough source material in the prompt, attached files, local files, or conversation context. Draft only from supplied material and turn missing source classes into explicit evidence gaps.
+Use this by default when the user provides enough source material in the prompt,
+attached files, local files, or conversation context. Draft only from supplied
+material and turn missing source classes into explicit evidence gaps.
 
 A supplied URL is not automatically supplied evidence. Treat catalog pages,
 publication landing pages, search results, and download pages as source
@@ -119,7 +131,10 @@ Validate a completed profile:
 python3 skills/country-profiling/sourcing_scripts/validate_profile.py <profile.md>
 ```
 
-The validator checks headings, table headers, optional handoff structure, and controlled source-status values. It does not validate factual correctness, epidemiology, policy interpretation, clinical correctness, source interpretation, WASH interpretation, or WHO interpretation.
+The validator checks headings, table headers, optional handoff structure, and
+controlled source-status values. It does not validate factual correctness,
+epidemiology, policy interpretation, clinical correctness, source
+interpretation, WASH interpretation, or WHO interpretation.
 
 ## What this skill does not do
 
@@ -128,11 +143,16 @@ The validator checks headings, table headers, optional handoff structure, and co
 - It does not compare WHO guidance with national policy.
 - It does not produce final DAK localization decisions.
 - It does not invent missing country facts.
-- It does not replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
+- It does not replace WHO, national, legal, clinical, policy, WASH,
+  epidemiological, environmental health, or country expert review.
 
 ## Policy Comparison handoff
 
-The profile should identify which downstream health areas matter for later comparison, which national policy source classes are needed, which systems affect policy interpretation, what gaps block safe comparison, and what expert inputs are required. If the evidence base is too thin, the profile should state `Not ready for policy comparison`.
+The profile should identify which downstream health areas matter for later
+comparison, which national policy source classes are needed, which systems
+affect policy interpretation, what gaps block safe comparison, and what expert
+inputs are required. If the evidence base is too thin, the profile should state
+`Not ready for policy comparison`.
 
 ## Folder structure
 
