@@ -7,8 +7,8 @@ country plus optional downstream focus, not a human-built source packet.
 
 - Use deterministic retrieval to produce a baseline indicator bundle when
   scripts are available, including configured World Bank and WHO GHO indicators.
-- Resolve configured institutional web sources and parsed PDFs before producing
-  a long list of candidate leads.
+- Resolve manifest-supplied institutional web sources and parsed PDFs before
+  producing a long list of candidate leads.
 - Use semi-deterministic web-assisted retrieval when scripts are unavailable,
   following the source priority and provenance rules in
   `context/web-assisted-retrieval.md`.
