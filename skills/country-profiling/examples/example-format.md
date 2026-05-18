@@ -51,6 +51,7 @@ web-assisted retrieval.>
 - Profile author or agent:
 - Intended downstream use:
 - Retrieval mode: <document-only | deterministic script-assisted | semi-deterministic web-assisted | mixed>
+- Profile evidence level: <full profile | limited profile | skeleton/gap-analysis profile>
 - Retrieval date:
 - Retrieved indicator bundle path, if available:
 - Source lead bundle path, if available:

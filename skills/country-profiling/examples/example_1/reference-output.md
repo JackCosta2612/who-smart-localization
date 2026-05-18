@@ -8,6 +8,7 @@
 - Profile author or agent: Country Profiling skill reference example
 - Intended downstream use: Country context layer, source inventory, evidence-gap map, and handoff checklist for later Policy Comparison and WHO SMART Guidelines localization
 - Retrieval mode: mixed
+- Profile evidence level: full profile
 - Retrieval date: 2026-05-16
 - Retrieved indicator bundle path: `skills/country-profiling/examples/example_1/data/retrieved-indicators.json`
 - Source lead bundle path: `skills/country-profiling/examples/example_1/data/source-leads.md`

@@ -66,6 +66,12 @@ ALLOWED_SOURCE_STATUS = {
     "Not available in supplied material",
 }
 
+ALLOWED_PROFILE_EVIDENCE_LEVEL = {
+    "full profile",
+    "limited profile",
+    "skeleton/gap-analysis profile",
+}
+
 
 def parse_markdown_row(line: str) -> list[str]:
     stripped = line.strip()
@@ -126,6 +132,28 @@ def validate_table(
 
 def section_exists(content: str, heading: str) -> bool:
     return heading in content
+
+
+def metadata_value(lines: list[str], label: str) -> str | None:
+    prefix = f"- {label}:"
+    for line in lines:
+        if line.startswith(prefix):
+            return line.removeprefix(prefix).strip()
+    return None
+
+
+def validate_profile_metadata(lines: list[str]) -> list[str]:
+    errors: list[str] = []
+    evidence_level = metadata_value(lines, "Profile evidence level")
+    if evidence_level is None:
+        errors.append("Profile metadata is missing: Profile evidence level.")
+    elif evidence_level not in ALLOWED_PROFILE_EVIDENCE_LEVEL:
+        allowed = ", ".join(sorted(ALLOWED_PROFILE_EVIDENCE_LEVEL))
+        errors.append(
+            "Profile evidence level must be one of "
+            f"{allowed}; found '{evidence_level}'."
+        )
+    return errors
 
 
 def path_candidates(cell: str) -> list[str]:
@@ -215,6 +243,8 @@ def main(argv: list[str]) -> int:
     for section in REQUIRED_SECTIONS:
         if section not in content:
             errors.append(f"Required section missing: {section}")
+
+    errors.extend(validate_profile_metadata(lines))
 
     source_errors, source_rows = validate_table(
         lines,
