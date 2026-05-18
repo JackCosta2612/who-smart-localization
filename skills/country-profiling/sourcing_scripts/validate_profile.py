@@ -66,11 +66,34 @@ ALLOWED_SOURCE_STATUS = {
     "Not available in supplied material",
 }
 
+ALLOWED_RETRIEVAL_MODE = {
+    "document-only",
+    "deterministic script-assisted",
+    "semi-deterministic web-assisted",
+    "mixed",
+}
+
 ALLOWED_PROFILE_EVIDENCE_LEVEL = {
     "full profile",
     "limited profile",
     "skeleton/gap-analysis profile",
 }
+
+REQUIRED_METADATA_LABELS = [
+    "Country",
+    "Optional downstream health-area focus, region, or population group",
+    "Profile date",
+    "Profile author or agent",
+    "Intended downstream use",
+    "Retrieval mode",
+    "Profile evidence level",
+    "Retrieval date",
+    "Retrieved indicator bundle path, if available",
+    "Source lead bundle path, if available",
+    "Web-reviewed source inventory path or note, if available",
+    "Source manifest path or note, if available",
+    "Known input limitations",
+]
 
 
 def parse_markdown_row(line: str) -> list[str]:
@@ -144,10 +167,23 @@ def metadata_value(lines: list[str], label: str) -> str | None:
 
 def validate_profile_metadata(lines: list[str]) -> list[str]:
     errors: list[str] = []
+    for label in REQUIRED_METADATA_LABELS:
+        value = metadata_value(lines, label)
+        if value is None:
+            errors.append(f"Profile metadata is missing: {label}.")
+        elif not value:
+            errors.append(f"Profile metadata field is empty: {label}.")
+
+    retrieval_mode = metadata_value(lines, "Retrieval mode")
+    if retrieval_mode and retrieval_mode not in ALLOWED_RETRIEVAL_MODE:
+        allowed = ", ".join(sorted(ALLOWED_RETRIEVAL_MODE))
+        errors.append(
+            "Retrieval mode must be one of "
+            f"{allowed}; found '{retrieval_mode}'."
+        )
+
     evidence_level = metadata_value(lines, "Profile evidence level")
-    if evidence_level is None:
-        errors.append("Profile metadata is missing: Profile evidence level.")
-    elif evidence_level not in ALLOWED_PROFILE_EVIDENCE_LEVEL:
+    if evidence_level and evidence_level not in ALLOWED_PROFILE_EVIDENCE_LEVEL:
         allowed = ", ".join(sorted(ALLOWED_PROFILE_EVIDENCE_LEVEL))
         errors.append(
             "Profile evidence level must be one of "
@@ -156,14 +192,93 @@ def validate_profile_metadata(lines: list[str]) -> list[str]:
     return errors
 
 
+def repo_root_for(path: Path) -> Path:
+    starts = [path.resolve().parent, Path.cwd().resolve()]
+    for start in starts:
+        for candidate in [start, *start.parents]:
+            if (candidate / ".git").exists():
+                return candidate
+    for start in starts:
+        for candidate in [start, *start.parents]:
+            if (candidate / "skills" / "country-profiling").exists():
+                return candidate
+    return path.resolve().parent
+
+
+def skill_root_for(path: Path) -> Path:
+    repo_root = repo_root_for(path)
+    skill_root = repo_root / "skills" / "country-profiling"
+    if skill_root.exists():
+        return skill_root
+    for candidate in [path.resolve().parent, *path.resolve().parents]:
+        if candidate.name == "country-profiling":
+            return candidate
+    return repo_root
+
+
+def is_url(value: str) -> bool:
+    return value.startswith(("http://", "https://"))
+
+
+def normalize_candidate_path(value: str) -> str:
+    return value.strip().strip(".,;:)").strip()
+
+
+def looks_like_local_path(value: str) -> bool:
+    if not value or is_url(value):
+        return False
+    return (
+        "/" in value
+        or value.endswith((".md", ".json", ".pdf", ".txt", ".csv", ".xlsx"))
+    )
+
+
 def path_candidates(cell: str) -> list[str]:
-    candidates = []
+    candidates: list[str] = []
     for value in re.findall(r"`([^`]+)`", cell):
-        if value.startswith(("http://", "https://")):
+        candidate = normalize_candidate_path(value)
+        if looks_like_local_path(candidate):
+            candidates.append(candidate)
+
+    for value in re.findall(r"\[[^\]]+\]\(([^)]+)\)", cell):
+        candidate = normalize_candidate_path(value)
+        if looks_like_local_path(candidate):
+            candidates.append(candidate)
+
+    plain_cell = re.sub(r"`([^`]+)`", " ", cell)
+    plain_cell = re.sub(r"\[[^\]]+\]\(([^)]+)\)", " ", plain_cell)
+    for value in re.split(r"[\s,;]+", plain_cell):
+        candidate = normalize_candidate_path(value)
+        if looks_like_local_path(candidate):
+            candidates.append(candidate)
+
+    deduped = []
+    seen = set()
+    for candidate in candidates:
+        if candidate in seen:
             continue
-        if "/" in value or value.endswith((".md", ".json", ".pdf", ".txt")):
-            candidates.append(value)
-    return candidates
+        seen.add(candidate)
+        deduped.append(candidate)
+    return deduped
+
+
+def resolve_local_path(candidate: str, target: Path) -> Path | None:
+    path = Path(candidate)
+    if path.is_absolute():
+        return path if path.exists() else None
+
+    repo_root = repo_root_for(target)
+    skill_root = skill_root_for(target)
+    search_roots = [
+        target.resolve().parent,
+        repo_root,
+        skill_root,
+    ]
+    for root in search_roots:
+        resolved = root / path
+        if resolved.exists():
+            return resolved
+    return None
 
 
 def reviewed_source_warnings_and_errors(
@@ -172,7 +287,6 @@ def reviewed_source_warnings_and_errors(
 ) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
-    repo_root = target.resolve().parent
     for line_number, row in source_rows:
         if len(row) != len(SOURCE_COLUMNS):
             continue
@@ -189,10 +303,8 @@ def reviewed_source_warnings_and_errors(
                 "unless the evidence-bearing material was reviewed."
             )
         for candidate in path_candidates(locator):
-            path = Path(candidate)
-            if not path.is_absolute():
-                path = repo_root / path
-            if not path.exists():
+            path = resolve_local_path(candidate, target)
+            if path is None:
                 warnings.append(
                     f"Line {line_number}: referenced local path does not "
                     f"exist: {candidate}"
@@ -215,9 +327,9 @@ def reviewed_source_warnings_and_errors(
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Validate the markdown structure of a Country Profiling output. "
-            "This does not validate epidemiological, policy, country, legal, "
-            "WASH, or WHO correctness."
+            "Validate the markdown structure and limited source-artifact "
+            "semantics of a Country Profiling output. This does not validate "
+            "epidemiological, policy, country, legal, WASH, or WHO correctness."
         )
     )
     parser.add_argument(
@@ -230,8 +342,9 @@ def main(argv: list[str]) -> int:
     if not target.is_file():
         print(f"Error: file not found: {target}")
         print(
-            "Note: this validator checks structure only, not epidemiological, "
-            "policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure and limited source-artifact "
+            "semantics only, not epidemiological, policy, country, legal, "
+            "WASH, or WHO correctness."
         )
         return 1
 
@@ -307,8 +420,9 @@ def main(argv: list[str]) -> int:
             for warning in warnings:
                 print(f"- {warning}")
         print(
-            "Note: this validator checks structure only, not epidemiological, "
-            "policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure and limited source-artifact "
+            "semantics only, not epidemiological, policy, country, legal, "
+            "WASH, or WHO correctness."
         )
         return 1
 
