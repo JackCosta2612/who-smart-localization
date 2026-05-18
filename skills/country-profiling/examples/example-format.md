@@ -56,6 +56,7 @@ web-assisted retrieval.>
 - Retrieved indicator bundle path, if available:
 - Source lead bundle path, if available:
 - Web-reviewed source inventory path or note, if available:
+- Source manifest path or note, if available:
 - Known input limitations:
 
 ## Executive summary

@@ -10,9 +10,10 @@
 - Retrieval mode: mixed
 - Profile evidence level: full profile
 - Retrieval date: 2026-05-16
-- Retrieved indicator bundle path: `skills/country-profiling/examples/example_1/data/retrieved-indicators.json`
-- Source lead bundle path: `skills/country-profiling/examples/example_1/data/source-leads.md`
-- Web-reviewed source inventory: `skills/country-profiling/examples/example_1/data/web-reviewed-sources.json`
+- Retrieved indicator bundle path, if available: `skills/country-profiling/examples/example_1/data/retrieved-indicators.json`
+- Source lead bundle path, if available: `skills/country-profiling/examples/example_1/data/source-leads.md`
+- Web-reviewed source inventory path or note, if available: `skills/country-profiling/examples/example_1/data/web-reviewed-sources.json`
+- Source manifest path or note, if available: Not used in this reference example.
 - Known input limitations: This reference starts from minimal human input. It uses deterministic World Bank and WHO GHO indicators, configured EuroHealthObservatory/Gazzetta retrieval, parsed institutional PDFs, and the bundled WHO immunization DAK. It does not compare WHO guidance with Italian policy.
 
 ## Executive summary
