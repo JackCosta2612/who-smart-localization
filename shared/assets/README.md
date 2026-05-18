@@ -8,6 +8,8 @@ later.
 
 ## Current shared source artifacts
 
-| File | Source type | Use |
-|---|---|---|
-| `who-immunizations-dak.pdf` | WHO SMART / DAK artifact | Shared immunization DAK source for Country Profiling handoff and later Policy Comparison work. Country Profiling may list it as an available comparison source for immunization-focused profiles, but should not perform WHO-versus-country policy comparison. |
+No current shared source artifacts.
+
+The WHO immunization DAK used by Country Profiling is skill-specific and is
+bundled inside `skills/country-profiling/assets/` so the skill folder can be
+exported independently.

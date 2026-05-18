@@ -56,8 +56,8 @@ def configured_source_targets(country: str, iso3: str, focus: str | None = None)
                     "title": "WHO SMART Guidelines Digital Adaptation Kit for Immunization",
                     "publisher": "World Health Organization",
                     "source_type": "WHO SMART / DAK artifact",
-                    "path": "shared/assets/who-immunizations-dak.pdf",
-                    "date": "Local shared source",
+                    "path": "assets/who-immunizations-dak.pdf",
+                    "date": "Bundled local source",
                 }
             )
         return targets

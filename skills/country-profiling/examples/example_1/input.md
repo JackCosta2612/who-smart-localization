@@ -28,8 +28,8 @@ None. The agent should start from the country, optional focus, deterministic
 retrieval outputs, configured web/PDF source resolution, and short unresolved
 source gaps.
 
-## Available shared source
+## Available bundled source
 
-The repository includes `shared/assets/who-immunizations-dak.pdf` as the shared
+The skill includes `assets/who-immunizations-dak.pdf` as the bundled
 WHO immunization DAK source. Use it only as downstream comparison material for
 handoff; do not compare it with Italian policy inside Country Profiling.

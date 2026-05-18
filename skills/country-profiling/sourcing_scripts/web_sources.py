@@ -13,6 +13,7 @@ from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 USER_AGENT = "who-smart-localization/0.1"
+SKILL_DIR = Path(__file__).resolve().parent.parent
 
 
 def now_utc() -> str:
@@ -220,7 +221,13 @@ def local_pdf_record(
     retrieval_date: str,
     repo_root: Path,
 ) -> dict[str, Any]:
-    path = repo_root / target["path"]
+    target_path = Path(target["path"])
+    candidates = (
+        [target_path]
+        if target_path.is_absolute()
+        else [repo_root / target_path, SKILL_DIR / target_path]
+    )
+    path = next((candidate for candidate in candidates if candidate.is_file()), candidates[0])
     if not path.is_file():
         return {
             "title": target["title"],

@@ -12,7 +12,7 @@ This artifact records sources that the script actually opened, downloaded, or pa
 | Italy: health system summary 2024 | European Observatory on Health Systems and Policies | Official or institutional PDF | Latest available | parsed | https://iris.who.int/server/api/core/bitstreams/a19431eb-4ea1-4de6-b271-79f5fc08d5e0/content | parsed |
 | Italy: Country Health Profile 2025 | European Observatory on Health Systems and Policies | Official or institutional PDF | Latest available | parsed | https://eurohealthobservatory.who.int/docs/librariesprovider3/country-health-profiles/chp2025pdf/soheu-2025-italy-final-web.pdf?sfvrsn=ae89969b_1&download=true | parsed |
 | National Vaccine Prevention Plan 2023-2025 official act | Gazzetta Ufficiale / Italian Ministry of Health | Official full-text HTML | 2023 | reviewed_html | https://www.gazzettaufficiale.it/atto/vediMenuHTML?atto.dataPubblicazioneGazzetta=2023-08-21&atto.codiceRedazionale=23A04685&tipoSerie=serie_generale&tipoVigenza=originario | html_extracted |
-| WHO SMART Guidelines Digital Adaptation Kit for Immunization | World Health Organization | WHO SMART / DAK artifact | Local shared source | parsed | shared/assets/who-immunizations-dak.pdf | parsed |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | World Health Organization | WHO SMART / DAK artifact | Bundled local source | parsed | assets/who-immunizations-dak.pdf | parsed |
 
 ## Extracted text summaries
 
@@ -63,8 +63,8 @@ vaccinale (PNPV) 2023-2025» e sul documento recante «Calendario nazionale vacc
 
 ### WHO SMART Guidelines Digital Adaptation Kit for Immunization
 
-- URL: shared/assets/who-immunizations-dak.pdf
-- Local file path: shared/assets/who-immunizations-dak.pdf
+- URL: assets/who-immunizations-dak.pdf
+- Local file path: assets/who-immunizations-dak.pdf
 - SHA-256: 6b0f603e2a792bb4e81014b4e3302d450c4b5be8c72ac4106723610ec7db0303
 - Status: parsed
 

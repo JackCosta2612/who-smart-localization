@@ -19,14 +19,14 @@ country plus optional downstream focus, not a human-built source packet.
 - Ask for human review of the draft and source inventory, not for manual source
   construction, unless key source classes remain missing.
 - Feed the Policy Comparison skill by identifying context, likely source
-  classes, the shared immunization DAK, and gaps without performing comparison.
+  classes, the bundled immunization DAK, and gaps without performing comparison.
 
 ## Boundary to enforce
 
 Country Profiling may identify the target country's health-system structure,
 baseline indicators, configured WHO GHO estimates, reviewed institutional
-sources, official source anchors, remaining source gaps, and the shared WHO
-immunization DAK at `shared/assets/who-immunizations-dak.pdf` when the focus is
+sources, official source anchors, remaining source gaps, and the bundled WHO
+immunization DAK at `assets/who-immunizations-dak.pdf` when the focus is
 immunization. It should not compare national policy with the DAK or WHO
 guidance, recommend schedule changes, make clinical judgments, or claim policy
 readiness without source support.

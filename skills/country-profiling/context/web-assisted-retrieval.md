@@ -104,7 +104,7 @@ registry/reporting specifications, and digital health data-flow sources. Country
 Profiling should identify these as source classes and gaps; it should not
 compare national policy with WHO guidance.
 
-If the shared local DAK exists at `shared/assets/who-immunizations-dak.pdf`,
+If the bundled local DAK exists at `assets/who-immunizations-dak.pdf`,
 include it as an available WHO SMART / DAK artifact for later Policy Comparison.
 Do not treat it as evidence about the target country's health system or
 implementation context.

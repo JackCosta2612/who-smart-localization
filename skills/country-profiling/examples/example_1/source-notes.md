@@ -16,7 +16,7 @@ profiling. It is a behavior-shaping example, not a final evidence package.
 | Italy health system summary 2024 | Parsed PDF text artifact | Reviewed | Downloaded and parsed during example generation; deployable package keeps the direct URL, checksum, and extracted text summary without bundling the PDF. |
 | Italy Country Health Profile 2025 | Parsed PDF text artifact | Reviewed | Downloaded and parsed during example generation; deployable package keeps the direct URL, checksum, and extracted text summary without bundling the PDF. |
 | National Vaccine Prevention Plan 2023-2025 official act | Official full-text HTML | Reviewed | Gazzetta full-text HTML was opened and reviewed as a source anchor; exact attachment sections may still need extraction for Policy Comparison. |
-| WHO SMART Guidelines Digital Adaptation Kit for Immunization | Local parsed PDF | Reviewed | Available at `shared/assets/who-immunizations-dak.pdf`; used only as downstream comparison material, not as Italy evidence. |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | Local parsed PDF | Reviewed | Available at `assets/who-immunizations-dak.pdf`; used only as downstream comparison material, not as Italy evidence. |
 
 ## Remaining unresolved source gaps
 
