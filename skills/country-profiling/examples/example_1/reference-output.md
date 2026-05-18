@@ -12,7 +12,7 @@
 - Retrieved indicator bundle path: `skills/country-profiling/examples/example_1/data/retrieved-indicators.json`
 - Source lead bundle path: `skills/country-profiling/examples/example_1/data/source-leads.md`
 - Web-reviewed source inventory: `skills/country-profiling/examples/example_1/data/web-reviewed-sources.json`
-- Known input limitations: This reference starts from minimal human input. It uses deterministic World Bank and WHO GHO indicators, configured EuroHealthObservatory/Gazzetta retrieval, parsed institutional PDFs, and the shared WHO immunization DAK. It does not compare WHO guidance with Italian policy.
+- Known input limitations: This reference starts from minimal human input. It uses deterministic World Bank and WHO GHO indicators, configured EuroHealthObservatory/Gazzetta retrieval, parsed institutional PDFs, and the bundled WHO immunization DAK. It does not compare WHO guidance with Italian policy.
 
 ## Executive summary
 
@@ -33,7 +33,7 @@ The profile is ready for Policy Comparison scoping, not for alignment findings. 
 | Italy: health system summary 2024 | Institutional profile | European Observatory on Health Systems and Policies | 2024 | https://iris.who.int/server/api/core/bitstreams/a19431eb-4ea1-4de6-b271-79f5fc08d5e0/content | Updated concise health-system organization, financing, delivery, and reform context | Reviewed |
 | Italy: Country Health Profile 2025 | Institutional profile | European Observatory on Health Systems and Policies / OECD / European Commission | 2025 | https://eurohealthobservatory.who.int/docs/librariesprovider3/country-health-profiles/chp2025pdf/soheu-2025-italy-final-web.pdf?sfvrsn=ae89969b_1&download=true | Current EU-comparable health-system and performance context | Reviewed |
 | National Vaccine Prevention Plan 2023-2025 official act | Official document | Gazzetta Ufficiale / Italian Ministry of Health | 2023 | https://www.gazzettaufficiale.it/atto/vediMenuHTML?atto.dataPubblicazioneGazzetta=2023-08-21&atto.codiceRedazionale=23A04685&tipoSerie=serie_generale&tipoVigenza=originario | Official full-text HTML identifying the PNPV and national vaccination calendar act | Reviewed |
-| WHO SMART Guidelines Digital Adaptation Kit for Immunization | WHO SMART / DAK artifact | World Health Organization | 2024 local shared source | shared/assets/who-immunizations-dak.pdf | Available downstream WHO/SMART artifact for later Policy Comparison; not evidence about Italy's health system | Reviewed |
+| WHO SMART Guidelines Digital Adaptation Kit for Immunization | WHO SMART / DAK artifact | World Health Organization | 2024 bundled local source | assets/who-immunizations-dak.pdf | Available downstream WHO/SMART artifact for later Policy Comparison; not evidence about Italy's health system | Reviewed |
 | Unresolved source gaps: Italy | Source gap inventory | Country Profiling retrieval script | 2026-05-16 retrieval | skills/country-profiling/examples/example_1/data/source-leads.md | Short list of remaining actionable retrieval needs after deterministic and configured web retrieval | Reviewed |
 
 ## Country context snapshot
@@ -88,7 +88,7 @@ For immunization, operational evidence still needs prevention department staffin
 
 Parsed Observatory sources identify digital-health modernization as relevant context, but this reference does not retrieve vaccination registry specifications, reporting data dictionaries, forms, interoperability profiles, pharmacovigilance data flows, or regional digital implementation dashboards.
 
-Those sources are required before a data-element, DAK, or SMART workflow comparison. The shared WHO immunization DAK is available locally and parsed as a downstream WHO/SMART artifact, but Country Profiling should not compare it with Italian policy.
+Those sources are required before a data-element, DAK, or SMART workflow comparison. The bundled WHO immunization DAK is available locally and parsed as a downstream WHO/SMART artifact, but Country Profiling should not compare it with Italian policy.
 
 ## Equity, vulnerable groups, and regional variation
 
@@ -104,7 +104,7 @@ For immunization, carry forward these retrieval tasks rather than conclusions: M
 
 ## Policy-analysis readiness
 
-Partially ready for Policy Comparison scoping. The profile has enough reviewed and retrieved evidence to explain the core Italy context: universal SSN, regionalized implementation, baseline population and life expectancy, expenditure and out-of-pocket context, workforce and infrastructure indicators, WASH indicators, WHO GHO immunization coverage, parsed Observatory health-system sources, an official PNPV source anchor, and the shared WHO immunization DAK.
+Partially ready for Policy Comparison scoping. The profile has enough reviewed and retrieved evidence to explain the core Italy context: universal SSN, regionalized implementation, baseline population and life expectancy, expenditure and out-of-pocket context, workforce and infrastructure indicators, WASH indicators, WHO GHO immunization coverage, parsed Observatory health-system sources, an official PNPV source anchor, and the bundled WHO immunization DAK.
 
 Not ready for detailed policy comparison or alignment claims. The next step requires the exact comparison question, direct extraction of the relevant DAK sections, attachment-level or section-level review of Italian immunization policy text, current Ministry/ISS coverage data where needed, and expert validation.
 
@@ -117,7 +117,7 @@ Not ready for detailed policy comparison or alignment claims. The next step requ
 | Establish implementation actors | Italy's SSN is regionally implemented | EuroHealthObservatory page and parsed Observatory PDFs | Topic-specific actor roles not fully mapped | Build actor map from Ministry, ISS, AIFA, regional, and service-delivery sources |
 | Collect coverage and surveillance data | Policy text cannot show uptake, equity, or implementation | WHO GHO DTP3, MCV1, MCV2, PCV3 and World Bank measles baseline retrieved | Ministry/ISS coverage by vaccine, dose, cohort, region, and year missing | Retrieve current Ministry/ISS datasets only if the comparison needs uptake or equity detail |
 | Map digital data flow | SMART localization may depend on data elements and reporting | Digital-health watchpoint identified | Registry specs, forms, interoperability, FSE vaccination data, and reporting rules missing | Retrieve registry/reporting specifications and data dictionaries |
-| Scope WHO/SMART DAK material | Required for comparison | Shared WHO immunization DAK parsed from `shared/assets/who-immunizations-dak.pdf` | Relevant DAK sections, data elements, business processes, and decision logic not extracted | Select and extract exact DAK scope during Policy Comparison |
+| Scope WHO/SMART DAK material | Required for comparison | Bundled WHO immunization DAK parsed from `assets/who-immunizations-dak.pdf` | Relevant DAK sections, data elements, business processes, and decision logic not extracted | Select and extract exact DAK scope during Policy Comparison |
 
 ## Evidence gaps and expert input needed
 
@@ -138,4 +138,4 @@ Not ready for detailed policy comparison or alignment claims. The next step requ
 - Italy: health system summary 2024, European Observatory on Health Systems and Policies, parsed from https://iris.who.int/server/api/core/bitstreams/a19431eb-4ea1-4de6-b271-79f5fc08d5e0/content, retrieved 2026-05-16.
 - Italy: Country Health Profile 2025, European Observatory on Health Systems and Policies / OECD / European Commission, parsed from https://eurohealthobservatory.who.int/docs/librariesprovider3/country-health-profiles/chp2025pdf/soheu-2025-italy-final-web.pdf?sfvrsn=ae89969b_1&download=true, retrieved 2026-05-16.
 - National Vaccine Prevention Plan 2023-2025 official act, Gazzetta Ufficiale / Italian Ministry of Health, 2023, https://www.gazzettaufficiale.it/atto/vediMenuHTML?atto.dataPubblicazioneGazzetta=2023-08-21&atto.codiceRedazionale=23A04685&tipoSerie=serie_generale&tipoVigenza=originario, reviewed 2026-05-16.
-- WHO SMART Guidelines Digital Adaptation Kit for Immunization, World Health Organization, local shared source, `shared/assets/who-immunizations-dak.pdf`, parsed 2026-05-16.
+- WHO SMART Guidelines Digital Adaptation Kit for Immunization, World Health Organization, bundled local source, `assets/who-immunizations-dak.pdf`, parsed 2026-05-16.

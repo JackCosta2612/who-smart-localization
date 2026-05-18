@@ -27,7 +27,7 @@ The example contains:
 - `data/web-reviewed-sources.json`: reviewed HTML, direct PDF URLs, parsed text summaries, checksums, URLs, and parse statuses;
 - `data/web-reviewed-sources.md`: human-readable reviewed web/PDF artifact;
 - `data/source-leads.md`: short unresolved source gaps and fallback guidance;
-- `../../../shared/assets/who-immunizations-dak.pdf`: shared immunization DAK
+- `../assets/who-immunizations-dak.pdf`: bundled immunization DAK
   source for later Policy Comparison when the downstream focus is immunization;
 - `source-notes.md`: source rationale, reviewed-versus-candidate distinctions,
   and proposed follow-up source work;

@@ -135,6 +135,8 @@ The profile should identify which downstream health areas matter for later compa
 country-profiling/
 ├── SKILL.md
 ├── README.md
+├── assets/
+│   └── who-immunizations-dak.pdf
 ├── context/
 │   ├── execution-modes.md
 │   ├── input-documentation.md

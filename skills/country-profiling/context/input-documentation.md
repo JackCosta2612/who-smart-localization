@@ -114,8 +114,8 @@ Collect these only if the profile is preparing a later comparison:
 - terminology, coding, formulary, schedule, or product-list source;
 - implementation guidance or programme monitoring document.
 
-For immunization-focused profiles, also list the shared WHO immunization DAK at
-`shared/assets/who-immunizations-dak.pdf` as an available downstream comparison
+For immunization-focused profiles, also list the bundled WHO immunization DAK at
+`assets/who-immunizations-dak.pdf` as an available downstream comparison
 source when present. It should be carried into the Policy Comparison handoff,
 not used to perform comparison inside Country Profiling.
 
