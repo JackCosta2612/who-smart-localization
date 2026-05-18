@@ -40,7 +40,10 @@ IMMUNIZATION_INDICATORS: list[dict[str, str]] = [
         "label": "PCV3 immunization coverage among 1-year-olds",
         "unit": "percent",
         "profile_section": "Healthcare access and coverage",
-        "notes": "Optional immunization context indicator; may be missing for some countries or years.",
+        "notes": (
+            "Optional immunization context indicator; may be missing for some "
+            "countries or years."
+        ),
     },
 ]
 
@@ -183,7 +186,11 @@ def fetch_latest_indicator(
         "label": label,
         "unit": unit,
         "year": row.get("TimeDim") or row.get("TimeDimensionValue"),
-        "value": row.get("NumericValue") if row.get("NumericValue") is not None else row.get("Value"),
+        "value": (
+            row.get("NumericValue")
+            if row.get("NumericValue") is not None
+            else row.get("Value")
+        ),
         "display_value": row.get("Value"),
         "url": url,
         "retrieval_date": retrieval_date,

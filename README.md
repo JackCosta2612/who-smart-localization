@@ -2,11 +2,16 @@
 
 Model-neutral Agent Skills for WHO SMART Guidelines localization work.
 
-This repository is part of a one-month, 3 ECTS university NLP project connected to WHO SMART Guidelines localization. Country Profiling is the currently active skill. Policy Comparison is planned after the Country Profiling package is stable enough to support source-backed examples and downstream comparison work.
+This repository is part of a one-month, 3 ECTS university NLP project connected
+to WHO SMART Guidelines localization. Country Profiling is the currently active
+skill. Policy Comparison is planned after the Country Profiling package is
+stable enough to support source-backed examples and downstream comparison work.
 
 ## Project scope
 
-The skills support preparation and review work for WHO SMART Guidelines and Digital Adaptation Kits (DAKs). They help organize sources, identify evidence gaps, and prepare structured outputs for human review.
+The skills support preparation and review work for WHO SMART Guidelines and
+Digital Adaptation Kits (DAKs). They help organize sources, identify evidence
+gaps, and prepare structured outputs for human review.
 
 Country Profiling creates a healthcare country profile. It is for any target
 country where WHO / SMART / DAK content needs country-specific
@@ -15,7 +20,9 @@ countries missing from WHO databases. It does not perform policy alignment
 analysis. Later, Policy Comparison should use the country profile as context
 when comparing WHO/SMART content with national policy material.
 
-The skills do not make clinical decisions, provide patient advice, draft final national policy, or replace WHO, national, legal, clinical, policy, WASH, epidemiological, environmental health, or country expert review.
+The skills do not make clinical decisions, provide patient advice, draft final
+national policy, or replace WHO, national, legal, clinical, policy, WASH,
+epidemiological, environmental health, or country expert review.
 
 Shared source artifacts used by multiple skills live under `shared/assets/`.
 Skill-specific source artifacts should stay inside the relevant skill package so
@@ -57,7 +64,11 @@ immunization DAK used by Country Profiling is bundled at
 
 Status: active / MVP polish.
 
-Creates a source-backed textual healthcare country profile covering country context, main health issues, health system organization, implementation environment, access and coverage, sanitary conditions, financing, workforce, infrastructure, digital health, equity, risks, and readiness for later policy comparison.
+Creates a source-backed textual healthcare country profile covering country
+context, main health issues, health system organization, implementation
+environment, access and coverage, sanitary conditions, financing, workforce,
+infrastructure, digital health, equity, risks, and readiness for later policy
+comparison.
 
 The preferred minimal input is a country name plus optional downstream focus.
 The skill supports document-only profiling, deterministic script-assisted
@@ -70,7 +81,8 @@ Path: `skills/country-profiling/`
 
 Status: planned / migrated starting point.
 
-Will compare WHO/SMART content with national policy material after Country Profiling is stable. It should use country profile outputs as context.
+Will compare WHO/SMART content with national policy material after Country
+Profiling is stable. It should use country profile outputs as context.
 
 Path: `skills/policy-comparison/`
 
@@ -115,4 +127,5 @@ Policy comparison validator:
 python3 skills/policy-comparison/scripts/validate_profile.py --help
 ```
 
-Validators check structure only. They do not validate clinical correctness, policy correctness, country facts, source interpretation, or WHO interpretation.
+Validators check structure only. They do not validate clinical correctness,
+policy correctness, country facts, source interpretation, or WHO interpretation.

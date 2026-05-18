@@ -152,26 +152,34 @@ def reviewed_source_warnings_and_errors(
         locator = row[4]
         status = row[6]
         if status == "Reviewed" and not locator.strip():
-            errors.append(f"Line {line_number}: Reviewed source has no URL or file path.")
+            errors.append(
+                f"Line {line_number}: Reviewed source has no URL or file path."
+            )
         if status == "Reviewed" and source_type == "Landing page":
             errors.append(
-                f"Line {line_number}: Landing page cannot be marked Reviewed unless the evidence-bearing material was reviewed."
+                f"Line {line_number}: Landing page cannot be marked Reviewed "
+                "unless the evidence-bearing material was reviewed."
             )
         for candidate in path_candidates(locator):
             path = Path(candidate)
             if not path.is_absolute():
                 path = repo_root / path
             if not path.exists():
-                warnings.append(f"Line {line_number}: referenced local path does not exist: {candidate}")
+                warnings.append(
+                    f"Line {line_number}: referenced local path does not "
+                    f"exist: {candidate}"
+                )
             elif path.name == "web-reviewed-sources.md":
                 text = path.read_text(encoding="utf-8", errors="replace")
                 if "_No web/PDF source targets were supplied" in text:
                     warnings.append(
-                        f"Line {line_number}: referenced web-reviewed source artifact has no supplied or configured targets."
+                        f"Line {line_number}: referenced web-reviewed source "
+                        "artifact has no supplied or configured targets."
                     )
                 if "_A source manifest was supplied, but no entries matched" in text:
                     warnings.append(
-                        f"Line {line_number}: referenced web-reviewed source artifact has no matching manifest entries."
+                        f"Line {line_number}: referenced web-reviewed source "
+                        "artifact has no matching manifest entries."
                     )
     return warnings, errors
 
@@ -180,17 +188,22 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Validate the markdown structure of a Country Profiling output. "
-            "This does not validate epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "This does not validate epidemiological, policy, country, legal, "
+            "WASH, or WHO correctness."
         )
     )
-    parser.add_argument("markdown_file", help="Country profile markdown file to validate.")
+    parser.add_argument(
+        "markdown_file",
+        help="Country profile markdown file to validate.",
+    )
     args = parser.parse_args(argv[1:])
 
     target = Path(args.markdown_file)
     if not target.is_file():
         print(f"Error: file not found: {target}")
         print(
-            "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure only, not epidemiological, "
+            "policy, country, legal, WASH, or WHO correctness."
         )
         return 1
 
@@ -203,7 +216,11 @@ def main(argv: list[str]) -> int:
         if section not in content:
             errors.append(f"Required section missing: {section}")
 
-    source_errors, source_rows = validate_table(lines, SOURCE_COLUMNS, "Source inventory")
+    source_errors, source_rows = validate_table(
+        lines,
+        SOURCE_COLUMNS,
+        "Source inventory",
+    )
     errors.extend(source_errors)
     for line_number, row in source_rows:
         if len(row) != len(SOURCE_COLUMNS):
@@ -211,20 +228,38 @@ def main(argv: list[str]) -> int:
             continue
         if row[6] not in ALLOWED_SOURCE_STATUS:
             errors.append(f"Line {line_number}: invalid source Status '{row[6]}'.")
-    source_warnings, source_semantic_errors = reviewed_source_warnings_and_errors(target, source_rows)
+    source_warnings, source_semantic_errors = reviewed_source_warnings_and_errors(
+        target,
+        source_rows,
+    )
     warnings.extend(source_warnings)
     errors.extend(source_semantic_errors)
 
     gap_errors, _gap_rows = validate_table(
-        lines, GAP_COLUMNS, "Evidence gaps and expert input needed", require_rows=True
+        lines,
+        GAP_COLUMNS,
+        "Evidence gaps and expert input needed",
+        require_rows=True,
     )
     errors.extend(gap_errors)
 
-    if any(token in content for token in ("network_failed", "retrieval_failed", "downloaded_parse_failed")):
-        evidence_gap_section = content.split("## Evidence gaps and expert input needed", 1)[-1]
-        if not any(token in evidence_gap_section for token in ("network_failed", "retrieval_failed", "downloaded_parse_failed", "failed retrieval")):
+    failure_tokens = ("network_failed", "retrieval_failed", "downloaded_parse_failed")
+    if any(token in content for token in failure_tokens):
+        evidence_gap_section = content.split(
+            "## Evidence gaps and expert input needed",
+            1,
+        )[-1]
+        gap_tokens = (
+            "network_failed",
+            "retrieval_failed",
+            "downloaded_parse_failed",
+            "failed retrieval",
+        )
+        if not any(token in evidence_gap_section for token in gap_tokens):
             warnings.append(
-                "Retrieval failure text appears outside the evidence-gap section; confirm failed retrievals are carried into evidence gaps."
+                "Retrieval failure text appears outside the evidence-gap "
+                "section; confirm failed retrievals are carried into evidence "
+                "gaps."
             )
 
     if section_exists(content, "## Policy-comparison handoff"):
@@ -242,7 +277,8 @@ def main(argv: list[str]) -> int:
             for warning in warnings:
                 print(f"- {warning}")
         print(
-            "Note: this validator checks structure only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+            "Note: this validator checks structure only, not epidemiological, "
+            "policy, country, legal, WASH, or WHO correctness."
         )
         return 1
 
@@ -252,7 +288,9 @@ def main(argv: list[str]) -> int:
         for warning in warnings:
             print(f"- {warning}")
     print(
-        "Note: this validator checks structure and limited source-artifact semantics only, not epidemiological, policy, country, legal, WASH, or WHO correctness."
+        "Note: this validator checks structure and limited source-artifact "
+        "semantics only, not epidemiological, policy, country, legal, WASH, "
+        "or WHO correctness."
     )
     return 0
 

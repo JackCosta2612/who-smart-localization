@@ -52,7 +52,11 @@ def write_indicators_markdown(bundle: dict[str, Any], path: Path) -> None:
         f"- Downstream focus: {bundle['focus'] or 'not specified'}",
         f"- Registry: {bundle['registry_path']}",
         "",
-        "These indicators provide a small baseline context layer. They do not prove country-profile completeness and must be combined with reviewed country documents, source inventories, and evidence gaps.",
+        (
+            "These indicators provide a small baseline context layer. They do "
+            "not prove country-profile completeness and must be combined with "
+            "reviewed country documents, source inventories, and evidence gaps."
+        ),
         "",
         "## World Bank indicators",
         "",
@@ -86,7 +90,10 @@ def write_indicators_markdown(bundle: dict[str, Any], path: Path) -> None:
     if bundle["who_gho_indicators"]:
         lines.extend(
             [
-                "| Indicator | Code | Value | Unit | Year | Status | Failure type | Error | Source URL |",
+                (
+                    "| Indicator | Code | Value | Unit | Year | Status | "
+                    "Failure type | Error | Source URL |"
+                ),
                 "|---|---|---|---|---|---|---|---|---|",
             ]
         )
@@ -115,10 +122,22 @@ def write_indicators_markdown(bundle: dict[str, Any], path: Path) -> None:
             "## Retrieval caveats",
             "",
             "- Use precise indicator source, code, year, and retrieval date in profile claims.",
-            "- `missing_value` means the configured indicator did not return a non-empty country value.",
-            "- `network_failed` means DNS, timeout, or outbound-network retrieval failed and should be recorded as an evidence gap.",
-            "- `failed` means non-network retrieval failed and should be recorded as an evidence gap.",
-            "- WHO GHO retrieval is intentionally limited to configured indicator codes; it is not a full GHO data platform.",
+            (
+                "- `missing_value` means the configured indicator did not "
+                "return a non-empty country value."
+            ),
+            (
+                "- `network_failed` means DNS, timeout, or outbound-network "
+                "retrieval failed and should be recorded as an evidence gap."
+            ),
+            (
+                "- `failed` means non-network retrieval failed and should be "
+                "recorded as an evidence gap."
+            ),
+            (
+                "- WHO GHO retrieval is intentionally limited to configured "
+                "indicator codes; it is not a full GHO data platform."
+            ),
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -134,24 +153,45 @@ def write_web_reviewed_markdown(bundle: dict[str, Any], path: Path) -> None:
         f"- Stable source targets: {bundle['stable_source_target_count']}",
         f"- Manifest source targets: {bundle['source_manifest'].get('target_count', 0)}",
         "",
-        "This artifact records sources that the script actually opened, downloaded, or parsed. A landing page remains a landing page unless its evidence-bearing text or linked PDF was retrieved.",
+        (
+            "This artifact records sources that the script actually opened, "
+            "downloaded, or parsed. A landing page remains a landing page "
+            "unless its evidence-bearing text or linked PDF was retrieved."
+        ),
         "",
-        "| Title | Publisher | Source class | Source type | Date | Status | Failure type | URL or file path | Material endpoint | Parse status |",
+        (
+            "| Title | Publisher | Source class | Source type | Date | Status | "
+            "Failure type | URL or file path | Material endpoint | Parse status |"
+        ),
         "|---|---|---|---|---|---|---|---|---|---|",
     ]
     if not bundle["web_reviewed_sources"]:
-        if not bundle["source_manifest"].get("path") and not bundle["stable_source_target_count"]:
+        if (
+            not bundle["source_manifest"].get("path")
+            and not bundle["stable_source_target_count"]
+        ):
             lines.extend(
                 [
                     "",
-                    "_No web/PDF source targets were supplied or configured. Use controlled web-assisted retrieval to discover country-specific official sources, then pass them with `--source-manifest`._",
+                    (
+                        "_No web/PDF source targets were supplied or configured. "
+                        "Use controlled web-assisted retrieval to discover "
+                        "country-specific official sources, then pass them with "
+                        "`--source-manifest`._"
+                    ),
                 ]
             )
-        elif bundle["source_manifest"].get("path") and not bundle["source_manifest"].get("target_count"):
+        elif (
+            bundle["source_manifest"].get("path")
+            and not bundle["source_manifest"].get("target_count")
+        ):
             lines.extend(
                 [
                     "",
-                    "_A source manifest was supplied, but no entries matched the requested country/ISO3/focus._",
+                    (
+                        "_A source manifest was supplied, but no entries "
+                        "matched the requested country/ISO3/focus._"
+                    ),
                 ]
             )
     for item in bundle["web_reviewed_sources"]:
@@ -198,7 +238,11 @@ def write_source_leads_markdown(bundle: dict[str, Any], path: Path) -> None:
         f"- Retrieval date: {bundle['retrieval_date']}",
         f"- Downstream focus: {bundle['focus'] or 'not specified'}",
         "",
-        "This file is intentionally short. It lists only unresolved source classes that remain useful after deterministic dataset retrieval and configured web/PDF source resolution.",
+        (
+            "This file is intentionally short. It lists only unresolved source "
+            "classes that remain useful after deterministic dataset retrieval "
+            "and configured web/PDF source resolution."
+        ),
         "",
         "| Source class | Why needed | Suggested action | Status |",
         "|---|---|---|---|",
@@ -217,14 +261,24 @@ def write_source_leads_markdown(bundle: dict[str, Any], path: Path) -> None:
                 )
             )
     else:
-        lines.append("| None recorded | Configured retrieval did not leave additional generic source gaps. | Continue with human review of retrieved artifacts. | Reviewed |")
+        lines.append(
+            "| None recorded | Configured retrieval did not leave additional "
+            "generic source gaps. | Continue with human review of retrieved "
+            "artifacts. | Reviewed |"
+        )
 
     lines.extend(
         [
             "",
             "## Web-assisted fallback note",
             "",
-            "If scripts or configured resolvers are unavailable, use `context/web-assisted-retrieval.md`: follow the approved source priority list, record provenance and status, separate reviewed evidence from candidate leads, and keep inaccessible PDFs or landing-page-only sources as evidence gaps.",
+            (
+                "If scripts or configured resolvers are unavailable, use "
+                "`context/web-assisted-retrieval.md`: follow the approved "
+                "source priority list, record provenance and status, separate "
+                "reviewed evidence from candidate leads, and keep inaccessible "
+                "PDFs or landing-page-only sources as evidence gaps."
+            ),
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -246,9 +300,18 @@ def build_bundle(args: argparse.Namespace) -> dict[str, Any]:
         timeout=args.timeout,
         retrieval_date=retrieval_date,
     )
-    stable_targets = source_registry.stable_source_targets(args.country, args.iso3, args.focus)
+    stable_targets = source_registry.stable_source_targets(
+        args.country,
+        args.iso3,
+        args.focus,
+    )
     manifest_targets: list[dict[str, Any]] = []
-    manifest_summary: dict[str, Any] = {"path": "", "source_count": 0, "target_count": 0, "skipped_count": 0}
+    manifest_summary: dict[str, Any] = {
+        "path": "",
+        "source_count": 0,
+        "target_count": 0,
+        "skipped_count": 0,
+    }
     if args.source_manifest:
         manifest_targets, manifest_summary = source_registry.load_source_manifest(
             args.source_manifest,
@@ -305,17 +368,25 @@ def indicator_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Retrieve a controlled Country Profiling baseline bundle: World Bank indicators, "
-            "configured WHO GHO indicators, reviewed web/PDF source artifacts, and short unresolved source gaps."
+            "Retrieve a controlled Country Profiling baseline bundle: World "
+            "Bank indicators, configured WHO GHO indicators, reviewed web/PDF "
+            "source artifacts, and short unresolved source gaps."
         )
     )
     parser.add_argument("--country", required=True, help="Country name.")
     parser.add_argument("--iso3", required=True, help="ISO3 country code.")
-    parser.add_argument("--focus", default="", help="Optional downstream focus, e.g. immunization.")
+    parser.add_argument(
+        "--focus",
+        default="",
+        help="Optional downstream focus, e.g. immunization.",
+    )
     parser.add_argument(
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
-        help="Directory for retrieved-indicators, web-reviewed-sources, and source-leads artifacts.",
+        help=(
+            "Directory for retrieved-indicators, web-reviewed-sources, and "
+            "source-leads artifacts."
+        ),
     )
     parser.add_argument("--timeout", type=int, default=30, help="HTTP timeout in seconds.")
     parser.add_argument(
@@ -323,7 +394,8 @@ def main(argv: list[str]) -> int:
         default="",
         help=(
             "Optional JSON manifest of Agent-discovered country-specific sources to resolve. "
-            "Use this for national ministry, public-health, statistics, policy, digital health, and programme sources."
+            "Use this for national ministry, public-health, statistics, "
+            "policy, digital health, and programme sources."
         ),
     )
     parser.add_argument(
@@ -361,9 +433,17 @@ def main(argv: list[str]) -> int:
     write_web_reviewed_markdown(bundle, web_md)
     write_source_leads_markdown(bundle, source_leads_md)
 
-    wb_retrieved = sum(1 for item in bundle["world_bank_indicators"] if item.get("status") == "retrieved")
+    wb_retrieved = sum(
+        1
+        for item in bundle["world_bank_indicators"]
+        if item.get("status") == "retrieved"
+    )
     wb_total = len(bundle["world_bank_indicators"])
-    gho_retrieved = sum(1 for item in bundle["who_gho_indicators"] if item.get("status") == "retrieved")
+    gho_retrieved = sum(
+        1
+        for item in bundle["who_gho_indicators"]
+        if item.get("status") == "retrieved"
+    )
     gho_total = len(bundle["who_gho_indicators"])
     web_reviewed = sum(
         1
@@ -377,10 +457,17 @@ def main(argv: list[str]) -> int:
     print(f"Wrote {display_path(source_leads_md)}")
     print(f"World Bank indicators retrieved: {wb_retrieved}/{wb_total}")
     print(f"WHO GHO indicators retrieved: {gho_retrieved}/{gho_total}")
-    print(f"Web/PDF sources reviewed or parsed: {web_reviewed}/{len(bundle['web_reviewed_sources'])}")
+    print(
+        "Web/PDF sources reviewed or parsed: "
+        f"{web_reviewed}/{len(bundle['web_reviewed_sources'])}"
+    )
     if wb_retrieved < wb_total or gho_retrieved < gho_total:
         print("Some indicators were missing or failed; carry them into evidence gaps.")
-    if args.strict and (wb_total + gho_total) and (wb_retrieved + gho_retrieved == 0):
+    if (
+        args.strict
+        and (wb_total + gho_total)
+        and (wb_retrieved + gho_retrieved == 0)
+    ):
         print("Strict mode failed: no configured network-backed indicators were retrieved.")
         return 2
     return 0

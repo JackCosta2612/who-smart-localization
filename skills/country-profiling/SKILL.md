@@ -1,9 +1,15 @@
 ---
 name: country-profiling
-description: Build a source-backed healthcare country profile for a target country and optional downstream health-area focus, including health situation, health system context, implementation environment, evidence gaps, and readiness for later WHO SMART Guidelines localization or policy comparison.
+description: >-
+  Build a source-backed healthcare country profile for a target country and
+  optional downstream health-area focus, including health situation, health
+  system context, implementation environment, evidence gaps, and readiness for
+  later WHO SMART Guidelines localization or policy comparison.
 license: MIT
 metadata:
-  compatibility: "Model-neutral Agent Skill. Supports document-only, deterministic script-assisted, and semi-deterministic web-assisted retrieval modes."
+  compatibility: >-
+    Model-neutral Agent Skill. Supports document-only, deterministic
+    script-assisted, and semi-deterministic web-assisted retrieval modes.
   project: "USI NLP WHO SMART Guidelines project"
   team: "Giacomo Costantino, Leonardo Gravellone"
   version: "1.0"
@@ -15,9 +21,19 @@ metadata:
 
 Create a concise, source-backed healthcare country profile for a target country.
 
-The profile explains the country's health situation and health system context before detailed policy comparison, DAK localization, or SMART Guidelines adaptation. It should cover the main health issues, health system organization, implementation environment, access and coverage, sanitary and environmental health conditions, financing and affordability, workforce and infrastructure, digital health and data systems, equity concerns, and current risks or uncertainties.
+The profile explains the country's health situation and health system context
+before detailed policy comparison, DAK localization, or SMART Guidelines
+adaptation. It should cover the main health issues, health system organization,
+implementation environment, access and coverage, sanitary and environmental
+health conditions, financing and affordability, workforce and infrastructure,
+digital health and data systems, equity concerns, and current risks or
+uncertainties.
 
-The output is designed as an input to the future Policy Comparison skill. It should identify which downstream health areas may need later comparison, which national policy source classes are still needed, and what country context constrains interpretation of national policy. It should not compare policies, assess alignment with WHO guidance, or draft localization recommendations.
+The output is designed as an input to the future Policy Comparison skill. It
+should identify which downstream health areas may need later comparison, which
+national policy source classes are still needed, and what country context
+constrains interpretation of national policy. It should not compare policies,
+assess alignment with WHO guidance, or draft localization recommendations.
 
 Country Profiling is not only for countries missing from WHO databases. It is
 for any target country where WHO / SMART / DAK content needs country-specific
@@ -34,8 +50,10 @@ Use this skill for:
 
 - healthcare country overviews;
 - regional or national health context summaries;
-- identifying main health issues, health system constraints, coverage gaps, or sanitary conditions;
-- preparing background context before policy comparison, DAK localization, or SMART Guidelines adaptation;
+- identifying main health issues, health system constraints, coverage gaps, or
+  sanitary conditions;
+- preparing background context before policy comparison, DAK localization, or
+  SMART Guidelines adaptation;
 - determining what documents or expert input are needed before policy-specific analysis.
 
 ## When not to use
@@ -46,7 +64,8 @@ Do not use this skill for:
 - final national policy drafting;
 - direct WHO-versus-country policy comparison;
 - unsourced country, health system, sanitary, policy, clinical, or WHO claims;
-- replacing WHO, national, legal, policy, clinical, epidemiological, WASH, environmental health, or country expert review.
+- replacing WHO, national, legal, policy, clinical, epidemiological, WASH,
+  environmental health, or country expert review.
 
 ## Expected inputs
 
@@ -57,11 +76,18 @@ Minimum expected input:
 Helpful inputs:
 
 - optional downstream health-area focus, region, population group, or use case;
-- source documents pasted into the prompt, attached as files, or already present in the conversation;
-- national health strategies, country health profiles, programme reports, census or survey outputs, health financing reports, health workforce documents, WASH or environmental health sources, digital health strategies, and health information system documents;
-- WHO SMART Guidelines or DAK scope if known, as downstream context rather than a required profiling input;
-- WHO, World Bank, UNICEF, UNAIDS, GBD, OECD, regional observatory, or other reputable public-health sources;
-- source URLs, local file paths, publication dates, retrieval dates, and language notes when available.
+- source documents pasted into the prompt, attached as files, or already
+  present in the conversation;
+- national health strategies, country health profiles, programme reports,
+  census or survey outputs, health financing reports, health workforce
+  documents, WASH or environmental health sources, digital health strategies,
+  and health information system documents;
+- WHO SMART Guidelines or DAK scope if known, as downstream context rather than
+  a required profiling input;
+- WHO, World Bank, UNICEF, UNAIDS, GBD, OECD, regional observatory, or other
+  reputable public-health sources;
+- source URLs, local file paths, publication dates, retrieval dates, and
+  language notes when available.
 
 Inputs may be unstructured. Normalize the prompt, attached files, conversation
 context, deterministic retrieval outputs, web-reviewed sources, parsed PDFs,
@@ -76,7 +102,11 @@ material before citing substantive findings. If only the landing page is
 reachable, keep the source as `Candidate source` or `Needs retrieval` and record
 the unresolved material endpoint as an evidence gap.
 
-The optional downstream health-area focus can name an area such as immunization, HIV, tuberculosis, or maternal health when the profile is being prepared for later policy comparison. It should guide source discovery and readiness notes, but the country profile should still describe the country's healthcare system and context overall.
+The optional downstream health-area focus can name an area such as
+immunization, HIV, tuberculosis, or maternal health when the profile is being
+prepared for later policy comparison. It should guide source discovery and
+readiness notes, but the country profile should still describe the country's
+healthcare system and context overall.
 
 When the downstream focus is immunization, include the bundled WHO immunization
 DAK at `assets/who-immunizations-dak.pdf` as an available downstream
@@ -110,7 +140,8 @@ See `context/execution-modes.md` for the decision rules.
 
 ## Workflow
 
-1. Identify the target country and any optional downstream health-area focus, region, population group, or intended downstream use.
+1. Identify the target country and any optional downstream health-area focus,
+   region, population group, or intended downstream use.
 2. If the user supplies documents, use document-only or mixed mode.
 3. If the user provides only country and optional focus, use deterministic
    script-assisted retrieval if scripts are available.
@@ -150,9 +181,12 @@ final policy evidence.
 
 Always follow `context/profile-schema.md`.
 
-The output is primarily narrative. Tables are used for source inventory, evidence gaps, and policy-comparison handoff when appropriate.
+The output is primarily narrative. Tables are used for source inventory,
+evidence gaps, and policy-comparison handoff when appropriate.
 
-Every substantive country, health system, health burden, coverage, sanitary condition, access, financing, workforce, infrastructure, digital health, or data claim should include:
+Every substantive country, health system, health burden, coverage, sanitary
+condition, access, financing, workforce, infrastructure, digital health, or data
+claim should include:
 
 - source name;
 - source type;
@@ -203,6 +237,9 @@ or registry sources for the retrieval helper.
 - Use explicit source references wherever possible.
 - Label missing, stale, conflicting, or uncertain content.
 - Keep global or regional evidence separate from country-specific evidence.
-- Do not infer national policy, service availability, sanitary conditions, or coverage from missing documents.
-- Recommend human expert review where evidence is incomplete, ambiguous, conflicting, stale, locally sensitive, or likely to affect later policy comparison.
+- Do not infer national policy, service availability, sanitary conditions, or
+  coverage from missing documents.
+- Recommend human expert review where evidence is incomplete, ambiguous,
+  conflicting, stale, locally sensitive, or likely to affect later policy
+  comparison.
 - Do not claim completeness from retrieved indicators or web search alone.

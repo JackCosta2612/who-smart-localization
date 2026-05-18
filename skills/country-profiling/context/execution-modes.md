@@ -100,12 +100,17 @@ artifacts, or gap mapping.
 
 ## What counts as enough evidence
 
-| Output type | When to use |
-|---|---|
-| Full profile | The country is known and several major sections are supported by reviewed documents, retrieved indicators, or reviewed web sources. |
-| Limited profile | Some relevant evidence is available, but important sections rely on missing, stale, landing-page-only, inaccessible, or unreviewed source classes. |
-| Skeleton/gap-analysis profile | The country is known but there is too little reviewed evidence; the useful output is a source plan, evidence-gap map, and policy-comparison readiness assessment. |
-| Pause and ask for sources | No country is specified, or neither scripts, web access, nor sufficient supplied documents are available and the user did not request a skeleton/gap analysis. |
+- Full profile: the country is known and several major sections are supported by
+  reviewed documents, retrieved indicators, or reviewed web sources.
+- Limited profile: some relevant evidence is available, but important sections
+  rely on missing, stale, landing-page-only, inaccessible, or unreviewed source
+  classes.
+- Skeleton/gap-analysis profile: the country is known but there is too little
+  reviewed evidence. The useful output is a source plan, evidence-gap map, and
+  policy-comparison readiness assessment.
+- Pause and ask for sources: no country is specified, or neither scripts, web
+  access, nor sufficient supplied documents are available and the user did not
+  request a skeleton/gap analysis.
 
 Baseline indicators alone are not enough for a full profile. A full profile also
 needs health-system context, source inventory, evidence gaps, and implementation
